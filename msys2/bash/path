@@ -1,0 +1,19 @@
+# ~/bash/path
+
+declare -a comps=(
+    "/c/Ruby25-x64/bin"
+    "/c/WINDOWS/System32/OpenSSH"
+    "/c/Program Files/Microsoft MPI/Bin"
+    "$HOME/AppData/Local/Programs/Python/Python37"
+    "$HOME/AppData/Local/Programs/Python/Python37/Scripts"
+    "$HOME/AppData/Local/Programs/Microsoft VS Code/bin"
+    "$HOME/AppData/Local/GitHubDesktop/bin"
+    "$HOME/AppData/Roaming/npm"
+    "/c/Program Files/Git/cmd"
+)
+
+for comp in "${comps[@]}"; do
+    [[ ":$PATH:" != *":$comp:"* ]] && PATH="$PATH:$comp"
+done
+
+export PATH

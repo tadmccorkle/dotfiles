@@ -1,0 +1,88 @@
+# ~/bash/alias
+
+# reload
+alias reload=". ~/.bash_profile"
+alias relaod=". ~/.bash_profile"
+
+# cd
+alias ..="cd .."
+alias ...="cd ..; cd .."
+alias ....="cd ..; cd ..; cd .."
+alias .....="cd ..; cd ..; cd ..; cd .."
+alias ......="cd ..; cd ..; cd ..; cd ..; cd .."
+alias .......="cd ..; cd ..; cd ..; cd ..; cd ..; cd .."
+
+# ls
+alias ls="ls -F --color=auto"
+alias l="ls -lhA --group-directories-first"
+alias la="ls -a"
+alias ll="ls -lh --group-directories-first"
+alias lal="ls -lha --group-directories-first"
+alias lr="ls -lh -R --group-directories-first"
+alias lar="ls -lhA -R --group-directories-first"
+alias llt="ls -lhAt"
+
+# general
+alias q="exit"
+alias cls="clear"
+alias h="history"
+alias pd="pwd"
+alias null="/dev/null"
+
+# global dir
+alias home="cd ~"
+alias root="cd /"
+alias cdr="cd c:"
+alias desktop="cd ~/Desktop"
+alias docs="cd ~/Documents"
+
+# unique dir
+if [ "$(hostname)" = "ultra" ]; then
+    alias finance="cd ~/Documents/Finances"
+    alias media="cd ~/Documents/Media"
+    alias fitness="cd ~/Documents/Fitness"
+    alias career="cd ~/Documents/Career"
+    alias dev="cd ~/Documents/Coding"
+    alias coding="cd ~/Documents/Coding"
+    alias pycode="cd ~/Documents/Coding/Python"
+    alias csharp="cd ~/Documents/Coding/C#"
+    alias web="cd ~/Documents/Coding/Websites"
+    alias psite="cd ~/Documents/Coding/Websites/tadmccorkle.github.io"
+fi
+
+# git
+alias g="git"
+alias gl="git pull -v"
+alias gp="git push -v"
+alias gpu="git push -u origin"
+alias gpsup="git push -v --set-upstream origin"
+alias gd="git diff"
+alias ga="git add -v"
+alias ga.="git add . -v"
+alias gaa="git add -Av"
+alias gc="git commit"
+alias gca="git commit -a"
+alias gco="git checkout"
+alias gcot="git checkout --track"
+alias gcob="git checkout -b"
+alias gb="git branch"
+alias gba="git branch -a"
+alias gbv="git branch -v"
+alias gbvv="git branch -vv"
+alias gbav="git branch -av"
+alias gbavv="git branch -avv"
+alias gbsup="git branch --set-upstream-to"
+alias gs="git status"
+alias gsv="git status -v"
+alias gsstash="git status --show-stash"
+alias gshow="git show-branch"
+alias gshowr="git show-branch -r"
+alias gshowa="git show-branch -a"
+alias gf="git fetch -v"
+alias gfp="git fetch -v --prune"
+alias gfa="git fetch -v --all"
+alias gfpa="git fetch -v --prune --all"
+alias gpurge="git checkout master && git branch -vv | grep -Ev '(\*|master)' | grep ': gone]' | awk '{ print $1 }' | xargs --no-run-if-empty -n 1 git branch -D"
+
+# python
+alias pyint="python -i"

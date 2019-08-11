@@ -1,0 +1,8 @@
+# update_msys
+
+cp ~/.bashrc ./msys2/
+cp ~/.bash_profile ./msys2/
+cp ~/.inputrc ./msys2/
+cp ~/_vimrc ./msys2/
+cp ~/_gvimrc ./msys2/
+cp -r ~/bash/ ./msys2/
