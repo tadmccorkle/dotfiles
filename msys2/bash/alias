@@ -3,37 +3,54 @@
 # reload
 alias reload=". ~/.bash_profile"
 alias relaod=". ~/.bash_profile"
+alias path="sed 's/:/\n/g' <<< '$PATH'"
 
 # cd
 alias ..="cd .."
-alias ...="cd ..; cd .."
-alias ....="cd ..; cd ..; cd .."
-alias .....="cd ..; cd ..; cd ..; cd .."
-alias ......="cd ..; cd ..; cd ..; cd ..; cd .."
-alias .......="cd ..; cd ..; cd ..; cd ..; cd ..; cd .."
+alias ...="cd ../.."
+alias .2="cd ../.."
+alias ....="cd ../../.."
+alias .3="cd ../../.."
+alias .....="cd ../../../.."
+alias .4="cd ../../../.."
+alias ......="cd ../../../../.."
+alias .5="cd ../../../../.."
 
 # ls
 alias ls="ls -F --color=auto"
-alias l="ls -lhA --group-directories-first"
+alias sl="ls"
+alias ll="ls -lhA --group-directories-first"
+alias lls="ll | less"
+alias llt="ll -t"
+alias llts="llt | less"
 alias la="ls -a"
-alias ll="ls -lh --group-directories-first"
 alias lal="ls -lha --group-directories-first"
 alias lr="ls -lh -R --group-directories-first"
 alias lar="ls -lhA -R --group-directories-first"
-alias llt="ls -lhAt"
+alias lrs="lr | less"
+alias lars="lar | less"
+alias ldir="ll | grep ^d"
 
 # general
 alias q="exit"
 alias cls="clear"
-alias h="history"
+alias hist="history"
 alias pd="pwd"
 alias null="/dev/null"
+alias ip=ipconfig
+alias open="explorer ."
+
+# general flags
+alias mkdir="mkdir -pv"
+alias histg="hist | grep"
+
+# ps
+alias ps="ps --windows"
+alias psg="ps | grep -v grep | grep -i -e VSZ -e"
 
 # global dir
-alias home="cd ~"
-alias root="cd /"
-alias cdr="cd c:"
-alias desktop="cd ~/Desktop"
+alias cdc="cd c:"
+alias dt="cd ~/Desktop"
 alias docs="cd ~/Documents"
 
 # unique dir
@@ -52,37 +69,16 @@ fi
 
 # git
 alias g="git"
-alias gl="git pull -v"
-alias gp="git push -v"
-alias gpu="git push -u origin"
-alias gpsup="git push -v --set-upstream origin"
-alias gd="git diff"
-alias ga="git add -v"
-alias ga.="git add . -v"
-alias gaa="git add -Av"
-alias gc="git commit"
-alias gca="git commit -a"
+alias gl="git pull"
+alias gp="git push"
+alias gadd="git add"
+alias gcm="git commit"
 alias gco="git checkout"
-alias gcot="git checkout --track"
-alias gcob="git checkout -b"
 alias gb="git branch"
-alias gba="git branch -a"
-alias gbv="git branch -v"
-alias gbvv="git branch -vv"
-alias gbav="git branch -av"
-alias gbavv="git branch -avv"
-alias gbsup="git branch --set-upstream-to"
 alias gs="git status"
-alias gsv="git status -v"
-alias gsstash="git status --show-stash"
-alias gshow="git show-branch"
-alias gshowr="git show-branch -r"
-alias gshowa="git show-branch -a"
-alias gf="git fetch -v"
-alias gfp="git fetch -v --prune"
-alias gfa="git fetch -v --all"
-alias gfpa="git fetch -v --prune --all"
-alias gpurge="git checkout master && git branch -vv | grep -Ev '(\*|master)' | grep ': gone]' | awk '{ print $1 }' | xargs --no-run-if-empty -n 1 git branch -D"
+alias gf="git fetch"
+alias gfp="git fetch --prune"
+alias gpurge="git checkout master && git branch -vv | grep -Ev '(\*|master)' | grep ': gone]' | awk '{ print $1 }' | xargs --no-run-if-empty -n 1 git branch -d"
 
 # python
 alias pyint="python -i"

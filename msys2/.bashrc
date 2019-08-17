@@ -7,3 +7,4 @@ source ~/bash/ps1
 source ~/bash/alias
 source ~/bash/path
 source ~/bash/editor
+source ~/bash/gitcompletion
