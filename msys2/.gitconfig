@@ -7,7 +7,8 @@
 	name = XXXXX
 	email = XXXXX@XXXXX.XXXXX
 [alias]
-	s = "status -v"
+	s = "status"
+	sv = "status -v"
 	lg = "log --graph --oneline --decorate --all"
 	lgs = "log --graph --oneline --decorate --all --stat"
 	rank = "shortlog -sn --no-merges"
@@ -16,6 +17,6 @@
 	pull = "pull -v"
 	push = "push -v"
 	add = "add -v"
-	status = "status -v"
 	fetch = "fetch -v"
+	cm = "commit -m"
 	commitm = "commit -m"
