@@ -40,12 +40,13 @@ alias null="/dev/null"
 alias ip=ipconfig
 alias open="explorer ."
 
-# general flags
+# general flags and pipes
 alias mkdir="mkdir -pv"
-alias histg="hist | grep"
+alias histg="history | grep"
+alias histl="history | less"
 
 # ps
-alias ps="ps --windows"
+alias ps="ps --windows | less"
 alias psg="ps | grep -v grep | grep -i -e VSZ -e"
 
 # global dir
@@ -76,9 +77,13 @@ alias gcm="git commit"
 alias gco="git checkout"
 alias gb="git branch"
 alias gs="git status"
+alias gsv="git status -v"
 alias gf="git fetch"
 alias gfp="git fetch --prune"
 alias gpurge="git checkout master && git branch -vv | grep -Ev '(\*|master)' | grep ': gone]' | awk '{ print $1 }' | xargs --no-run-if-empty -n 1 git branch -d"
 
 # python
 alias pyint="python -i"
+alias pipl="pip list"
+alias piplo="pip list --outdated"
+alias pipc="pip check"
