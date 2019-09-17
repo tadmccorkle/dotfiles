@@ -47,7 +47,6 @@ alias histl="history | less"
 
 # ps
 alias ps="ps --windows | less"
-alias psg="ps | grep -v grep | grep -i -e VSZ -e"
 
 # global dir
 alias cdc="cd c:"
@@ -70,15 +69,32 @@ fi
 
 # git
 alias g="git"
+__git_complete g _git
+
 alias gl="git pull"
+__git_complete gl _git_pull
+
 alias gp="git push"
+__git_complete gp _git_push
+
 alias gadd="git add"
+__git_complete gadd _git_add
+
 alias gcm="git commit"
+__git_complete gcm _git_commit
+
 alias gco="git checkout"
+__git_complete gco _git_checkout
+
 alias gb="git branch"
+__git_complete gb _git_branch
+
 alias gs="git status"
-alias gsv="git status -v"
+__git_complete gs _git_status
+
 alias gf="git fetch"
+__git_complete gf _git_fetch
+
 alias gfp="git fetch --prune"
 alias gpurge="git checkout master && git branch -vv | grep -Ev '(\*|master)' | grep ': gone]' | awk '{ print $1 }' | xargs --no-run-if-empty -n 1 git branch -d"
 
