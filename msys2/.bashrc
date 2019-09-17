@@ -5,6 +5,6 @@
 
 source ~/bash/path
 source ~/bash/editor
-source ~/bash/alias
 source ~/bash/gitcompletion
+source ~/bash/alias
 source ~/bash/ps1
