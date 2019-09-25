@@ -39,6 +39,7 @@ alias pd="pwd"
 alias null="/dev/null"
 alias ip=ipconfig
 alias open="explorer ."
+alias trash="mv -v -t $HOME/.Trash"
 
 # general flags and pipes
 alias mkdir="mkdir -pv"
