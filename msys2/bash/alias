@@ -38,7 +38,8 @@ alias hist="history"
 alias pd="pwd"
 alias null="/dev/null"
 alias ip=ipconfig
-alias open="explorer ."
+alias open="explorer"
+alias trash="mv -v -t $HOME/.Trash"
 
 # general flags and pipes
 alias mkdir="mkdir -pv"
@@ -46,8 +47,7 @@ alias histg="history | grep"
 alias histl="history | less"
 
 # ps
-alias ps="ps --windows | less"
-alias psg="ps | grep -v grep | grep -i -e VSZ -e"
+alias ps="ps --windows"
 
 # global dir
 alias cdc="cd c:"
@@ -56,30 +56,44 @@ alias docs="cd ~/Documents"
 
 # unique dir
 if [ "$(hostname)" = "ultra" ]; then
-    alias finance="cd ~/Documents/Finances"
-    alias media="cd ~/Documents/Media"
-    alias fitness="cd ~/Documents/Fitness"
-    alias career="cd ~/Documents/Career"
-    alias dev="cd ~/Documents/Coding"
-    alias coding="cd ~/Documents/Coding"
-    alias pycode="cd ~/Documents/Coding/Python"
-    alias csharp="cd ~/Documents/Coding/C#"
-    alias web="cd ~/Documents/Coding/Websites"
-    alias psite="cd ~/Documents/Coding/Websites/tadmccorkle.github.io"
+    source ~/bash/ualias
 fi
 
 # git
 alias g="git"
+__git_complete g _git
+
 alias gl="git pull"
+__git_complete gl _git_pull
+
 alias gp="git push"
+__git_complete gp _git_push
+
 alias gadd="git add"
+__git_complete gadd _git_add
+
 alias gcm="git commit"
+__git_complete gcm _git_commit
+
 alias gco="git checkout"
+__git_complete gco _git_checkout
+
 alias gb="git branch"
+__git_complete gb _git_branch
+
 alias gs="git status"
-alias gsv="git status -v"
+__git_complete gs _git_status
+
 alias gf="git fetch"
+__git_complete gf _git_fetch
+
+alias gbundle="git bundle create"
 alias gfp="git fetch --prune"
+alias glog="git log --graph --oneline --decorate --all"
+alias glogs="git log --graph --oneline --decorate --all --stat"
+alias grank="git shortlog -sn --no-merges"
+alias gsu="git submodule update"
+alias gsur="git submodule update --remote"
 alias gpurge="git checkout master && git branch -vv | grep -Ev '(\*|master)' | grep ': gone]' | awk '{ print $1 }' | xargs --no-run-if-empty -n 1 git branch -d"
 
 # python
