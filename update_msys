@@ -13,6 +13,6 @@ for f in "${rootfiles[@]}"; do
     cp -r ~/$f ./msys2/
 done
 
-rm ./msys2/bash/ualias
+rm -f ./msys2/bash/ualias
 
 unset rootfiles

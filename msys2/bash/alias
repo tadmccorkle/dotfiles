@@ -38,7 +38,7 @@ alias hist="history"
 alias pd="pwd"
 alias null="/dev/null"
 alias ip=ipconfig
-alias open="explorer"
+alias exp="explorer"
 alias trash="mv -v -t $HOME/.Trash"
 
 # general flags and pipes
@@ -55,7 +55,7 @@ alias dt="cd ~/Desktop"
 alias docs="cd ~/Documents"
 
 # unique dir
-if [ "$(hostname)" = "ultra" ]; then
+if [ -f ~/bash/ualias ]; then
     source ~/bash/ualias
 fi
 
@@ -94,7 +94,6 @@ alias glogs="git log --graph --oneline --decorate --all --stat"
 alias grank="git shortlog -sn --no-merges"
 alias gsu="git submodule update"
 alias gsur="git submodule update --remote"
-alias gpurge="git checkout master && git branch -vv | grep -Ev '(\*|master)' | grep ': gone]' | awk '{ print $1 }' | xargs --no-run-if-empty -n 1 git branch -d"
 
 # python
 alias pyint="python -i"

@@ -1,3 +1,16 @@
 # ~/bash/func
 
-### common bash functions added here ###
+open() {
+    [[ -z $1 ]] && { eval "explorer \".\""; return; }
+    [[ ! -e "./$1" && ! -e "$1" && ! $1 =~ (\/[cC]:|[cC]:) ]] && \
+        echo "error: $1 is not a directory." && return
+
+    d="${1/#@(\/[cC])?([:])/'C:'}"
+    eval "explorer \"${d//'/'/'\\'}\""
+}
+
+purge_git_branches() {
+    git checkout master
+    git branch -vv | grep -Ev '(\*|master)' | grep ': gone]' | awk \
+        '{ print $1 }' | xargs --no-run-if-empty -n 1 git branch -d
+}
