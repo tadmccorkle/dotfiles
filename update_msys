@@ -14,5 +14,7 @@ for f in "${rootfiles[@]}"; do
 done
 
 rm -f ./msys2/bash/ualias
+rm -f ./msys2/bash/ufunc
+rm -f ./msys2/bash/upath
 
 unset rootfiles

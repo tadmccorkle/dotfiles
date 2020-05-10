@@ -14,3 +14,7 @@ purge_git_branches() {
     git branch -vv | grep -Ev '(\*|master)' | grep ': gone]' | awk \
         '{ print $1 }' | xargs --no-run-if-empty -n 1 git branch -d
 }
+
+if [ -f ~/bash/ufunc ]; then
+    source ~/bash/ufunc
+fi
