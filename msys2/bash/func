@@ -1,12 +1,13 @@
 # ~/bash/func
 
 open() {
-    [[ -z $1 ]] && { eval "explorer \".\""; return; }
+    [[ -z $1 ]] && { start "" . ; return; }
     [[ ! -e "./$1" && ! -e "$1" && ! $1 =~ (\/[cC]:|[cC]:) ]] && \
         echo "error: $1 is not a directory." && return
 
     d="${1/#@(\/[cC])?([:])/'C:'}"
-    eval "explorer \"${d//'/'/'\\'}\""
+    d="${d%'/'}"; d="${d//\\/}"
+    start "" "${d//'/'/'\\'}"
 }
 
 purge_git_branches() {
