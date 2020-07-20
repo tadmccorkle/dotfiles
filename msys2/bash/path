@@ -6,7 +6,6 @@ declare -a comps=(
     "/usr/bin/vendor_perl"
     "/usr/bin/core_perl"
     "/c/PROGRA~2/INTEGR~1/Toolkit/mksnt"
-    "/c/Ruby25-x64/bin"
     "/c/WINDOWS/System32/OpenSSH"
     "$HOME/AppData/Local/Programs/Python/Python38"
     "$HOME/AppData/Local/Programs/Python/Python38/Scripts"
