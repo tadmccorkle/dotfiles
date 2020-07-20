@@ -54,7 +54,7 @@ alias cdc="cd c:"
 alias dt="cd ~/Desktop"
 alias docs="cd ~/Documents"
 
-# unique dir
+# unique
 if [ -f ~/bash/ualias ]; then
     source ~/bash/ualias
 fi
