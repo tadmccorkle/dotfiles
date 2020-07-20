@@ -3,7 +3,7 @@
 open() {
     [[ -z $1 ]] && { start "" . ; return; }
     [[ ! -e "./$1" && ! -e "$1" && ! $1 =~ (\/[cC]:|[cC]:) ]] && \
-        echo "error: $1 is not a directory." && return
+        echo "error: '$1' does not exist." && return
 
     d="${1/#@(\/[cC])?([:])/'C:'}"
     d="${d%'/'}"; d="${d//\\/}"
