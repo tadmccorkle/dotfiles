@@ -94,6 +94,7 @@ alias glogs="git log --graph --oneline --decorate --all --stat"
 alias grank="git shortlog -sn --no-merges"
 alias gsu="git submodule update"
 alias gsur="git submodule update --remote"
+alias gaddu="git ls-files -o --exclude-standard | xargs -i git add '{}'"
 
 # python
 alias pyint="python -i"
