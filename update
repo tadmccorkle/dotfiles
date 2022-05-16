@@ -1,4 +1,4 @@
-# update_msys
+# update
 
 declare -a rootfiles=(
     ".bashrc"
@@ -10,11 +10,11 @@ declare -a rootfiles=(
 )
 
 for f in "${rootfiles[@]}"; do
-    cp -r ~/$f ./msys2/
+    cp -r ~/$f ./src/
 done
 
-rm -f ./msys2/bash/ualias
-rm -f ./msys2/bash/ufunc
-rm -f ./msys2/bash/upath
+rm -f ./src/bash/ualias
+rm -f ./src/bash/ufunc
+rm -f ./src/bash/upath
 
 unset rootfiles

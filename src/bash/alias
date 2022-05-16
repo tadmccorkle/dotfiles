@@ -18,7 +18,6 @@ alias .5="cd ../../../../.."
 
 # ls
 alias ls="ls -F --color=auto"
-alias sl="ls"
 alias ll="ls -lhA --group-directories-first"
 alias lls="ll | less"
 alias llt="ll -t"
@@ -32,19 +31,15 @@ alias lars="lar | less"
 alias ldir="ll | grep ^d"
 
 # general
-alias q="exit"
 alias cls="clear"
 alias hist="history"
-alias pd="pwd"
 alias null="/dev/null"
 alias ip=ipconfig
 alias exp="explorer"
-alias trash="mv -v -t $HOME/.Trash"
+alias trash="mv -v -t $HOME/.trash"
 
 # general flags and pipes
 alias mkdir="mkdir -pv"
-alias histg="history | grep"
-alias histl="history | less"
 
 # ps
 alias ps="ps --windows"
@@ -87,17 +82,14 @@ __git_complete gs _git_status
 alias gf="git fetch"
 __git_complete gf _git_fetch
 
-alias gbundle="git bundle create"
 alias gfp="git fetch --prune"
 alias glog="git log --graph --oneline --decorate --all"
 alias glogs="git log --graph --oneline --decorate --all --stat"
 alias grank="git shortlog -sn --no-merges"
 alias gsu="git submodule update"
-alias gsur="git submodule update --remote"
 alias gaddu="git ls-files -o --exclude-standard | xargs -i git add '{}'"
 
 # python
 alias pyint="python -i"
 alias pipl="pip list"
 alias piplo="pip list --outdated"
-alias pipc="pip check"
