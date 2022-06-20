@@ -8,34 +8,14 @@ alias path="sed 's/:/\n/g' <<< '$PATH'"
 # cd
 alias ..="cd .."
 alias ...="cd ../.."
-alias .2="cd ../.."
-alias ....="cd ../../.."
-alias .3="cd ../../.."
-alias .....="cd ../../../.."
-alias .4="cd ../../../.."
-alias ......="cd ../../../../.."
-alias .5="cd ../../../../.."
 
 # ls
 alias ls="ls -F --color=auto"
 alias ll="ls -lhA --group-directories-first"
-alias lls="ll | less"
 alias llt="ll -t"
-alias llts="llt | less"
-alias la="ls -a"
-alias lal="ls -lha --group-directories-first"
-alias lr="ls -lh -R --group-directories-first"
-alias lar="ls -lhA -R --group-directories-first"
-alias lrs="lr | less"
-alias lars="lar | less"
-alias ldir="ll | grep ^d"
 
 # general
 alias cls="clear"
-alias hist="history"
-alias null="/dev/null"
-alias ip=ipconfig
-alias exp="explorer"
 alias trash="mv -v -t $HOME/.trash"
 
 # general flags and pipes
@@ -53,43 +33,3 @@ alias docs="cd ~/Documents"
 if [ -f ~/bash/ualias ]; then
     source ~/bash/ualias
 fi
-
-# git
-alias g="git"
-__git_complete g _git
-
-alias gl="git pull"
-__git_complete gl _git_pull
-
-alias gp="git push"
-__git_complete gp _git_push
-
-alias gadd="git add"
-__git_complete gadd _git_add
-
-alias gcm="git commit"
-__git_complete gcm _git_commit
-
-alias gco="git checkout"
-__git_complete gco _git_checkout
-
-alias gb="git branch"
-__git_complete gb _git_branch
-
-alias gs="git status"
-__git_complete gs _git_status
-
-alias gf="git fetch"
-__git_complete gf _git_fetch
-
-alias gfp="git fetch --prune"
-alias glog="git log --graph --oneline --decorate --all"
-alias glogs="git log --graph --oneline --decorate --all --stat"
-alias grank="git shortlog -sn --no-merges"
-alias gsu="git submodule update"
-alias gaddu="git ls-files -o --exclude-standard | xargs -i git add '{}'"
-
-# python
-alias pyint="python -i"
-alias pipl="pip list"
-alias piplo="pip list --outdated"
