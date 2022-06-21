@@ -12,7 +12,6 @@ alias ...="cd ../.."
 # ls
 alias ls="ls -F --color=auto"
 alias ll="ls -lhA --group-directories-first"
-alias llt="ll -t"
 
 # general
 alias cls="clear"
