@@ -21,13 +21,16 @@ alias trash="mv -v -t $HOME/.trash"
 # general flags and pipes
 alias mkdir="mkdir -pv"
 
-# ps
-alias ps="ps --windows"
+if command -v cmd &> /dev/null; then
+    # aliases only applicable to windows environment
+    # ps
+    alias ps="ps --windows"
 
-# global dir
-alias cdc="cd c:"
-alias dt="cd ~/Desktop"
-alias docs="cd ~/Documents"
+    # global dir
+    alias cdc="cd c:"
+    alias dt="cd ~/Desktop"
+    alias docs="cd ~/Documents"
+fi
 
 # unique
 if [ -f ~/bash/ualias ]; then
