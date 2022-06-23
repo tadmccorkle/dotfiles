@@ -1,0 +1,35 @@
+# ~/bash/alias
+
+alias config="git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
+
+# reload
+alias reload=". ~/.bash_profile"
+alias relaod="reload"
+
+# cd
+alias ..="cd .."
+alias ...="cd ../.."
+
+# ls
+alias ls="ls -F --color=auto"
+alias ll="ls -lhA --group-directories-first"
+
+# general
+alias cls="clear"
+alias trash="mv -v -t $HOME/.trash"
+
+# general flags and pipes
+alias mkdir="mkdir -pv"
+
+# ps
+alias ps="ps --windows"
+
+# global dir
+alias cdc="cd c:"
+alias dt="cd ~/Desktop"
+alias docs="cd ~/Documents"
+
+# unique
+if [ -f ~/bash/ualias ]; then
+    source ~/bash/ualias
+fi
