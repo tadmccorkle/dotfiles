@@ -10,7 +10,7 @@ declare -a sources=(
 )
 
 for s in "${sources[@]}"; do
-    source ~/bash/$s
+    source ~/.bash/$s
 done
 
 unset sources
