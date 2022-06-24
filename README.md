@@ -22,11 +22,20 @@ alias config="git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 git clone -b cfg --bare <repo-url> $HOME/.cfg
 ```
 
-3. Checkout the repo to your `$HOME` directory. Note that the `-f` flag will overwrite any existing files also present in the repo, so back those up ahead of time if you want to keep them.
+3. Checkout the repo to your `$HOME` directory.
 
 ```sh
-config checkout -f
+config checkout
 ```
+
+> **Note**
+>
+> This won't overwrite any existing dotfiles also present in the repo. Either back up the existing files...
+> ```sh
+> config checkout 2>&1 | grep -E "\s+[._]" | awk {'print $1'} | \
+>   xargs -I{} sh -c 'mkdir -p .cfg.bak/$(dirname {}) && mv {} .cfg.bak/{}'
+> ```
+> ...and run `config checkout` again or overwrite them with `config checkout -f`.
 
 4. Set the remote as upstream.
 
@@ -41,6 +50,14 @@ config config --local status.showUntrackedFiles no
 ```
 
 Now manage the local git repo in your `$HOME` directory using `config` instead of `git` (i.e. `config status`, `config add .bashrc`, `config commit`, etc.).
+
+## to apply with one command
+
+You can automate the process by making a gist with all the commands shown above. My dotfiles configuration can be applied with my [cfg gist](https://gist.github.com/tadmccorkle/93fc70287b30dd4e3985f8e8e41862a8) by calling:
+
+```sh
+curl -Ls https://gist.githubusercontent.com/tadmccorkle/93fc70287b30dd4e3985f8e8e41862a8/raw/94ecf85cee45126915364ef3f0931a3c68d340cc/cfg | /bin/bash
+```
 
 # acknowledgements
 
