@@ -15,6 +15,6 @@ if command -v cmd &> /dev/null; then
 fi
 
 
-if [ -f ~/bash/ufunc ]; then
-    source ~/bash/ufunc
+if [ -f ~/.bash/ufunc ]; then
+    source ~/.bash/ufunc
 fi

@@ -41,8 +41,8 @@ for comp in "${comps[@]}"; do
     [[ ":$PATH:" != *":$comp:"* ]] && PATH="$PATH:$comp"
 done
 
-if [ -f ~/bash/upath ]; then
-    source ~/bash/upath
+if [ -f ~/.bash/upath ]; then
+    source ~/.bash/upath
 fi
 
 export PATH

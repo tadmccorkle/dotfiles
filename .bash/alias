@@ -33,6 +33,6 @@ if command -v cmd &> /dev/null; then
 fi
 
 # unique
-if [ -f ~/bash/ualias ]; then
-    source ~/bash/ualias
+if [ -f ~/.bash/ualias ]; then
+    source ~/.bash/ualias
 fi
