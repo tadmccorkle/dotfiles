@@ -4,6 +4,10 @@ function dotfiles { git --git-dir=$env:USERPROFILE/.dotfiles/ --work-tree=$env:U
 $env:XDG_CONFIG_HOME = $env:USERPROFILE
 $env:XDG_CONFIG_HOME += '\.config'
 
+# nvim data
+$env:XDG_DATA_HOME = $env:USERPROFILE
+$env:XDG_DATA_HOME += '\.local\share'
+
 # posh git
 Import-Module posh-git
 $GitPromptSettings.EnableFileStatus = $false
