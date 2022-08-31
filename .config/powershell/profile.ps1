@@ -14,7 +14,7 @@ $GitPromptSettings.EnableFileStatus = $false
 $GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
 $GitPromptSettings.DefaultPromptAbbreviateGitDirectory = $true
 $GitPromptSettings.DefaultPromptPrefix.Text = '[$(Get-Date -f "HH:mm:ss")] '
-$GitPromptSettings.BeforePath = '$($env:USERNAME)@$($env:USERDOMAIN.ToLower()) '
+$GitPromptSettings.BeforePath = '$($env:USERNAME)@$($env:COMPUTERNAME.ToLower()) '
 $GitPromptSettings.BeforePath.ForegroundColor = [ConsoleColor]::Cyan
 $GitPromptSettings.DefaultPromptPath.ForegroundColor = [ConsoleColor]::Blue
 
@@ -23,7 +23,6 @@ Set-Alias vim nvim
 Set-Alias ll ls
 Set-Alias grep findstr
 Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
-Set-Alias trash 'mv -v -t $env:USERPROFILE/.trash'
 
 # functions
 function which ($command) {
