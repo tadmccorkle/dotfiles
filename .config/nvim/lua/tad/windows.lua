@@ -5,3 +5,6 @@ vim.opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
 vim.opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 vim.opt.shellquote = ''
 vim.opt.shellxquote = ''
+
+-- sync yanking with system clipboard
+vim.opt.clipboard:prepend { 'unnamed', 'unnamedplus' }

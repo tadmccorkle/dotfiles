@@ -10,7 +10,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require('packer').startup(function(use)
-	-- TODO - plugins
+	use 'wbthomason/packer.nvim'
+	use 'EdenEast/nightfox.nvim'
 
 	if packer_bootstrap then
 		require('packer').sync()

@@ -1,4 +1,5 @@
 vim.opt.number = true
+vim.opt.colorcolumn = '100'
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -9,6 +10,8 @@ vim.opt.smartindent = true
 vim.opt.wrap = true
 vim.opt.breakindent = true
 vim.opt.showbreak = '  '
+
+vim.opt.cdhome = true
 
 vim.opt.formatoptions:append { 'r' }
 
