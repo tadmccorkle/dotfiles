@@ -1,5 +1,9 @@
+vim.g.mapleader = ','
+
 vim.opt.number = true
-vim.opt.colorcolumn = '100'
+vim.opt.relativenumber = true
+vim.opt.termguicolors = true
+vim.opt.cursorline = true
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
