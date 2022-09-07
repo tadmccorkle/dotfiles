@@ -73,37 +73,6 @@ cmp.setup({
 	}),
 })
 
-local SelectItem = { Next = 1, Prev = 2 }
-local cmp_select = {
-	[SelectItem.Next] = cmp.select_next_item,
-	[SelectItem.Prev] = cmp.select_prev_item,
-}
-
-local function cmp_select_item_or_fallback(item)
-	return function(fallback)
-		if cmp.visible() then
-			cmp_select[item]({ behavior = types.cmp.SelectBehavior.Insert })
-		else
-			fallback()
-		end
-	end
-end
-
-cmp.setup.cmdline('/', {
-	mapping = {
-		['<Tab>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Next), { 'c' }),
-		['<Down>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Next), { 'c' }),
-		['<C-n>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Next), { 'c' }),
-		['<S-Tab>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Prev), { 'c' }),
-		['<Up>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Prev), { 'c' }),
-		['<C-p>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Prev), { 'c' }),
-		['<C-e>'] = cmp.mapping.close(),
-	},
-	sources = {
-		{ name = 'buffer' }
-	}
-})
-
 vim.opt.completeopt = 'menu,menuone,noselect'
 vim.cmd('highlight! default link CmpItemKind CmpItemMenuDefault')
 
