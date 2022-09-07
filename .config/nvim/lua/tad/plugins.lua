@@ -44,6 +44,8 @@ return require('packer').startup(function(use)
 
 	use 'windwp/nvim-autopairs'
 
+	use 'kyazdani42/nvim-tree.lua'
+
 	use {
 		'nvim-telescope/telescope.nvim',
 		requires = { { 'nvim-lua/plenary.nvim' } },

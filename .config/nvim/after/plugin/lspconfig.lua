@@ -10,6 +10,7 @@ mason_lspconfig.setup({
 
 -- set up completion
 local cmp = require('cmp')
+local types = require('cmp.types')
 ---@cast cmp -?
 local luasnip = require('luasnip')
 
@@ -29,11 +30,15 @@ cmp.setup({
 				and not context.in_syntax_group('Comment')
 		end
 	end,
-	mapping = cmp.mapping.preset.insert({
+	mapping = {
 		['<C-u>'] = cmp.mapping.scroll_docs(-4),
 		['<C-d>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping.abort(),
+		['<Down>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
+		['<Up>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
+		['<C-n>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }),
+		['<C-p>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
 		['<Tab>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
@@ -53,7 +58,7 @@ cmp.setup({
 				fallback()
 			end
 		end, { 'i', 's' }),
-	}),
+	},
 	snippet = {
 		expand = function(args)
 			luasnip.lsp_expand(args.body)
@@ -68,8 +73,32 @@ cmp.setup({
 	}),
 })
 
+local SelectItem = { Next = 1, Prev = 2 }
+local cmp_select = {
+	[SelectItem.Next] = cmp.select_next_item,
+	[SelectItem.Prev] = cmp.select_prev_item,
+}
+
+local function cmp_select_item_or_fallback(item)
+	return function(fallback)
+		if cmp.visible() then
+			cmp_select[item]({ behavior = types.cmp.SelectBehavior.Insert })
+		else
+			fallback()
+		end
+	end
+end
+
 cmp.setup.cmdline('/', {
-	mapping = cmp.mapping.preset.cmdline(),
+	mapping = {
+		['<Tab>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Next), { 'c' }),
+		['<Down>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Next), { 'c' }),
+		['<C-n>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Next), { 'c' }),
+		['<S-Tab>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Prev), { 'c' }),
+		['<Up>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Prev), { 'c' }),
+		['<C-p>'] = cmp.mapping(cmp_select_item_or_fallback(SelectItem.Prev), { 'c' }),
+		['<C-e>'] = cmp.mapping.close(),
+	},
 	sources = {
 		{ name = 'buffer' }
 	}
@@ -80,31 +109,34 @@ vim.cmd('highlight! default link CmpItemKind CmpItemMenuDefault')
 
 
 -- global mappings
+local map = require('tad.map')
+
 local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist, opts)
+map('n', '<Leader>e', vim.diagnostic.open_float, opts)
+map('n', '[d', vim.diagnostic.goto_prev, opts)
+map('n', ']d', vim.diagnostic.goto_next, opts)
+map('n', '<Leader>q', vim.diagnostic.setloclist, opts)
 
 -- mappings when a language server has attached to buffer
+---@diagnostic disable-next-line: unused-local
 local on_attach = function(client, bufnr)
 	-- enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-	vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-	vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-	vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-	vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-	vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
-	vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
-	vim.keymap.set('n', '<Leader>D', vim.lsp.buf.type_definition, bufopts)
-	vim.keymap.set('n', '<Leader>f', vim.lsp.buf.formatting, bufopts)
-	vim.keymap.set('n', '<C-h>', vim.lsp.buf.signature_help, bufopts)
-	vim.keymap.set('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-	vim.keymap.set('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-	vim.keymap.set('n', '<Leader>wl', function()
+	map('n', 'gD', vim.lsp.buf.declaration, bufopts)
+	map('n', 'gd', vim.lsp.buf.definition, bufopts)
+	map('n', 'gr', vim.lsp.buf.references, bufopts)
+	map('n', 'gi', vim.lsp.buf.implementation, bufopts)
+	map('n', 'K', vim.lsp.buf.hover, bufopts)
+	map('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
+	map('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
+	map('n', '<Leader>D', vim.lsp.buf.type_definition, bufopts)
+	map('n', '<Leader>f', vim.lsp.buf.formatting, bufopts)
+	map('n', '<C-h>', vim.lsp.buf.signature_help, bufopts)
+	map('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+	map('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+	map('n', '<Leader>wl', function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
 end
