@@ -13,7 +13,7 @@ nightfox.setup({
 	},
 })
 
-vim.cmd('colorscheme carbonfox')
+vim.cmd('colorscheme nightfox')
 
 
 -- lualine
