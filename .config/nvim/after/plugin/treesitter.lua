@@ -35,9 +35,6 @@ ts.setup({
 			node_decremental = '<C-n>m',
 		},
 	},
-	indent = {
-		enable = true,
-	},
 
 	-- autotag plugin
 	autotag = {

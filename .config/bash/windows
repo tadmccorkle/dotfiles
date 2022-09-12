@@ -35,6 +35,7 @@ declare -a comps=(
     "/c/Program Files/dotnet"
     "/c/Program Files (x86)/GnuWin32/bin"
     "/c/Program Files/Neovim/bin"
+    "/c/Program Files/LLVM/bin"
     "$HOME/AppData/Local/Programs/Python/Python310"
     "$HOME/AppData/Local/Programs/Python/Python310/Scripts"
     "$HOME/AppData/Local/Programs/Python/Python39"
@@ -46,7 +47,6 @@ declare -a comps=(
     "$HOME/.dotnet/tools"
     "$HOME/.dotnet/tools/docfx"
     "$HOME/.yarn/bin"
-    "$HOME/.config/yarn/global/node_modules/.bin"
 )
 
 for comp in "${comps[@]}"; do

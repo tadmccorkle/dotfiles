@@ -45,17 +45,18 @@ return require('packer').startup(function(use)
 
 	use 'lukas-reineke/indent-blankline.nvim'
 
-	use 'kyazdani42/nvim-tree.lua'
+	-- will try out in the future
+	--use 'kyazdani42/nvim-tree.lua'
 
 	use {
 		'nvim-telescope/telescope.nvim',
 		requires = { { 'nvim-lua/plenary.nvim' } },
 	}
-	use 'nvim-telescope/telescope-file-browser.nvim'
 
 	use 'norcalli/nvim-colorizer.lua'
 
 	use 'dinhhuy258/git.nvim'
+
 	use 'lewis6991/gitsigns.nvim'
 
 	use 'folke/zen-mode.nvim'

@@ -27,7 +27,7 @@ cmp.setup({
 		else
 			local context = require('cmp.config.context')
 			return not context.in_treesitter_capture('comment')
-				and not context.in_syntax_group('Comment')
+					and not context.in_syntax_group('Comment')
 		end
 	end,
 	mapping = {
@@ -75,14 +75,33 @@ cmp.setup({
 
 vim.opt.completeopt = 'menu,menuone,noselect'
 
+
 -- global mappings
 local map = require('tad.map')
-
 local opts = { noremap = true, silent = true }
-map('n', '<Leader>e', vim.diagnostic.open_float, opts)
-map('n', '[d', vim.diagnostic.goto_prev, opts)
-map('n', ']d', vim.diagnostic.goto_next, opts)
-map('n', '<Leader>q', vim.diagnostic.setloclist, opts)
+
+local saga_diagnostic_status, saga_diagnostic = pcall(require, 'lspsaga.diagnostic')
+local i = saga_diagnostic_status and 2 or 1
+local maps = {
+	diagnostic = { vim.diagnostic, saga_diagnostic },
+	diagnostic_goto_prev = { vim.diagnostic.goto_prev, '<cmd>Lspsaga diagnostic_jump_prev<CR>' },
+	diagnostic_goto_next = { vim.diagnostic.goto_next, '<cmd>Lspsaga diagnostic_jump_next<CR>' },
+	signature_help = { vim.lsp.buf.signature_help, '<cmd>Lspsaga signature_help<CR>' },
+	code_action = { vim.lsp.buf.code_action, '<cmd>Lspsaga code_action<CR>' },
+	rename = { vim.lsp.buf.rename, '<cmd>Lspsaga rename<CR>' },
+	hover = { vim.lsp.buf.hover, '<cmd>Lspsaga hover_doc<CR>' },
+}
+
+map('n', '<Leader>vdf', vim.diagnostic.open_float, opts)
+map('n', '<Leader>vdl', vim.diagnostic.setloclist, opts)
+map('n', '<Leader>vdp', maps.diagnostic_goto_prev[i], opts)
+map('n', '<Leader>vdn', maps.diagnostic_goto_next[i], opts)
+map('n', '<Leader>vdP', function()
+	maps.diagnostic[i].goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end, opts)
+map('n', '<Leader>vdN', function()
+	maps.diagnostic[i].goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, opts)
 
 -- mappings when a language server has attached to buffer
 ---@diagnostic disable-next-line: unused-local
@@ -91,21 +110,32 @@ local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	map('n', 'gD', vim.lsp.buf.declaration, bufopts)
-	map('n', 'gd', vim.lsp.buf.definition, bufopts)
-	map('n', 'gr', vim.lsp.buf.references, bufopts)
-	map('n', 'gi', vim.lsp.buf.implementation, bufopts)
-	map('n', 'K', vim.lsp.buf.hover, bufopts)
-	map('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
-	map('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
-	map('n', '<Leader>D', vim.lsp.buf.type_definition, bufopts)
+	map({ 'n', 'i' }, '<C-h>', maps.signature_help[i], bufopts)
+	map('n', 'K', maps.hover[i], bufopts)
+	map('n', '<Leader>vca', maps.code_action[i], bufopts)
+	map('n', '<Leader>vrn', maps.rename[i], bufopts)
+	map('n', '<Leader>vgD', vim.lsp.buf.declaration, bufopts)
+	map('n', '<Leader>vgd', vim.lsp.buf.definition, bufopts)
+	map('n', '<Leader>vgr', vim.lsp.buf.references, bufopts)
+	map('n', '<Leader>vgi', vim.lsp.buf.implementation, bufopts)
+	map('n', '<Leader>vgt', vim.lsp.buf.type_definition, bufopts)
 	map('n', '<Leader>f', vim.lsp.buf.formatting, bufopts)
-	map('n', '<C-h>', vim.lsp.buf.signature_help, bufopts)
-	map('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-	map('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-	map('n', '<Leader>wl', function()
+	map('n', '<Leader>vwa', vim.lsp.buf.add_workspace_folder, bufopts)
+	map('n', '<Leader>vwr', vim.lsp.buf.remove_workspace_folder, bufopts)
+	map('n', '<Leader>vwl', function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
+
+	if saga_diagnostic_status then
+		map('n', 'gh', '<cmd>Lspsaga lsp_finder<CR>', bufopts)
+		map('n', 'gd', '<cmd>Lspsaga preview_definition<CR>', bufopts)
+		map('v', '<leader>ca', '<cmd>Lspsaga range_code_action<CR>', bufopts)
+		map('n', '<leader>cd', '<cmd>Lspsaga show_line_diagnostics<CR>', bufopts)
+		map('n', '<leader>cd', '<cmd>Lspsaga show_cursor_diagnostics<CR>', bufopts)
+		map('n', '<leader>o', '<cmd>LSoutlineToggle<CR>', bufopts)
+		map('n', '<A-d>', '<cmd>Lspsaga open_floaterm<CR>', bufopts)
+		map('t', '<A-d>', [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], bufopts)
+	end
 end
 
 
