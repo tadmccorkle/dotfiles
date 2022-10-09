@@ -1,15 +1,13 @@
 local status1, mason = pcall(require, 'mason')
 local status2, mason_lspconfig = pcall(require, 'mason-lspconfig')
 local status3, cmp = pcall(require, 'cmp')
-local status4, types = pcall(require, 'cmp.types')
-local status5, luasnip = pcall(require, 'luasnip')
-local status6, context = pcall(require, 'cmp.config.context')
-local status7, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-local status8, lspconfig = pcall(require, 'lspconfig')
+local status4, luasnip = pcall(require, 'luasnip')
+local status5, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+local status6, lspconfig = pcall(require, 'lspconfig')
 ---@cast cmp -? (don't worry about nil check)
 
-local status = status1 and status2 and status3 and status4
-	and status5 and status6 and status7 and status8
+local status = status1 and status2 and status3
+	and status4 and status5 and status6
 if not status then return end
 
 
@@ -21,6 +19,9 @@ mason_lspconfig.setup({
 
 
 -- set up completion
+local types = require('cmp.types')
+local context = require('cmp.config.context')
+
 local function has_words_before()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	local before = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
