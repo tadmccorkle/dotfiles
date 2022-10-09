@@ -1,4 +1,5 @@
-local indent = require('indent_blankline')
+local status, indent = pcall(require, 'indent_blankline')
+if not status then return end
 
 vim.cmd [[highlight IndentBlanklineChar guifg=#29394f gui=nocombine]]
 vim.cmd [[highlight IndentBlanklineSpaceChar guifg=#29394f gui=nocombine]]

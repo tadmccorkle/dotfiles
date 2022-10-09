@@ -41,6 +41,7 @@ function repos { cd $env:USERPROFILE\source\repos }
 
 # path
 $comps = @(
+	"$env:PROGRAMFILES\7-Zip"
 	"$env:USERPROFILE\.dotnet\tools"
 	"$env:USERPROFILE\.dotnet\tools\docfx"
 	"$env:USERPROFILE\.yarn\bin"

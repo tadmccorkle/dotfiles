@@ -1,4 +1,5 @@
-local saga = require('lspsaga')
+local status, saga = pcall(require, 'lspsaga')
+if not status then return end
 
 saga.init_lsp_saga({
 	-- transparency: 0 (opaque) - 100 (transparent)

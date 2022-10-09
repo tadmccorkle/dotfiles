@@ -1,7 +1,19 @@
--- set up mason before lspconfig to handle language server installation
-local mason = require('mason')
-local mason_lspconfig = require('mason-lspconfig')
+local status1, mason = pcall(require, 'mason')
+local status2, mason_lspconfig = pcall(require, 'mason-lspconfig')
+local status3, cmp = pcall(require, 'cmp')
+local status4, types = pcall(require, 'cmp.types')
+local status5, luasnip = pcall(require, 'luasnip')
+local status6, context = pcall(require, 'cmp.config.context')
+local status7, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+local status8, lspconfig = pcall(require, 'lspconfig')
+---@cast cmp -? (don't worry about nil check)
 
+local status = status1 and status2 and status3 and status4
+	and status5 and status6 and status7 and status8
+if not status then return end
+
+
+-- set up mason before lspconfig to handle language server installation
 mason.setup()
 mason_lspconfig.setup({
 	automatic_installation = true,
@@ -9,12 +21,7 @@ mason_lspconfig.setup({
 
 
 -- set up completion
-local cmp = require('cmp')
-local types = require('cmp.types')
----@cast cmp -?
-local luasnip = require('luasnip')
-
-local has_words_before = function()
+local function has_words_before()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	local before = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
 	return col ~= 0 and before:sub(col, col):match("%s") == nil
@@ -25,7 +32,6 @@ cmp.setup({
 		if vim.api.nvim_get_mode().mode == 'c' then
 			return true
 		else
-			local context = require('cmp.config.context')
 			return not context.in_treesitter_capture('comment')
 					and not context.in_syntax_group('Comment')
 		end
@@ -104,8 +110,7 @@ map('n', '<Leader>vdN', function()
 end, opts)
 
 -- mappings when a language server has attached to buffer
----@diagnostic disable-next-line: unused-local
-local on_attach = function(client, bufnr)
+local function map_buf(_, bufnr)
 	-- enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -119,7 +124,9 @@ local on_attach = function(client, bufnr)
 	map('n', '<Leader>vgr', vim.lsp.buf.references, bufopts)
 	map('n', '<Leader>vgi', vim.lsp.buf.implementation, bufopts)
 	map('n', '<Leader>vgt', vim.lsp.buf.type_definition, bufopts)
-	map('n', '<Leader>f', vim.lsp.buf.formatting, bufopts)
+	map('n', '<Leader>f', function()
+		vim.lsp.buf.format({ async = true })
+	end, bufopts)
 	map('n', '<Leader>vwa', vim.lsp.buf.add_workspace_folder, bufopts)
 	map('n', '<Leader>vwr', vim.lsp.buf.remove_workspace_folder, bufopts)
 	map('n', '<Leader>vwl', function()
@@ -127,11 +134,11 @@ local on_attach = function(client, bufnr)
 	end, bufopts)
 
 	if saga_diagnostic_status then
-		map('n', 'gh', '<cmd>Lspsaga lsp_finder<CR>', bufopts)
-		map('n', 'gd', '<cmd>Lspsaga preview_definition<CR>', bufopts)
-		map('v', '<leader>ca', '<cmd>Lspsaga range_code_action<CR>', bufopts)
-		map('n', '<leader>cd', '<cmd>Lspsaga show_line_diagnostics<CR>', bufopts)
-		map('n', '<leader>cd', '<cmd>Lspsaga show_cursor_diagnostics<CR>', bufopts)
+		map('n', '<leader>vlf', '<cmd>Lspsaga lsp_finder<CR>', bufopts)
+		map('n', '<leader>vpd', '<cmd>Lspsaga preview_definition<CR>', bufopts)
+		map('v', '<leader>vca', '<cmd>Lspsaga range_code_action<CR>', bufopts)
+		map('n', '<leader>vcd', '<cmd>Lspsaga show_line_diagnostics<CR>', bufopts)
+		map('n', '<leader>vcd', '<cmd>Lspsaga show_cursor_diagnostics<CR>', bufopts)
 		map('n', '<leader>o', '<cmd>LSoutlineToggle<CR>', bufopts)
 		map('n', '<A-d>', '<cmd>Lspsaga open_floaterm<CR>', bufopts)
 		map('t', '<A-d>', [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], bufopts)
@@ -139,13 +146,14 @@ local on_attach = function(client, bufnr)
 end
 
 
--- lsp client capabilities
-local cmp_nvim_lsp = require('cmp_nvim_lsp')
+-- common language server configuration
+local function on_attach(client, bufnr)
+	map_buf(client, bufnr)
+end
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 cmp_nvim_lsp.update_capabilities(capabilities)
 
-
--- common language server configuration
 local function config(cfg)
 	return vim.tbl_deep_extend('force', {
 		on_attach = on_attach,
@@ -155,7 +163,6 @@ end
 
 
 -- language server configurations
-local lspconfig = require('lspconfig')
 
 lspconfig.bashls.setup(config())
 
@@ -179,7 +186,13 @@ lspconfig.sumneko_lua.setup(config({
 
 lspconfig.pyright.setup(config())
 
-lspconfig.rust_analyzer.setup(config())
+local rust_inlayhints = require('inlayhints.rust')
+lspconfig.rust_analyzer.setup(config({
+	on_attach = function(client, bufnr)
+		on_attach(client, bufnr)
+		rust_inlayhints.on_attach(client, bufnr)
+	end,
+}))
 
 lspconfig.tsserver.setup(config())
 lspconfig.eslint.setup(config())

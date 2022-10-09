@@ -1,28 +1,32 @@
 -- nightfox theme
-local nightfox = require('nightfox')
+local theme_status, nightfox = pcall(require, 'nightfox')
 
-nightfox.setup({
-	options = {
-		transparent = true,
-		styles = {
-			comments = 'italic',
-			functions = 'italic',
-			keywords = 'italic,bold',
-			variables = 'italic',
-		}
-	},
-})
+if theme_status then
+	nightfox.setup({
+		options = {
+			transparent = true,
+			styles = {
+				comments = 'italic',
+				functions = 'italic',
+				keywords = 'italic,bold',
+				variables = 'italic',
+			}
+		},
+	})
 
-vim.cmd('colorscheme nightfox')
+	vim.cmd('colorscheme nightfox')
+end
 
 
 -- lualine
-local lualine = require('lualine')
+local lualine_status, lualine = pcall(require, 'lualine')
 
-lualine.setup({
-	options = {
-		icons_enabled = false,
-		component_separators = {},
-		section_separators = {},
-	}
-})
+if lualine_status then
+	lualine.setup({
+		options = {
+			icons_enabled = false,
+			component_separators = {},
+			section_separators = {},
+		}
+	})
+end
