@@ -152,8 +152,7 @@ local function on_attach(client, bufnr)
 	map_buf(client, bufnr)
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-cmp_nvim_lsp.update_capabilities(capabilities)
+local capabilities = cmp_nvim_lsp.default_capabilities()
 
 local function config(cfg)
 	return vim.tbl_deep_extend('force', {
