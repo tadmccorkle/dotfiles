@@ -1,3 +1,5 @@
+pcall(require, 'impatient')
+
 require('tad.base')
 require('tad.keymaps')
 require('tad.plugins')

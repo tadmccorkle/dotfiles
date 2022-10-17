@@ -14,6 +14,8 @@ end
 return require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
 
+	use 'lewis6991/impatient.nvim'
+
 	use 'EdenEast/nightfox.nvim'
 	use 'nvim-lualine/lualine.nvim'
 

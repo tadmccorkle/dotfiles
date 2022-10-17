@@ -42,11 +42,13 @@ cmp.setup({
 		['<C-d>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping.abort(),
+		['<Esc>'] = cmp.mapping.abort(),
 		['<Down>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
 		['<Up>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
 		['<C-n>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }),
 		['<C-p>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
+		['<C-y>'] = cmp.mapping.confirm({ select = true }),
 		['<Tab>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.confirm({ select = true })
@@ -74,7 +76,7 @@ cmp.setup({
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' }
 	}, {
-		{ name = 'buffer' }
+		{ name = 'buffer', keyword_length = 5 }
 	}, {
 		{ name = 'luasnip' }
 	}),
