@@ -138,7 +138,7 @@ local function map_buf(_, bufnr)
 
 	if saga_diagnostic_status then
 		map('n', '<leader>vlf', '<cmd>Lspsaga lsp_finder<CR>', bufopts)
-		map('n', '<leader>vpd', '<cmd>Lspsaga preview_definition<CR>', bufopts)
+		map('n', '<leader>vpd', '<cmd>Lspsaga peek_definition<CR>', bufopts)
 		map('v', '<leader>vca', '<cmd>Lspsaga range_code_action<CR>', bufopts)
 		map('n', '<leader>vcd', '<cmd>Lspsaga show_line_diagnostics<CR>', bufopts)
 		map('n', '<leader>vcd', '<cmd>Lspsaga show_cursor_diagnostics<CR>', bufopts)

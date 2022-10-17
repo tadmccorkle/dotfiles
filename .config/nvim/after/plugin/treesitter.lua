@@ -3,8 +3,14 @@ if not status then return end
 
 ts.setup({
 	ensure_installed = {
+		'bash',
+		'c',
 		'c_sharp',
+		'comment',
+		'cpp',
 		'css',
+		'gitattributes',
+		'help',
 		'html',
 		'javascript',
 		'json',
@@ -12,11 +18,16 @@ ts.setup({
 		'lua',
 		'make',
 		'python',
+		'regex',
+		'rst',
 		'rust',
 		'scss',
+		'sql',
 		'svelte',
+		'toml',
 		'tsx',
 		'typescript',
+		'vim',
 		'yaml',
 	},
 	sync_install = false,
@@ -24,7 +35,7 @@ ts.setup({
 	ignore_install = {},
 	highlight = {
 		enable = true,
-		disable = {},
+		disable = { 'help' }, -- not working in help files for some reason
 		additional_vim_regex_highlighting = false,
 	},
 	incremental_selection = {
