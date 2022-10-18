@@ -55,6 +55,8 @@ return require('packer').startup(function(use)
 		requires = { { 'nvim-lua/plenary.nvim' } },
 	}
 
+	use 'numToStr/Comment.nvim'
+
 	use 'norcalli/nvim-colorizer.lua'
 
 	use 'dinhhuy258/git.nvim'

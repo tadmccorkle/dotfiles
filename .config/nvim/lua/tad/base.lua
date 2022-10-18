@@ -24,8 +24,6 @@ vim.opt.showbreak = '↳  '
 
 vim.opt.cdhome = true
 
-vim.opt.formatoptions:append { 'r' }
-
 vim.opt.wildignorecase = true
 vim.opt.wildignore:append { '*/node_modules/*', '*/venv/*' }
 
