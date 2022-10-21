@@ -131,7 +131,8 @@ local function col_of_row(row, offset_encoding)
 end
 
 local function get_hint_ranges(offset_encoding)
-	local line_count = vim.api.nvim_buf_line_count(1) -- 1-based index
+	-- line count is a 1-based index
+	local line_count = vim.api.nvim_buf_line_count(0)
 
 	if line_count <= 200 then
 		local col = col_of_row(line_count, offset_encoding)
@@ -268,10 +269,7 @@ function M.on_attach(client, bufnr)
 	-- WinScrolled covers |scroll-cursor|
 	local events = {
 		'BufEnter',
-		--'BufWinEnter',
-		--'TabEnter',
 		'BufWritePost',
-		--'BufReadPost',
 		'CursorHold',
 		'InsertLeave',
 		'WinScrolled'

@@ -31,7 +31,8 @@ return require('packer').startup(function(use)
 
 	use 'jose-elias-alvarez/null-ls.nvim'
 
-	use 'glepnir/lspsaga.nvim'
+	-- liking vanilla features more at the moment
+	--use 'glepnir/lspsaga.nvim'
 
 	use 'MunifTanjim/prettier.nvim'
 
