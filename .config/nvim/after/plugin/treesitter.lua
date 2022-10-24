@@ -38,15 +38,6 @@ ts.setup({
 		disable = { 'help' }, -- not working in help files for some reason
 		additional_vim_regex_highlighting = false,
 	},
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = '<C-n>i',
-			node_incremental = '<C-n>n',
-			scope_incremental = '<C-n>s',
-			node_decremental = '<C-n>m',
-		},
-	},
 
 	-- autotag plugin
 	autotag = {

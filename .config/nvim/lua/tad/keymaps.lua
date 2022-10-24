@@ -1,8 +1,10 @@
 local map = require('tad.map')
 
-map('n', 'x', '"_x') -- cut without yank in normal mode by default
-map({ 'n', 'v' }, '<Leader>d', '"_d') -- delete without yank
-map('v', '<Leader>p', '"_dP') -- paste in visual without losing register
+map('n', 'x', '"_x') -- without yank in normal mode by default
+map('v', '<Leader>x', '"_x') -- without yank in visual mode
+map({ 'n', 'v' }, '<Leader>d', '"_d') -- without yank
+map({ 'n', 'v' }, '<Leader>c', '"_c') -- without yank
+map('v', '<Leader>p', '"_dP') -- paste in visual mode without losing register
 
 -- increment/decrement
 map('n', '+', '<C-a>')
@@ -12,20 +14,21 @@ map('n', '-', '<C-x>')
 map('n', '<C-a>', 'gg<S-v>G')
 
 -- tabs
-map('n', '<Leader>te', ':tabedit')
-map('n', '<Leader>tc', ':tabclose')
-map('n', '<Leader>tn', ':tabnext')
-map('n', '<Leader>tp', ':tabprevious')
-map('n', '<Leader>tf', ':tabfirst')
-map('n', '<Leader>tl', ':tablast')
+map('n', '<Leader>te', '<Cmd>tabedit<CR>')
+map('n', '<Leader>tc', '<Cmd>tabclose<CR>')
+map('n', '<Leader>tn', '<Cmd>tabnext<CR>')
+map('n', '<Leader>tp', '<Cmd>tabprevious<CR>')
+map('n', '<Leader>tf', '<Cmd>tabfirst<CR>')
+map('n', '<Leader>tl', '<Cmd>tablast<CR>')
 
 -- windows
-map('n', '<Leader>wrh', '<C-w><')
-map('n', '<Leader>wrj', '<C-w>-')
-map('n', '<Leader>wrk', '<C-w>+')
-map('n', '<Leader>wrl', '<C-w>>')
-map('n', '<Leader>wr=', '<C-w>=')
-map('n', '<Leader>wcl', '<C-w>c')
+map('n', '<A-,>', '<C-w><')
+map('n', '<A-.>', '<C-w>>')
+map('n', '<A-<>', '<C-w>5<')
+map('n', '<A->>', '<C-w>5>')
+map('n', '<A-=>', '<C-w>=')
+map('n', '<A-t>', '<C-w>+')
+map('n', '<A-s>', '<C-w>-')
 
 -- deletion
 map('i', '<C-Del>', '<C-o><Leader>dw')

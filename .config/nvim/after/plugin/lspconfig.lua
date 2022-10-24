@@ -7,7 +7,7 @@ local status6, lspconfig = pcall(require, 'lspconfig')
 ---@cast cmp -? (don't worry about nil check)
 
 local status = status1 and status2 and status3
-	and status4 and status5 and status6
+		and status4 and status5 and status6
 if not status then return end
 
 
@@ -42,7 +42,6 @@ cmp.setup({
 		['<C-d>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping.abort(),
-		['<Esc>'] = cmp.mapping.abort(),
 		['<Down>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
 		['<Up>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
 		['<C-n>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }),
@@ -93,22 +92,22 @@ local saga_diagnostic_status, saga_diagnostic = pcall(require, 'lspsaga.diagnost
 local i = saga_diagnostic_status and 2 or 1
 local maps = {
 	diagnostic = { vim.diagnostic, saga_diagnostic },
-	diagnostic_goto_prev = { vim.diagnostic.goto_prev, '<cmd>Lspsaga diagnostic_jump_prev<CR>' },
-	diagnostic_goto_next = { vim.diagnostic.goto_next, '<cmd>Lspsaga diagnostic_jump_next<CR>' },
-	signature_help = { vim.lsp.buf.signature_help, '<cmd>Lspsaga signature_help<CR>' },
-	code_action = { vim.lsp.buf.code_action, '<cmd>Lspsaga code_action<CR>' },
-	rename = { vim.lsp.buf.rename, '<cmd>Lspsaga rename<CR>' },
-	hover = { vim.lsp.buf.hover, '<cmd>Lspsaga hover_doc<CR>' },
+	diagnostic_goto_prev = { vim.diagnostic.goto_prev, '<Cmd>Lspsaga diagnostic_jump_prev<CR>' },
+	diagnostic_goto_next = { vim.diagnostic.goto_next, '<Cmd>Lspsaga diagnostic_jump_next<CR>' },
+	signature_help = { vim.lsp.buf.signature_help, '<Cmd>Lspsaga signature_help<CR>' },
+	code_action = { vim.lsp.buf.code_action, '<Cmd>Lspsaga code_action<CR>' },
+	rename = { vim.lsp.buf.rename, '<Cmd>Lspsaga rename<CR>' },
+	hover = { vim.lsp.buf.hover, '<Cmd>Lspsaga hover_doc<CR>' },
 }
 
-map('n', '<Leader>vdf', vim.diagnostic.open_float, opts)
-map('n', '<Leader>vdl', vim.diagnostic.setloclist, opts)
-map('n', '<Leader>vdp', maps.diagnostic_goto_prev[i], opts)
-map('n', '<Leader>vdn', maps.diagnostic_goto_next[i], opts)
-map('n', '<Leader>vdP', function()
+map('n', '<Leader>do', vim.diagnostic.open_float, opts)
+map('n', '<Leader>dl', vim.diagnostic.setloclist, opts)
+map('n', '<Leader>dp', maps.diagnostic_goto_prev[i], opts)
+map('n', '<Leader>dn', maps.diagnostic_goto_next[i], opts)
+map('n', '<Leader>dP', function()
 	maps.diagnostic[i].goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end, opts)
-map('n', '<Leader>vdN', function()
+map('n', '<Leader>dN', function()
 	maps.diagnostic[i].goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, opts)
 
@@ -120,8 +119,8 @@ local function map_buf(_, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	map({ 'n', 'i' }, '<C-h>', maps.signature_help[i], bufopts)
 	map('n', 'K', maps.hover[i], bufopts)
+	map('n', '<Leader>rn', maps.rename[i], bufopts)
 	map('n', '<Leader>vca', maps.code_action[i], bufopts)
-	map('n', '<Leader>vrn', maps.rename[i], bufopts)
 	map('n', '<Leader>vgD', vim.lsp.buf.declaration, bufopts)
 	map('n', '<Leader>vgd', vim.lsp.buf.definition, bufopts)
 	map('n', '<Leader>vgr', vim.lsp.buf.references, bufopts)
@@ -137,17 +136,16 @@ local function map_buf(_, bufnr)
 	end, bufopts)
 
 	if saga_diagnostic_status then
-		map('n', '<leader>vlf', '<cmd>Lspsaga lsp_finder<CR>', bufopts)
-		map('n', '<leader>vpd', '<cmd>Lspsaga peek_definition<CR>', bufopts)
-		map('v', '<leader>vca', '<cmd>Lspsaga range_code_action<CR>', bufopts)
-		map('n', '<leader>vcd', '<cmd>Lspsaga show_line_diagnostics<CR>', bufopts)
-		map('n', '<leader>vcd', '<cmd>Lspsaga show_cursor_diagnostics<CR>', bufopts)
-		map('n', '<leader>o', '<cmd>LSoutlineToggle<CR>', bufopts)
-		map('n', '<A-d>', '<cmd>Lspsaga open_floaterm<CR>', bufopts)
-		map('t', '<A-d>', [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], bufopts)
+		map('n', '<Leader>vlf', '<Cmd>Lspsaga lsp_finder<CR>', bufopts)
+		map('n', '<Leader>vpd', '<Cmd>Lspsaga peek_definition<CR>', bufopts)
+		map('v', '<Leader>vca', '<Cmd>Lspsaga range_code_action<CR>', bufopts)
+		map('n', '<Leader>vcd', '<Cmd>Lspsaga show_line_diagnostics<CR>', bufopts)
+		map('n', '<Leader>vcd', '<Cmd>Lspsaga show_cursor_diagnostics<CR>', bufopts)
+		map('n', '<Leader>o', '<Cmd>LSoutlineToggle<CR>', bufopts)
+		map('n', '<A-d>', '<Cmd>Lspsaga open_floaterm<CR>', bufopts)
+		map('t', '<A-d>', [[<C-\><C-n><Cmd>Lspsaga close_floaterm<CR>]], bufopts)
 	end
 end
-
 
 -- common language server configuration
 local function on_attach(client, bufnr)
@@ -162,7 +160,6 @@ local function config(cfg)
 		capabilities = capabilities,
 	}, cfg or {})
 end
-
 
 -- language server configurations
 
