@@ -35,6 +35,11 @@ function which ($command) {
 	Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
 }
 
+# use like `sh ls` or `sh "ls -l"`
+function sh ($command) {
+	& "$env:PROGRAMFILES\Git\bin\sh.exe" --login -c "$command"
+}
+
 function .. { cd .. }
 function ... { cd ..\.. }
 function repos { cd $env:USERPROFILE\source\repos }
