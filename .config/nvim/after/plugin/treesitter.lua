@@ -35,7 +35,7 @@ ts.setup({
 	ignore_install = {},
 	highlight = {
 		enable = true,
-		disable = { 'help' }, -- not working in help files for some reason
+		disable = {},
 		additional_vim_regex_highlighting = false,
 	},
 
