@@ -1,6 +1,6 @@
 # dotfiles by tad
 
-Dotfiles for my Windows and Ubuntu (WSL2) configurations. Requires PowerShell 7 or a bash shell. PowerShell is assumed to be on Windows.
+Dotfiles for my Windows and Ubuntu (WSL2) configurations. Requires PowerShell 7 or a Bash shell. PowerShell is assumed to be on Windows.
 
 ## requirements
 
@@ -9,6 +9,8 @@ My current PowerShell configuration requires [posh-git](https://github.com/dahlb
 ```pwsh
 . $env:USERPROFILE\.config\powershell\profile.ps1
 ```
+
+I also use Neovim, and my current configuration uses plugins that have other dependencies like CMake, clang/gcc, and 7z/gzip. The Neovim command `:checkhealth` can be used to get an idea of the dependencies that are needed; otherwise, take a look at plugin docs.
 
 ## to use
 
