@@ -36,12 +36,14 @@ declare -a comps=(
     "/c/Program Files (x86)/GnuWin32/bin"
     "/c/Program Files/Neovim/bin"
     "/c/Program Files/LLVM/bin"
+    "/c/Program Files/CMake/bin"
+    "/c/Program Files/7-Zip"
+    "$HOME/bin"
     "$HOME/AppData/Local/Programs/Python/Python311"
     "$HOME/AppData/Local/Programs/Python/Python311/Scripts"
     "$HOME/AppData/Local/Programs/Microsoft VS Code/bin"
     "$HOME/AppData/Local/Microsoft/WindowsApps"
     "$HOME/AppData/Roaming/npm"
-    "$HOME/bin"
     "$HOME/.dotnet/tools"
     "$HOME/.dotnet/tools/docfx"
     "$HOME/.yarn/bin"
@@ -52,7 +54,7 @@ for comp in "${comps[@]}"; do
 done
 
 if [ -f ~/.bash/_windows ]; then
-    source ~/.bash/_windows
+    source ~/.bash/_windows.bash
 fi
 
 export PATH

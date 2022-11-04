@@ -1,3 +1,0 @@
-path() {
-    sed 's/:/\n/g' <<< $PATH
-}

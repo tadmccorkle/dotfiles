@@ -8,7 +8,7 @@ for comp in "${comps[@]}"; do
 done
 
 if [ -f ~/.bash/_unix ]; then
-    source ~/.bash/_unix
+    source ~/.bash/_unix.bash
 fi
 
 export PATH

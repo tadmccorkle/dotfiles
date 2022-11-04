@@ -8,7 +8,9 @@ $env:XDG_DATA_HOME = "$env:USERPROFILE\.local\share"
 
 # nvim path components
 $nvim_comps = @(
-	"C:\Program Files\LLVM\bin"
+	"$env:PROGRAMFILES\LLVM\bin"
+	"$env:PROGRAMFILES\CMake\bin"
+	"$env:PROGRAMFILES\7-Zip"
 )
 
 # posh git
@@ -46,7 +48,7 @@ function repos { cd $env:USERPROFILE\source\repos }
 
 # path
 $comps = @(
-	"$env:PROGRAMFILES\7-Zip"
+	"$env:USERPROFILE\bin"
 	"${env:ProgramFiles(x86)}\GnuWin32\bin"
 	"$env:USERPROFILE\.dotnet\tools"
 	"$env:USERPROFILE\.dotnet\tools\docfx"

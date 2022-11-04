@@ -1,3 +1,8 @@
+EDITOR=nvim
+
+# pretty-print path components
+path() { sed 's/:/\n/g' <<< $PATH; }
+
 is_win="$(command -v cmd)"
 
 declare -a sources
@@ -11,13 +16,11 @@ fi
 sources+=(
     "gitcompletion"
     "alias"
-    "editor"
-    "func"
     "ps1"
 )
 
 for s in "${sources[@]}"; do
-    source ~/.config/bash/$s
+    source ~/.config/bash/$s.bash
 done
 
 unset sources

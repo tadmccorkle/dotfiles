@@ -52,8 +52,12 @@ return require('packer').startup(function(use)
 	--use 'kyazdani42/nvim-tree.lua'
 
 	use {
-		'nvim-telescope/telescope.nvim',
+		'nvim-telescope/telescope.nvim', tag = '0.1.0',
 		requires = { { 'nvim-lua/plenary.nvim' } },
+	}
+	use {
+		'nvim-telescope/telescope-fzf-native.nvim',
+		run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
 	}
 
 	use 'numToStr/Comment.nvim'

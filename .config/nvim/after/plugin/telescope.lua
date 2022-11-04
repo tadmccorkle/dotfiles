@@ -12,6 +12,8 @@ telescope.setup({
 	}
 })
 
+telescope.load_extension('fzf')
+
 local map = require('tad.map')
 map('n', '<Leader>ff', '<cmd>Telescope find_files<CR>')
 map('n', '<Leader>fg', '<cmd>Telescope git_files<CR>')
