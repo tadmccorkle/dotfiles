@@ -32,14 +32,35 @@ Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
 Set-Alias open start
 
 # functions
-function which ($command) {
-	Get-Command -Name $command -ErrorAction SilentlyContinue |
+function which ($Command) {
+	Get-Command -Name $Command -ErrorAction SilentlyContinue |
 	Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
 }
 
 # use like `sh ls` or `sh "ls -l"`
-function sh ($command) {
-	& "$env:PROGRAMFILES\Git\bin\sh.exe" --login -c "$command"
+function sh ($Command) {
+	& "$env:PROGRAMFILES\Git\bin\sh.exe" --login -c "$Command"
+}
+
+# use like `With-Env "RUST_BACKTRACE" 1 "cargo run"`
+function With-Env {
+	Param($Variable, $Value, $Command)
+@"
+[Environment]::SetEnvironmentVariable("$Variable", "$Value")
+Invoke-Expression "$Command"
+"@ | pwsh -Command -
+}
+
+# use like `With-Envs @{RUST_BACKTRACE=1;CUSTOM_VAR="custom_value"} "cargo run"`
+function With-Envs {
+	Param([Hashtable] $EnvPairs, $Command)
+	$SetEnvironment = $EnvPairs.GetEnumerator() | %{
+		"[Environment]::SetEnvironmentVariable(`"{0}`", `"{1}`");" -f $_.Key, $_.Value
+	}
+@"
+$SetEnvironment
+Invoke-Expression "$Command"
+"@ | pwsh -Command -
 }
 
 function .. { cd .. }
