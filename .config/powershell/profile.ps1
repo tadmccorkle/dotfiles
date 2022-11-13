@@ -24,6 +24,10 @@ $GitPromptSettings.BeforePath = "$env:USERNAME@$($env:COMPUTERNAME.ToLower()) "
 $GitPromptSettings.BeforePath.ForegroundColor = [ConsoleColor]::Cyan
 $GitPromptSettings.DefaultPromptPath.ForegroundColor = [ConsoleColor]::Blue
 
+# color preferences
+$PSStyle.FileInfo.Directory = "`e[36;1m"
+$PSStyle.FileInfo.SymbolicLink = "`e[36;3m"
+
 # alias
 Set-Alias vim nvim
 Set-Alias ll ls
