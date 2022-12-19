@@ -31,9 +31,6 @@ return require('packer').startup(function(use)
 
 	use 'jose-elias-alvarez/null-ls.nvim'
 
-	-- liking vanilla features more at the moment
-	--use 'glepnir/lspsaga.nvim'
-
 	use 'MunifTanjim/prettier.nvim'
 
 	use {
@@ -48,8 +45,9 @@ return require('packer').startup(function(use)
 
 	use 'lukas-reineke/indent-blankline.nvim'
 
-	-- will try out in the future
+	-- might try out in the future
 	--use 'kyazdani42/nvim-tree.lua'
+	--use 'glepnir/lspsaga.nvim'
 
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.0',

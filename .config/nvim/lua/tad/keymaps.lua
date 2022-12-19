@@ -6,6 +6,10 @@ map({ 'n', 'v' }, '<Leader>d', '"_d') -- without yank
 map({ 'n', 'v' }, '<Leader>c', '"_c') -- without yank
 map('v', '<Leader>p', '"_dP') -- paste in visual mode without losing register
 
+-- place cursor in center row when jumping vertically
+map('n', '<C-d>', '<C-d>zz')
+map('n', '<C-u>', '<C-u>zz')
+
 -- increment/decrement
 map('n', '+', '<C-a>')
 map('n', '-', '<C-x>')
@@ -29,7 +33,3 @@ map('n', '<A->>', '<C-w>5>')
 map('n', '<A-=>', '<C-w>=')
 map('n', '<A-t>', '<C-w>+')
 map('n', '<A-s>', '<C-w>-')
-
--- deletion
-map('i', '<C-Del>', '<C-o><Leader>dw')
-map('i', '<C-S-Del>', '<C-o><Leader>d$')

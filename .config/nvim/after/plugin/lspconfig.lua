@@ -38,16 +38,17 @@ cmp.setup({
 		end
 	end,
 	mapping = {
+		['<C-y>'] = cmp.mapping.scroll_docs(-1),
 		['<C-u>'] = cmp.mapping.scroll_docs(-4),
+		['<C-e>'] = cmp.mapping.scroll_docs(1),
 		['<C-d>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
-		['<C-e>'] = cmp.mapping.abort(),
+		['<C-c>'] = cmp.mapping.abort(),
 		['<Down>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
 		['<Up>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
 		['<C-n>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }),
 		['<C-p>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }),
 		['<CR>'] = cmp.mapping.confirm({ select = true }),
-		['<C-y>'] = cmp.mapping.confirm({ select = true }),
 		['<Tab>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.confirm({ select = true })
@@ -88,27 +89,15 @@ vim.opt.completeopt = 'menu,menuone,noselect'
 local map = require('tad.map')
 local opts = { noremap = true, silent = true }
 
-local saga_diagnostic_status, saga_diagnostic = pcall(require, 'lspsaga.diagnostic')
-local i = saga_diagnostic_status and 2 or 1
-local maps = {
-	diagnostic = { vim.diagnostic, saga_diagnostic },
-	diagnostic_goto_prev = { vim.diagnostic.goto_prev, '<Cmd>Lspsaga diagnostic_jump_prev<CR>' },
-	diagnostic_goto_next = { vim.diagnostic.goto_next, '<Cmd>Lspsaga diagnostic_jump_next<CR>' },
-	signature_help = { vim.lsp.buf.signature_help, '<Cmd>Lspsaga signature_help<CR>' },
-	code_action = { vim.lsp.buf.code_action, '<Cmd>Lspsaga code_action<CR>' },
-	rename = { vim.lsp.buf.rename, '<Cmd>Lspsaga rename<CR>' },
-	hover = { vim.lsp.buf.hover, '<Cmd>Lspsaga hover_doc<CR>' },
-}
-
 map('n', '<Leader>do', vim.diagnostic.open_float, opts)
 map('n', '<Leader>dl', vim.diagnostic.setloclist, opts)
-map('n', '<Leader>dp', maps.diagnostic_goto_prev[i], opts)
-map('n', '<Leader>dn', maps.diagnostic_goto_next[i], opts)
+map('n', '<Leader>dp', vim.diagnostic.goto_prev, opts)
+map('n', '<Leader>dn', vim.diagnostic.goto_next, opts)
 map('n', '<Leader>dP', function()
-	maps.diagnostic[i].goto_prev({ severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end, opts)
 map('n', '<Leader>dN', function()
-	maps.diagnostic[i].goto_next({ severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, opts)
 
 -- mappings when a language server has attached to buffer
@@ -117,34 +106,23 @@ local function map_buf(_, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	map({ 'n', 'i' }, '<C-h>', maps.signature_help[i], bufopts)
-	map('n', 'K', maps.hover[i], bufopts)
-	map('n', '<Leader>rn', maps.rename[i], bufopts)
-	map('n', '<Leader>vca', maps.code_action[i], bufopts)
-	map('n', '<Leader>vgD', vim.lsp.buf.declaration, bufopts)
-	map('n', '<Leader>vgd', vim.lsp.buf.definition, bufopts)
-	map('n', '<Leader>vgr', vim.lsp.buf.references, bufopts)
-	map('n', '<Leader>vgi', vim.lsp.buf.implementation, bufopts)
-	map('n', '<Leader>vgt', vim.lsp.buf.type_definition, bufopts)
+	map({ 'n', 'i' }, '<C-h>', vim.lsp.buf.signature_help, bufopts)
+	map('n', 'K', vim.lsp.buf.hover, bufopts)
+	map('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
+	map('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
+	map('n', '<Leader>gD', vim.lsp.buf.declaration, bufopts)
+	map('n', '<Leader>gd', vim.lsp.buf.definition, bufopts)
+	map('n', '<Leader>gr', vim.lsp.buf.references, bufopts)
+	map('n', '<Leader>gi', vim.lsp.buf.implementation, bufopts)
+	map('n', '<Leader>gt', vim.lsp.buf.type_definition, bufopts)
 	map('n', '<Leader>f', function()
 		vim.lsp.buf.format({ async = true })
 	end, bufopts)
-	map('n', '<Leader>vwa', vim.lsp.buf.add_workspace_folder, bufopts)
-	map('n', '<Leader>vwr', vim.lsp.buf.remove_workspace_folder, bufopts)
-	map('n', '<Leader>vwl', function()
+	map('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+	map('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+	map('n', '<Leader>wl', function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
-
-	if saga_diagnostic_status then
-		map('n', '<Leader>vlf', '<Cmd>Lspsaga lsp_finder<CR>', bufopts)
-		map('n', '<Leader>vpd', '<Cmd>Lspsaga peek_definition<CR>', bufopts)
-		map('v', '<Leader>vca', '<Cmd>Lspsaga range_code_action<CR>', bufopts)
-		map('n', '<Leader>vcd', '<Cmd>Lspsaga show_line_diagnostics<CR>', bufopts)
-		map('n', '<Leader>vcd', '<Cmd>Lspsaga show_cursor_diagnostics<CR>', bufopts)
-		map('n', '<Leader>o', '<Cmd>LSoutlineToggle<CR>', bufopts)
-		map('n', '<A-d>', '<Cmd>Lspsaga open_floaterm<CR>', bufopts)
-		map('t', '<A-d>', [[<C-\><C-n><Cmd>Lspsaga close_floaterm<CR>]], bufopts)
-	end
 end
 
 -- common language server configuration
