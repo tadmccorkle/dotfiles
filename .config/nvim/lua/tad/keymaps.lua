@@ -11,8 +11,10 @@ map('n', '<C-d>', '<C-d>zz')
 map('n', '<C-u>', '<C-u>zz')
 
 -- increment/decrement
-map('n', '+', '<C-a>')
-map('n', '-', '<C-x>')
+map({ 'n', 'v' }, '+', '<C-a>')
+map({ 'n', 'v' }, '-', '<C-x>')
+map('v', 'g+', 'g<C-a>')
+map('v', 'g-', 'g<C-x>')
 
 -- select all
 map('n', '<C-a>', 'gg<S-v>G')
