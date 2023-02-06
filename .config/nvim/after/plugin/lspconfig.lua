@@ -156,6 +156,7 @@ lspconfig.sumneko_lua.setup(config({
 			},
 			workspace = {
 				library = vim.api.nvim_get_runtime_file('', true),
+				checkThirdParty = false,
 			},
 		},
 	},
@@ -179,3 +180,4 @@ lspconfig.cssls.setup(config())
 lspconfig.cssmodules_ls.setup(config())
 lspconfig.tailwindcss.setup(config())
 lspconfig.jsonls.setup(config())
+lspconfig.clangd.setup(config())
