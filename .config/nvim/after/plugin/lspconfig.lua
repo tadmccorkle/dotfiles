@@ -145,7 +145,7 @@ lspconfig.bashls.setup(config())
 
 lspconfig.csharp_ls.setup(config())
 
-lspconfig.sumneko_lua.setup(config({
+lspconfig.lua_ls.setup(config({
 	settings = {
 		Lua = {
 			runtime = {
