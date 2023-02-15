@@ -6,9 +6,7 @@ nightfox.setup({
 		transparent = true,
 		styles = {
 			comments = 'italic',
-			functions = 'italic',
-			keywords = 'italic,bold',
-			variables = 'italic',
+			keywords = 'bold',
 		}
 	},
 })
