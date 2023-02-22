@@ -143,7 +143,7 @@ end
 
 lspconfig.bashls.setup(config())
 
-lspconfig.csharp_ls.setup(config())
+lspconfig.omnisharp.setup(config())
 
 lspconfig.lua_ls.setup(config({
 	settings = {
