@@ -143,7 +143,8 @@ end
 
 lspconfig.bashls.setup(config())
 
-lspconfig.omnisharp.setup(config())
+-- might configure C# LSP in future
+--lspconfig.omnisharp.setup(config())
 
 lspconfig.lua_ls.setup(config({
 	settings = {

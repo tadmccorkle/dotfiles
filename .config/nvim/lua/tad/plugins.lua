@@ -28,6 +28,8 @@ return require('packer').startup(function(use)
 	use 'hrsh7th/cmp-buffer'
 	use 'hrsh7th/nvim-cmp'
 	use 'L3MON4D3/LuaSnip'
+	-- might configure if writing C# outside Visual Studio
+	-- use 'Hoffs/omnisharp-extended-lsp.nvim'
 
 	use 'jose-elias-alvarez/null-ls.nvim'
 
