@@ -1,18 +1,15 @@
-local status1, mason = pcall(require, 'mason')
-local status2, mason_lspconfig = pcall(require, 'mason-lspconfig')
-local status3, cmp = pcall(require, 'cmp')
-local status4, luasnip = pcall(require, 'luasnip')
-local status5, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-local status6, lspconfig = pcall(require, 'lspconfig')
+local status1, mason_lspconfig = pcall(require, 'mason-lspconfig')
+local status2, cmp = pcall(require, 'cmp')
+local status3, luasnip = pcall(require, 'luasnip')
+local status4, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+local status5, lspconfig = pcall(require, 'lspconfig')
 ---@cast cmp -? (don't worry about nil check)
 
-local status = status1 and status2 and status3
-		and status4 and status5 and status6
+local status = status1 and status2 and status3 and status4 and status5
 if not status then return end
 
 
 -- set up mason before lspconfig to handle language server installation
-mason.setup()
 mason_lspconfig.setup({
 	automatic_installation = true,
 })

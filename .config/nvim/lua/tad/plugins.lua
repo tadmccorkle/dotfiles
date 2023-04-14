@@ -19,8 +19,10 @@ return require('packer').startup(function(use)
 	use 'EdenEast/nightfox.nvim'
 	use 'nvim-lualine/lualine.nvim'
 
-	-- configured with `lspconfig`
-	use 'williamboman/mason.nvim'
+	use {
+		'williamboman/mason.nvim',
+		config = function() require('mason').setup() end,
+	}
 
 	use 'neovim/nvim-lspconfig'
 	use 'williamboman/mason-lspconfig.nvim'
@@ -30,6 +32,9 @@ return require('packer').startup(function(use)
 	use 'L3MON4D3/LuaSnip'
 	-- might configure if writing C# outside Visual Studio
 	-- use 'Hoffs/omnisharp-extended-lsp.nvim'
+
+	use 'mfussenegger/nvim-dap'
+	use 'theHamsta/nvim-dap-virtual-text'
 
 	use 'jose-elias-alvarez/null-ls.nvim'
 
@@ -52,7 +57,7 @@ return require('packer').startup(function(use)
 	--use 'glepnir/lspsaga.nvim'
 
 	use {
-		'nvim-telescope/telescope.nvim', tag = '0.1.0',
+		'nvim-telescope/telescope.nvim', tag = '0.1.1',
 		requires = { { 'nvim-lua/plenary.nvim' } },
 	}
 	use {

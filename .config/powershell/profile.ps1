@@ -8,9 +8,9 @@ $env:XDG_DATA_HOME = "$env:USERPROFILE\.local\share"
 
 # nvim path components
 $nvim_comps = @(
-	"$env:PROGRAMFILES\LLVM\bin"
-	"$env:PROGRAMFILES\CMake\bin"
-	"$env:PROGRAMFILES\7-Zip"
+	"$env:HOMEDRIVE\msys64\mingw64\bin" # for treesitter and GDB (debugging)
+	"$env:PROGRAMFILES\CMake\bin" # for telescope-fzf-native
+	"$env:PROGRAMFILES\7-Zip" # for mason package manager
 )
 
 # posh git
@@ -39,6 +39,10 @@ Set-Alias open start
 function which ($Command) {
 	Get-Command -Name $Command -ErrorAction SilentlyContinue |
 	Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
+}
+
+function path {
+	$env:PATH -replace ';',"`n"
 }
 
 # use like `sh ls` or `sh "ls -l"`
@@ -74,6 +78,7 @@ function repos { cd $env:USERPROFILE\source\repos }
 # path
 $comps = @(
 	"$env:USERPROFILE\bin"
+	"$env:PROGRAMFILES\Microsoft Visual Studio\2022\Community\Common7\IDE"
 	"${env:ProgramFiles(x86)}\GnuWin32\bin"
 	"$env:USERPROFILE\.dotnet\tools"
 	"$env:USERPROFILE\.dotnet\tools\docfx"
