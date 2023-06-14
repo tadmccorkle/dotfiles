@@ -36,9 +36,7 @@ return require('packer').startup(function(use)
 	use 'mfussenegger/nvim-dap'
 	use 'theHamsta/nvim-dap-virtual-text'
 
-	use 'jose-elias-alvarez/null-ls.nvim'
-
-	use 'MunifTanjim/prettier.nvim'
+	-- use 'jose-elias-alvarez/null-ls.nvim'
 
 	use {
 		'nvim-treesitter/nvim-treesitter',
@@ -52,9 +50,7 @@ return require('packer').startup(function(use)
 
 	use 'lukas-reineke/indent-blankline.nvim'
 
-	-- might try out in the future
 	--use 'kyazdani42/nvim-tree.lua'
-	--use 'glepnir/lspsaga.nvim'
 
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.1',
