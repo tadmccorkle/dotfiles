@@ -5,6 +5,7 @@ vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.scrolloff = 8
+vim.opt.laststatus = 3
 vim.opt_global.foldcolumn = '1'
 
 vim.opt.listchars = {

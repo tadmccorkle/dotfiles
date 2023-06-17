@@ -12,7 +12,7 @@ nightfox.setup({
 	},
 	palettes = {
 		nightfox = {
-			bg0 = "#00121A",
+			bg0 = "#080808",
 		}
 	},
 	groups = {
