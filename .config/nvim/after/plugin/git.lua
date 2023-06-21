@@ -1,17 +1,28 @@
-local status, git = pcall(require, 'git')
-if not status then return end
+local neogit_status, neogit = pcall(require, 'neogit')
+local diffview_status, diffview = pcall(require, 'diffview')
 
-git.setup({
-	default_mappings = true,
-	keymaps = {
-		blame = "<Leader>Gb",
-		browse = "<Leader>Go",
-		open_pull_request = "<Leader>Gp",
-		create_pull_request = "<Leader>Gn",
-		diff = "<Leader>Gd",
-		diff_close = "<Leader>GD",
-		revert = "<Leader>Gr",
-		revert_file = "<Leader>GR",
-	},
-	target_branch = 'master',
-})
+if neogit_status then
+	neogit.setup({
+		integrations = {
+			diffview = diffview_status
+		},
+	})
+end
+
+if diffview_status then
+	diffview.setup({
+		use_icons = false,
+	})
+end
+
+
+local gitsigns_status, gitsigns = pcall(require, 'gitsigns')
+if gitsigns_status then
+	gitsigns.setup({
+		current_line_blame = true,
+		current_line_blame_opts = {
+			virt_text = true,
+			virt_text_pos = 'eol',
+		},
+	})
+end

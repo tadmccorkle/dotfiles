@@ -1,5 +1,5 @@
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
 	Packer_Bootstrap = fn.system({
 		'git', 'clone', '--depth', '1',
@@ -9,7 +9,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	vim.cmd [[packadd packer.nvim]]
 end
 
--- grouping denotes where plugins are configured in 
+-- grouping denotes where plugins are configured in
 -- `after/plugin/` unless otherwise noted
 return require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
@@ -58,16 +58,20 @@ return require('packer').startup(function(use)
 	}
 	use {
 		'nvim-telescope/telescope-fzf-native.nvim',
-		run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+		run =
+		'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
 	}
 
 	use 'numToStr/Comment.nvim'
 
 	use 'norcalli/nvim-colorizer.lua'
 
-	use 'dinhhuy258/git.nvim'
-
+	use {
+		'TimUntersberger/neogit',
+		requires = 'nvim-lua/plenary.nvim',
+	}
 	use 'lewis6991/gitsigns.nvim'
+	use 'sindrets/diffview.nvim'
 
 	use 'folke/zen-mode.nvim'
 
