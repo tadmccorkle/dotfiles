@@ -1,4 +1,4 @@
-pcall(require, 'impatient')
+vim.loader.enable()
 
 require('tad.base')
 require('tad.keymaps')
