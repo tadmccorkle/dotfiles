@@ -65,7 +65,7 @@ return require('packer').startup(function(use)
 	use 'norcalli/nvim-colorizer.lua'
 
 	use {
-		'TimUntersberger/neogit',
+		'NeogitOrg/neogit',
 		requires = 'nvim-lua/plenary.nvim',
 	}
 	use 'lewis6991/gitsigns.nvim'
