@@ -35,3 +35,9 @@ vim.api.nvim_create_autocmd('VimLeave', {
 	pattern = '*',
 	command = 'set guicursor=a:ver25-blinkon250-blinkoff250'
 })
+
+-- hide line numbers in terminal windows
+vim.api.nvim_create_autocmd('TermOpen', {
+	pattern = '*',
+	command = 'setlocal nonumber norelativenumber'
+})
