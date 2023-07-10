@@ -6,10 +6,14 @@ ts.setup({
 		'bash',
 		'c',
 		'c_sharp',
+		'cmake',
 		'comment',
 		'cpp',
 		'css',
+		'dockerfile',
 		'gitattributes',
+		'gitignore',
+		'go',
 		'help',
 		'html',
 		'javascript',
@@ -17,10 +21,14 @@ ts.setup({
 		'latex',
 		'lua',
 		'make',
+		'markdown',
+		'markdown_inline',
+		'ocaml',
 		'python',
 		'regex',
 		'rst',
 		'rust',
+		'query',
 		'scss',
 		'sql',
 		'svelte',
@@ -41,6 +49,11 @@ ts.setup({
 
 	-- autotag plugin
 	autotag = {
+		enable = true,
+	},
+
+	-- treesitter query playground
+	playground = {
 		enable = true,
 	}
 })

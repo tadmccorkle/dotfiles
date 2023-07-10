@@ -30,6 +30,8 @@ vim.opt.cdhome = true
 vim.opt.wildignorecase = true
 vim.opt.wildignore:append { '*/node_modules/*', '*/venv/*' }
 
+vim.opt.inccommand = 'split'
+
 -- reset terminal cursor when exiting vim
 vim.api.nvim_create_autocmd('VimLeave', {
 	pattern = '*',
@@ -41,3 +43,9 @@ vim.api.nvim_create_autocmd('TermOpen', {
 	pattern = '*',
 	command = 'setlocal nonumber norelativenumber'
 })
+
+-- human-readable printing
+P = function(x)
+	print(vim.inspect(x))
+	return x
+end
