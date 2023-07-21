@@ -52,12 +52,7 @@ return require('packer').startup(function(use)
 			{ 'nvim-treesitter/playground' },
 		}
 	}
-	use {
-		'~/source/repos/markdown.nvim',
-		cond = function()
-			return vim.fn.isdirectory(vim.fn.expand('~/source/repos/markdown.nvim')) ~= 0
-		end
-	}
+	use '~/source/repos/markdown.nvim'
 
 	use 'windwp/nvim-autopairs'
 

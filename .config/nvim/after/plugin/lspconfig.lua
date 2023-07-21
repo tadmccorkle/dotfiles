@@ -19,12 +19,6 @@ mason_lspconfig.setup({
 local types = require('cmp.types')
 local context = require('cmp.config.context')
 
-local function has_words_before()
-	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-	local before = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
-	return col ~= 0 and before:sub(col, col):match("%s") == nil
-end
-
 cmp.setup({
 	enabled = function()
 		if vim.api.nvim_get_mode().mode == 'c' then
@@ -51,8 +45,6 @@ cmp.setup({
 				cmp.confirm({ select = true })
 			elseif luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
-			elseif has_words_before() then
-				cmp.complete()
 			else
 				fallback()
 			end
