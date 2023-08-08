@@ -18,7 +18,7 @@ Import-Module posh-git
 $GitPromptSettings.EnableFileStatus = $false
 $GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
 $GitPromptSettings.DefaultPromptAbbreviateGitDirectory = $true
-$GitPromptSettings.DefaultPromptPrefix.Text = "[$(Get-Date -f 'HH:mm:ss')] "
+$GitPromptSettings.DefaultPromptPrefix.Text = '[$(Get-Date -f "HH:mm:ss")] '
 $GitPromptSettings.DefaultPromptPrefix.ForegroundColor = [ConsoleColor]::DarkGray
 $GitPromptSettings.BeforePath = "$env:USERNAME@$($env:COMPUTERNAME.ToLower()) "
 $GitPromptSettings.BeforePath.ForegroundColor = [ConsoleColor]::Cyan
