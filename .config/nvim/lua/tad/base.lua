@@ -49,3 +49,9 @@ P = function(x)
 	print(vim.inspect(x))
 	return x
 end
+
+-- force reload
+R = function(x)
+	package.loaded[x] = nil
+	return require(x)
+end

@@ -20,6 +20,8 @@ local packer_bootstrap = ensure_packer()
 return require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
 
+	use 'nvim-lua/plenary.nvim'
+
 	use 'EdenEast/nightfox.nvim'
 	use 'nvim-lualine/lualine.nvim'
 
@@ -39,8 +41,6 @@ return require('packer').startup(function(use)
 
 	use 'mfussenegger/nvim-dap'
 	use 'theHamsta/nvim-dap-virtual-text'
-
-	-- use 'jose-elias-alvarez/null-ls.nvim'
 
 	use {
 		'nvim-treesitter/nvim-treesitter',
