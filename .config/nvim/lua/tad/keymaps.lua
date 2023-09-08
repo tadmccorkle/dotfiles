@@ -32,4 +32,4 @@ map('n', '<A-t>', '<C-w>+')
 map('n', '<A-s>', '<C-w>-')
 
 -- save and source
-map('n', '<Leader><Leader>s', ':w | source %<CR>')
+map('n', '<Leader><Leader>s', '<Cmd>w | source %<CR>', { silent = true })
