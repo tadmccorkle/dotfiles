@@ -52,7 +52,6 @@ return require('packer').startup(function(use)
 			{ 'nvim-treesitter/playground' },
 		}
 	}
-	use '~/source/repos/markdown.nvim'
 
 	use 'windwp/nvim-autopairs'
 
@@ -82,6 +81,8 @@ return require('packer').startup(function(use)
 	use 'sindrets/diffview.nvim'
 
 	use 'folke/zen-mode.nvim'
+
+	use '~/source/repos/markdown.nvim'
 
 	if packer_bootstrap then
 		require('packer').sync()

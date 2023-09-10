@@ -55,5 +55,5 @@ ts.setup({
 	-- treesitter query playground
 	playground = {
 		enable = true,
-	}
+	},
 })
