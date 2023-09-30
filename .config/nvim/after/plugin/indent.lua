@@ -1,10 +1,15 @@
-local status, indent = pcall(require, 'indent_blankline')
+local status, ibl = pcall(require, 'ibl')
 if not status then return end
 
-vim.cmd [[highlight IndentBlanklineChar guifg=#29394f gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineSpaceChar guifg=#29394f gui=nocombine]]
-vim.cmd [[highlight IndentBlanklineSpaceCharBlankline guifg=#29394f gui=nocombine]]
+vim.cmd [[highlight IblIndent guifg=#29394f gui=nocombine]]
+vim.cmd [[highlight IblScope guifg=#a6b8d1f gui=nocombine]]
 
-indent.setup({
-	space_char_blankline = ' ',
+ibl.setup({
+	indent = {
+		tab_char = "▎",
+	},
+	scope = {
+		show_start = false,
+		show_end = false,
+	}
 })
