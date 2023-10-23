@@ -3,9 +3,11 @@ if not md_status then return end
 
 md.setup({
 	on_attach = function(bufnr)
-		vim.keymap.set({ 'n', 'i' }, '<M-l><M-o>', '<Cmd>MDListItemBelow<CR>', { buffer = bufnr })
-		vim.keymap.set({ 'n', 'i' }, '<M-L><M-O>', '<Cmd>MDListItemAbove<CR>', { buffer = bufnr })
-		vim.keymap.set('n', '<M-l><M-c>', '<Cmd>MDTaskToggle<CR>', { buffer = bufnr })
-		vim.keymap.set('x', '<M-l><M-c>', ':MDTaskToggle<CR>', { buffer = bufnr })
+		local map = vim.keymap.set
+		local opts = { buffer = bufnr }
+		map({ 'n', 'i' }, '<M-l><M-o>', '<Cmd>MDListItemBelow<CR>', opts)
+		map({ 'n', 'i' }, '<M-L><M-O>', '<Cmd>MDListItemAbove<CR>', opts)
+		map('n', '<M-c>', '<Cmd>MDTaskToggle<CR>', opts)
+		map('x', '<M-c>', ':MDTaskToggle<CR>', opts)
 	end
 })
