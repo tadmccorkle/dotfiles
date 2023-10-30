@@ -169,6 +169,7 @@ lspconfig.cssmodules_ls.setup(config())
 lspconfig.tailwindcss.setup(config())
 lspconfig.jsonls.setup(config())
 lspconfig.clangd.setup(config())
+lspconfig.lemminx.setup(config())
 
 
 -- auto-formatting
