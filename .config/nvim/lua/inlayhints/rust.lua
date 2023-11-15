@@ -166,7 +166,7 @@ local function get_params(range, bufnr)
 	}
 end
 
-local function parseHints(result)
+local function parse_hints(result)
 	if type(result) ~= 'table' then
 		return {}
 	end
@@ -211,7 +211,7 @@ local function handler(range)
 		-- range given is 2-based index, but clear is 0-based index (end is exclusive)
 		clear(bufnr, range.start[1] - 1, range['end'][1])
 
-		local parsed = parseHints(result)
+		local parsed = parse_hints(result)
 
 		if opts.only_current_line then
 			local cursor = vim.api.nvim_win_get_cursor(0)
