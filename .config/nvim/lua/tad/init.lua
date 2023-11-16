@@ -23,6 +23,8 @@ vim.opt.wrap = true
 vim.opt.breakindent = true
 vim.opt.showbreak = '↳  '
 
+vim.opt.shortmess:append({ I = true })
+
 vim.opt.cdhome = true
 
 vim.opt.ignorecase = true
