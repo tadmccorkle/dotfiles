@@ -8,7 +8,9 @@ cmp.setup({
 		completeopt = 'menu,menuone,noinsert',
 	},
 	enabled = function()
-		if vim.api.nvim_get_mode().mode == 'c' then
+		if vim.bo.filetype == 'prompt' then
+			return false
+		elseif vim.api.nvim_get_mode().mode == 'c' then
 			return true
 		else
 			return not context.in_treesitter_capture('comment')

@@ -88,6 +88,22 @@ map('n', '<Leader>lg', '<Cmd>Telescope live_grep<CR>')
 map('n', '<Leader>gs', '<Cmd>Telescope grep_string<CR>')
 map('n', '<Leader>fh', '<Cmd>Telescope help_tags<CR>')
 map('n', '<Leader>fm', '<Cmd>Telescope keymaps<CR>')
+map('n', '<Leader>fd', '<Cmd>Telescope diagnostics<CR>')
+map('n', '<Leader>fr', '<Cmd>Telescope resume<CR>')
+map('n', '<Leader>FF', function()
+	require('telescope.builtin').find_files({
+		find_command = {
+			'rg', '--files', '--hidden',
+			'--glob', '!**/.git/*',
+		}
+	})
+end)
+map('n', '<Leader>LG', function()
+	require('telescope.builtin').live_grep({
+		additional_args = { '--hidden' },
+		glob_pattern = { '!**/.git/*' },
+	})
+end)
 
 -- reset terminal cursor when exiting vim
 vim.api.nvim_create_autocmd('VimLeave', {

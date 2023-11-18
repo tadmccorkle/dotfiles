@@ -27,7 +27,7 @@ local function on_attach(_, bufnr)
 	-- mappings when a language server has attached to buffer
 	local bufmap = vim.keymap.set
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	bufmap({ 'n', 'i' }, '<C-h>', vim.lsp.buf.signature_help, bufopts)
+	bufmap({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, bufopts)
 	bufmap('n', 'K', vim.lsp.buf.hover, bufopts)
 	bufmap('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
 	bufmap('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
@@ -36,7 +36,7 @@ local function on_attach(_, bufnr)
 	bufmap('n', '<Leader>gr', vim.lsp.buf.references, bufopts)
 	bufmap('n', '<Leader>gi', vim.lsp.buf.implementation, bufopts)
 	bufmap('n', '<Leader>gt', vim.lsp.buf.type_definition, bufopts)
-	bufmap('n', '<Leader>f', vim.lsp.buf.format, bufopts)
+	bufmap('n', '<Leader><Leader>f', vim.lsp.buf.format, bufopts)
 	bufmap('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
 	bufmap('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
 	bufmap('n', '<Leader>wl', function()
