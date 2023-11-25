@@ -139,7 +139,7 @@ R = function(x)
 	return require(x)
 end
 
-if vim.fn.has('win32') then
+if vim.fn.has('win32') == 1 then
 	require('tad.windows')
 end
 require('tad.cmp')
