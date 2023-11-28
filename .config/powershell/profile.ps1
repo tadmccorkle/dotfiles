@@ -28,13 +28,6 @@ $GitPromptSettings.DefaultPromptPath.ForegroundColor = [ConsoleColor]::Blue
 $PSStyle.FileInfo.Directory = "`e[36;1m"
 $PSStyle.FileInfo.SymbolicLink = "`e[36;3m"
 
-# alias
-Set-Alias vim nvim
-Set-Alias ll ls
-Set-Alias grep findstr
-Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe'
-Set-Alias open start
-
 # functions
 function which ($Command) {
 	Get-Command -Name $Command -ErrorAction SilentlyContinue |
@@ -74,6 +67,13 @@ Invoke-Expression "$Command"
 function .. { cd .. }
 function ... { cd ..\.. }
 function repos { cd $env:USERPROFILE\source\repos }
+
+# alias
+if (which nvim) { Set-Alias vim nvim }
+Set-Alias ll ls
+Set-Alias grep findstr
+if (which 'C:\Program Files\Git\usr\bin\less.exe') { Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe' }
+Set-Alias open start
 
 # path
 $comps = @(
