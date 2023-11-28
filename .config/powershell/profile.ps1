@@ -69,11 +69,12 @@ function ... { cd ..\.. }
 function repos { cd $env:USERPROFILE\source\repos }
 
 # alias
-if (which nvim) { Set-Alias vim nvim }
 Set-Alias ll ls
-Set-Alias grep findstr
-if (which 'C:\Program Files\Git\usr\bin\less.exe') { Set-Alias less 'C:\Program Files\Git\usr\bin\less.exe' }
 Set-Alias open start
+Set-Alias grep findstr
+if (which bat) { Set-Alias cat bat }
+if (which nvim) { Set-Alias vim nvim }
+if (which "$env:PROGRAMFILES\Git\usr\bin\less.exe") { Set-Alias less "$env:PROGRAMFILES\Git\usr\bin\less.exe" }
 
 # path
 $comps = @(
