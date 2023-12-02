@@ -1,7 +1,7 @@
 -- set up mason before lspconfig to handle language server installation
 require('mason').setup()
 require('mason-lspconfig').setup({
-	automatic_installation = true,
+	automatic_installation = { exclude = { "ocamllsp" } },
 })
 
 -- global mappings
@@ -94,6 +94,18 @@ lspconfig.marksman.setup(config())
 lspconfig.lemminx.setup(config())
 -- might configure C# LSP in future
 --lspconfig.omnisharp.setup(config())
+
+if vim.fn.executable("opam") == 1 then
+	lspconfig.ocamllsp.setup(config())
+end
+
+-- vim.cmd([[
+-- 	if executable("opam")
+-- 		let g:opamshare = substitute(system('opam var share'), '\n$', '', '''')
+-- 		execute "set rtp+=" . g:opamshare . "/merlin/vim"
+-- 		execute "helptags " . g:opamshare . "/merlin/vim/doc"
+-- 	endif
+-- ]])
 
 -- auto-formatting
 local auto_format_enabled = true

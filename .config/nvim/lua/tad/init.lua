@@ -145,3 +145,4 @@ end
 require('tad.cmp')
 require('tad.lsp')
 require('tad.treesitter')
+require('tad.fileformat')

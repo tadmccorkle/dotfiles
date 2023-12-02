@@ -22,6 +22,7 @@ vim.defer_fn(function()
 			'markdown',
 			'markdown_inline',
 			'ocaml',
+			'ocaml_interface',
 			'python',
 			'regex',
 			'rst',
