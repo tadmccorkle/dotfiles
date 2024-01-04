@@ -92,6 +92,7 @@ lspconfig.jsonls.setup(config())
 lspconfig.clangd.setup(config())
 lspconfig.marksman.setup(config())
 lspconfig.lemminx.setup(config())
+lspconfig.gopls.setup(config())
 -- might configure C# LSP in future
 --lspconfig.omnisharp.setup(config())
 
