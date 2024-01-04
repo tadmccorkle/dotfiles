@@ -67,11 +67,11 @@ Invoke-Expression "$Command"
 function .. { cd .. }
 function ... { cd ..\.. }
 function repos { cd $env:USERPROFILE\source\repos }
+function browser { start https: }
 
 # alias
 Set-Alias ll ls
 Set-Alias open start
-Set-Alias grep findstr
 if (which bat) { Set-Alias cat bat }
 if (which nvim) { Set-Alias vim nvim }
 if (which "$env:PROGRAMFILES\Git\usr\bin\less.exe") { Set-Alias less "$env:PROGRAMFILES\Git\usr\bin\less.exe" }
