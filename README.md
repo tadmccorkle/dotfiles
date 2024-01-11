@@ -1,5 +1,7 @@
 # dotfiles by tad
 
+Dotfiles live on the [cfg](https://github.com/tadmccorkle/dotfiles/tree/cfg) branch.
+
 Dotfiles for my Windows and Ubuntu (WSL2) configurations. Requires PowerShell 7 or a Bash shell. PowerShell is assumed to be on Windows.
 
 ## requirements
@@ -13,8 +15,6 @@ My current PowerShell configuration requires [posh-git](https://github.com/dahlb
 I also use Neovim, and my current configuration uses plugins that have other dependencies like CMake, clang/gcc, and 7z/gzip. The Neovim command `:checkhealth` can be used to get an idea of the dependencies that are needed; otherwise, take a look at plugin docs.
 
 ## to use
-
-Dotfiles live on the [cfg](https://github.com/tadmccorkle/dotfiles/tree/cfg) branch.
 
 Fork the repo. If any changes need to be made prior to applying the configuration, clone the repo, checkout the `cfg` branch, and make any necessary changes - probably a good idea to make sure aliases and path components will work on the target machine.
 
