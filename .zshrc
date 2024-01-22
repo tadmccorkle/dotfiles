@@ -7,8 +7,8 @@ prompt_info() {
 	if root=$(__rc_git rev-parse --show-toplevel 2> /dev/null); then
 		local pre="/$(__rc_git rev-parse --show-prefix)"
 		local ref=$(__rc_git symbolic-ref --quiet HEAD 2> /dev/null)
-		if [[ $? != 0 ]]; then
-			ref=$(__git_prompt_git rev-parse --short HEAD)
+		if [[ ! -n $ref ]]; then
+			ref=$(__rc_git rev-parse --short HEAD)
 		fi
 		echo "$root:t${pre%?} %F{yellow}‹${ref#refs/heads/}›"
 	else
