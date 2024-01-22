@@ -1,22 +1,20 @@
 alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
-# neovim
-alias vim="nvim"
+if [ -x "$(command -v nvim)" ]; then
+	alias vim="nvim"
+fi
 
-# reload
-alias reload=". ~/.bash_profile"
+if [ -x "$(command -v bat)" ]; then
+	alias cat="bat"
+fi
 
-# cd
 alias ..="cd .."
 alias ...="cd ../.."
+alias repos="cd $HOME/source/repos"
 
-# ls
 alias ls="ls -F --color=auto"
-alias ll="ls -lhA --group-directories-first"
+alias ll="ls -lhA"
+alias mkdir="mkdir -pv"
 
-# general
 alias cls="clear"
 alias trash="mv -v -t $HOME/.trash"
-
-# general flags and pipes
-alias mkdir="mkdir -pv"

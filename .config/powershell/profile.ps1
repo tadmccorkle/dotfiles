@@ -83,7 +83,6 @@ $comps = @(
 	"${env:ProgramFiles(x86)}\GnuWin32\bin"
 	"$env:USERPROFILE\.dotnet\tools"
 	"$env:USERPROFILE\.dotnet\tools\docfx"
-	"$env:USERPROFILE\.yarn\bin"
 ) + $nvim_comps
 
 foreach ($comp in $comps) {
