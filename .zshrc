@@ -31,6 +31,14 @@ else
 	export EDITOR=nvim
 fi
 
+# pnpm
+export PNPM_HOME="/Users/tad/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 path() { sed 's/:/\n/g' <<< $PATH; }
 
 . "$HOME/.config/sh/alias"

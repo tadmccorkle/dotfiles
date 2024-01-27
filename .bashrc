@@ -65,6 +65,14 @@ fi
 
 unset is_win
 
+# pnpm
+export PNPM_HOME="/Users/tad/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 RED="\[\033[0;31m\]"
 GREEN="\[\033[0;32m\]"
 BLUE="\[\033[1;34m\]"
