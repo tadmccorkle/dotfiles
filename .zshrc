@@ -24,20 +24,33 @@ autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 zstyle ':completion:*:*:*:*:*' menu select
 
-if [[ -n $SSH_CONNECTION ]]; then
+if [[ -x "$(command -v nvim)" ]]; then
+	export GIT_EDITOR=vim
 	export EDITOR=vim
 else
 	export GIT_EDITOR=nvim
 	export EDITOR=nvim
 fi
 
-# pnpm
 export PNPM_HOME="/Users/tad/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end
+
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt INC_APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+setopt SHARE_HISTORY
+unsetopt HIST_VERIFY
 
 path() { sed 's/:/\n/g' <<< $PATH; }
 
