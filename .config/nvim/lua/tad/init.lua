@@ -36,6 +36,8 @@ vim.opt.inccommand = 'split'
 
 vim.opt.completeopt = 'menu,menuone,noselect'
 
+vim.g.netrw_banner = 0
+
 local map = vim.keymap.set
 
 map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
