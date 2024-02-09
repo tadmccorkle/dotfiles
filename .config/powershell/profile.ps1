@@ -13,6 +13,9 @@ $nvim_comps = @(
 	"$env:PROGRAMFILES\7-Zip" # for mason package manager
 )
 
+# history
+(Get-PSReadLineOption).MaximumHistoryCount = 50000
+
 # posh git
 Import-Module posh-git
 $GitPromptSettings.EnableFileStatus = $false
