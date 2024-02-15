@@ -73,6 +73,8 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 RED="\[\033[0;31m\]"
 GREEN="\[\033[0;32m\]"
 BLUE="\[\033[1;34m\]"

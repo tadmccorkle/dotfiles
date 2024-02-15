@@ -25,11 +25,11 @@ autoload -U +X bashcompinit && bashcompinit
 zstyle ':completion:*:*:*:*:*' menu select
 
 if [[ -x "$(command -v nvim)" ]]; then
-	export GIT_EDITOR=vim
-	export EDITOR=vim
-else
 	export GIT_EDITOR=nvim
 	export EDITOR=nvim
+else
+	export GIT_EDITOR=vim
+	export EDITOR=vim
 fi
 
 export PNPM_HOME="/Users/tad/Library/pnpm"
@@ -37,6 +37,8 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
