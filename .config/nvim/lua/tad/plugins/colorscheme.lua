@@ -21,6 +21,8 @@ return {
 				groups = {
 					nightfox = {
 						WinSeparator = { fg = "fg3" },
+						["@markup.italic"] = { fg = "palette.red", style = "italic" },
+						["@markup.strikethrough"] = { fg = "fg3", style = "strikethrough" },
 					}
 				}
 			})
