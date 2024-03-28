@@ -20,6 +20,7 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 
 vim.opt.wrap = true
+vim.opt.diffopt:append { 'followwrap' }
 vim.opt.breakindent = true
 vim.opt.showbreak = '↳  '
 
