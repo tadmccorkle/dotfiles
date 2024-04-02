@@ -40,12 +40,9 @@ config.hide_tab_bar_if_only_one_tab = true
 config.tab_bar_at_bottom = true
 
 config.keys = {
-	-- show launcher
-	{
-		key = "l",
-		mods = "ALT",
-		action = wezterm.action.ShowLauncher,
-	},
+	{ key = "l",         mods = "ALT",   action = wezterm.action.ShowLauncher },
+	{ key = "UpArrow",   mods = "SHIFT", action = wezterm.action.ScrollByLine(-1) },
+	{ key = "DownArrow", mods = "SHIFT", action = wezterm.action.ScrollByLine(1) },
 	-- split vertical
 	{
 		key = "s",
@@ -67,25 +64,21 @@ config.keys = {
 			size = { Percent = 15 },
 		},
 	},
-	-- activate to split left
 	{
 		key = "h",
 		mods = "ALT|SHIFT",
 		action = wezterm.action.ActivatePaneDirection "Left",
 	},
-	-- activate to split down
 	{
 		key = "j",
 		mods = "ALT|SHIFT",
 		action = wezterm.action.ActivatePaneDirection "Down",
 	},
-	-- activate to split up
 	{
 		key = "k",
 		mods = "ALT|SHIFT",
 		action = wezterm.action.ActivatePaneDirection "Up",
 	},
-	-- activate to split right
 	{
 		key = "l",
 		mods = "ALT|SHIFT",
