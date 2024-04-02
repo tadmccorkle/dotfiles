@@ -40,9 +40,11 @@ config.hide_tab_bar_if_only_one_tab = true
 config.tab_bar_at_bottom = true
 
 config.keys = {
-	{ key = "l",         mods = "ALT",   action = wezterm.action.ShowLauncher },
-	{ key = "UpArrow",   mods = "SHIFT", action = wezterm.action.ScrollByLine(-1) },
-	{ key = "DownArrow", mods = "SHIFT", action = wezterm.action.ScrollByLine(1) },
+	{ key = "l",         mods = "ALT",        action = wezterm.action.ShowLauncher },
+	{ key = "UpArrow",   mods = "SHIFT",      action = wezterm.action.ScrollByLine(-1) },
+	{ key = "DownArrow", mods = "SHIFT",      action = wezterm.action.ScrollByLine(1) },
+	{ key = "UpArrow",   mods = "CTRL|SHIFT", action = wezterm.action.ScrollByLine(-5) },
+	{ key = "DownArrow", mods = "CTRL|SHIFT", action = wezterm.action.ScrollByLine(5) },
 	-- split vertical
 	{
 		key = "s",
