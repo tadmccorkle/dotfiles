@@ -110,45 +110,41 @@ if wezterm.target_triple:find("windows") ~= nil then
 		},
 	}
 
-	-- TODO: some issues with this, mainly with the spawn process args in each menu item
-	-- local vswhere = "C:/Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
-	-- local success, vs_install_path = wezterm.run_child_process {
-	-- 	vswhere,
-	-- 	"-latest",
-	-- 	"-property",
-	-- 	"installationpath"
-	-- }
-	-- if success then
-	-- 	local vs_dev_path = vs_install_path .. "\\Common7\\Tools\\"
-	-- 	local vs_version = vs_install_path:gsub(".+(%d%d%d%d).+", "%1")
-	--
-	-- 	table.insert(config.launch_menu, {
-	-- 		label = "test",
-	-- 		args = { "cmd", "/k", 'echo "' .. vs_dev_path .. '"' }
-	-- 	})
-	--
-	-- 	table.insert(config.launch_menu, {
-	-- 		label = "Developer Command Prompt for VS " .. vs_version,
-	-- 		args = {
-	-- 			"cmd", "/k", 'echo "' .. vs_dev_path .. 'VsDevCmd.bat"',
-	-- 			"-startdir=none", "-arch=x64", "-host_arch=x64"
-	-- 		}
-	-- 	})
-	--
-	-- 	local pwsh_dev_cmd = '"&{Import-Module """'
-	-- 			.. vs_dev_path
-	-- 			.. 'Microsoft.VisualStudio.DevShell.dll""";'
-	-- 			.. 'Enter-VsDevShell -VsInstallPath '
-	-- 			.. vs_install_path
-	-- 			.. ' -SkipAutomaticLocation -DevCmdArguments """-arch=x64 -host_arch=x64"""}'
-	-- 	table.insert(config.launch_menu, {
-	-- 		label = "Developer PowerShell for VS " .. vs_version,
-	-- 		args = {
-	-- 			"pwsh", "-nol", "-NoExit",
-	-- 			"-Command", pwsh_dev_cmd
-	-- 		}
-	-- 	})
-	-- end
+	local vswhere = "C:/Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
+	local success, vs_install_path = wezterm.run_child_process {
+		vswhere,
+		"-latest",
+		"-property",
+		"installationpath"
+	}
+	if success then
+		vs_install_path = vs_install_path:gsub("^%s*(.-)%s*$", "%1")
+
+		local vs_dev_path = vs_install_path .. "\\Common7\\Tools"
+		local vs_version = vs_install_path:gsub(".+(%d%d%d%d).+", "%1")
+
+		table.insert(config.launch_menu, {
+			label = "Developer Command Prompt for VS " .. vs_version,
+			args = {
+				"cmd", "/k", vs_dev_path .. '\\VsDevCmd.bat',
+				"-startdir=none", "-arch=x64", "-host_arch=x64"
+			}
+		})
+
+		local pwsh_dev_cmd = '&{Import-Module "'
+				.. vs_dev_path
+				.. '\\Microsoft.VisualStudio.DevShell.dll";'
+				.. 'Enter-VsDevShell -VsInstallPath "'
+				.. vs_install_path
+				.. '" -SkipAutomaticLocation -DevCmdArguments "-arch=x64 -host_arch=x64"}'
+		table.insert(config.launch_menu, {
+			label = "Developer PowerShell for VS " .. vs_version,
+			args = {
+				"pwsh", "-nol", "-NoExit",
+				"-Command", pwsh_dev_cmd
+			}
+		})
+	end
 end
 
 return config
