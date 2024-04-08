@@ -5,47 +5,59 @@ set ignorecase
 set smartcase
 set incsearch
 
+set number
+set relativenumber
 set scrolloff=8
 set scroll=25
-set relativenumber
+
+let mapleader=","
 
 noremap <Space> <Nop>
 
 noremap <C-q> <C-v>
 
-nmap <C-O> :vsc View.NavigateBackward<CR>
-nmap <C-I> :vsc View.NavigateForward<CR>
-nmap <C-]> :vsc Edit.GoToDefinition<CR>
-nmap gd    :vsc Edit.GoToDefinition<CR>
-nmap gD    :vsc Edit.GoToDeclaration<CR>
-nmap ,gr   :vsc Edit.GoToReference<CR>
-nmap ,gi   :vsc Edit.GoToImplementation<CR>
-nmap ,gr   :vsc Refactor.Rename<CR>
-nmap ,,f   :vsc Edit.FormatDocument<CR>
-nmap ,ca   :vsc View.QuickActions<CR>
-nmap K     :vsc Edit.QuickInfo<CR>
-nmap ,k    :vsc Edit.ParameterInfo<CR>
-nmap ,do   :vsc View.ErrorList<CR>
-nmap ,dp   :vsc View.PreviousError<CR>
-nmap ,dn   :vsc View.NextError<CR>
-nmap ,ff   :vsc Edit.GoToFile<CR>
-nmap ,fb   :vsc Edit.GoToRecentFile<CR>
-nmap ,ft   :vsc Edit.GoToType<CR>
-nmap ,lg   :vsc Edit.GoToText<CR>
+nmap <Leader><Leader>r :source ~/.vsvimrc<CR>
 
-nnoremap  x "_x
-nnoremap ,x ""x
-vnoremap ,x "_x
-noremap  ,d "_d
-noremap  ,c "_c
-vnoremap ,p "_dP
-noremap  ,y "+y
-nnoremap ,Y "+Y
+nmap <C-O>             :vsc View.NavigateBackward<CR>
+nmap <C-I>             :vsc View.NavigateForward<CR>
+nmap <C-]>             :vsc Edit.GoToDefinition<CR>
+nmap gd                :vsc Edit.GoToDefinition<CR>
+nmap gD                :vsc Edit.GoToDeclaration<CR>
+nmap <Leader>gr        :vsc Edit.GoToReference<CR>
+nmap <Leader>gi        :vsc Edit.GoToImplementation<CR>
+nmap <Leader>gr        :vsc Refactor.Rename<CR>
+nmap <Leader><Leader>f :vsc Edit.FormatDocument<CR>
+nmap <Leader>ca        :vsc View.QuickActions<CR>
+nmap K                 :vsc Edit.QuickInfo<CR>
+nmap <Leader>k         :vsc Edit.ParameterInfo<CR>
+nmap <Leader>do        :vsc View.ErrorList<CR>
+nmap <Leader>dp        :vsc View.PreviousError<CR>
+nmap <Leader>dn        :vsc View.NextError<CR>
+nmap <Leader>dfp       :vsc Edit.GoToNextIssueInFile<CR>
+nmap <Leader>dfn       :vsc Edit.GoToPreviousIssueInFile<CR>
+nmap <Leader>ff        :vsc Edit.GoToFile<CR>
+nmap <Leader>fb        :vsc Edit.GoToRecentFile<CR>
+nmap <Leader>ft        :vsc Edit.GoToType<CR>
+nmap <Leader>lg        :vsc Edit.GoToText<CR>
 
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 
+nnoremap         x "_x
+nnoremap <Leader>x ""x
+xnoremap <Leader>x "_x
+noremap  <Leader>d "_d
+noremap  <Leader>c "_c
+xnoremap <Leader>p "_dP
+noremap  <Leader>y "+y
+nnoremap <Leader>Y "+Y
+
+nmap gcc :vsc Edit.ToggleLineComment<CR>
+xmap gc  :vsc Edit.ToggleLineComment<CR>
+xmap gsc :vsc Edit.CommentSelection<CR>
+xmap gsu :vsc Edit.UncommentSelection<CR>
+
 noremap   +  <C-a>
 noremap   -  <C-x>
-vnoremap g+ g<C-A>
-vnoremap g- g<C-x>
+xnoremap g+ g<C-A>
+xnoremap g- g<C-x>
