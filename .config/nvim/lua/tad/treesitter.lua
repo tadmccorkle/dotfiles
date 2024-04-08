@@ -1,5 +1,10 @@
 -- defer until after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
+	if vim.fn.has('win32') == 1 and vim.fn.executable("clang") == 1 then
+		-- fix issues with windows recognizing some compiled parsers
+		require('nvim-treesitter.install').compilers = { "clang" }
+	end
+
 	require('nvim-treesitter.configs').setup({
 		ensure_installed = {
 			'bash',
