@@ -39,6 +39,7 @@ nmap <Leader>ff        :vsc Edit.GoToFile<CR>
 nmap <Leader>fb        :vsc Edit.GoToRecentFile<CR>
 nmap <Leader>ft        :vsc Edit.GoToType<CR>
 nmap <Leader>lg        :vsc Edit.GoToText<CR>
+nmap <Leader><Leader>b :vsc Build.BuildSelection<CR>
 
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
