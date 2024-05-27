@@ -8,7 +8,7 @@ cmp.setup({
 		completeopt = 'menu,menuone,noinsert',
 	},
 	enabled = function()
-		if vim.bo.filetype == 'prompt' then
+		if vim.bo.filetype == 'prompt' or vim.bo.filetype == 'TelescopePrompt' then
 			return false
 		elseif vim.api.nvim_get_mode().mode == 'c' then
 			return true
