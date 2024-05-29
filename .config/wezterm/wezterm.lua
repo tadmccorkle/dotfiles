@@ -1,8 +1,22 @@
 local wezterm = require "wezterm"
+local act = wezterm.action
 
 wezterm.on("gui-startup", function(_)
 	local _, _, window = wezterm.mux.spawn_window {}
 	window:gui_window():maximize()
+end)
+
+wezterm.on("update-right-status", function(window, _)
+	local status = ""
+	if window:leader_is_active() then
+		status = "LEADER"
+	else
+		local name = window:active_key_table()
+		if name then
+			status = name
+		end
+	end
+	window:set_right_status(status)
 end)
 
 local config = {}
@@ -29,68 +43,106 @@ theme.brights = {
 	"#61D6D6", -- cyan
 	"#EEEEEC", -- white
 }
+theme.compose_cursor = "orange"
+
 config.color_schemes = { ["tad default"] = theme }
 config.color_scheme = "tad default"
+
+config.inactive_pane_hsb = {
+	saturation = 0.8,
+	brightness = 0.8,
+}
 
 config.font = wezterm.font "Cascadia Code"
 config.font_size = 12
 
 config.use_fancy_tab_bar = false
-config.hide_tab_bar_if_only_one_tab = true
 config.tab_bar_at_bottom = true
 
+config.leader = { key = "Space", mods = "CTRL|SHIFT" }
 config.keys = {
-	{ key = "l",         mods = "CTRL|ALT",   action = wezterm.action.ShowLauncher },
-	{ key = "UpArrow",   mods = "SHIFT",      action = wezterm.action.ScrollByLine(-1) },
-	{ key = "DownArrow", mods = "SHIFT",      action = wezterm.action.ScrollByLine(1) },
-	{ key = "UpArrow",   mods = "CTRL|SHIFT", action = wezterm.action.ScrollByLine(-5) },
-	{ key = "DownArrow", mods = "CTRL|SHIFT", action = wezterm.action.ScrollByLine(5) },
-	-- split vertical
+	{ key = "Space", mods = "CTRL|SHIFT",        action = act.DisableDefaultAssignment },
+	{ key = "Space", mods = "LEADER|CTRL|SHIFT", action = act.QuickSelect },
 	{
-		key = "s",
-		mods = "CTRL|SHIFT",
-		action = wezterm.action.SplitPane { direction = "Right" },
-	},
-	-- split horizontal
-	{
-		key = "h",
-		mods = "CTRL|SHIFT",
-		action = wezterm.action.SplitPane { direction = "Down" },
-	},
-	-- split horizontal (small)
-	{
-		key = "h",
-		mods = "CTRL|ALT|SHIFT",
-		action = wezterm.action.SplitPane {
-			direction = "Down",
-			size = { Percent = 15 },
+		key = "a",
+		mods = "LEADER",
+		action = act.ActivateKeyTable {
+			name = "activate_pane",
 		},
 	},
 	{
-		key = "h",
-		mods = "ALT|SHIFT",
-		action = wezterm.action.ActivatePaneDirection "Left",
+		key = "r",
+		mods = "LEADER",
+		action = act.ActivateKeyTable {
+			name = "resize_pane",
+			one_shot = false,
+		},
 	},
 	{
-		key = "j",
-		mods = "ALT|SHIFT",
-		action = wezterm.action.ActivatePaneDirection "Down",
+		key = "s",
+		mods = "LEADER",
+		action = act.ActivateKeyTable {
+			name = "split_pane",
+		},
 	},
-	{
-		key = "k",
-		mods = "ALT|SHIFT",
-		action = wezterm.action.ActivatePaneDirection "Up",
-	},
-	{
-		key = "l",
-		mods = "ALT|SHIFT",
-		action = wezterm.action.ActivatePaneDirection "Right",
-	},
+	{ key = "l",         mods = "LEADER",     action = act.ShowLauncher },
+	{ key = "UpArrow",   mods = "SHIFT",      action = act.ScrollByLine(-1) },
+	{ key = "DownArrow", mods = "SHIFT",      action = act.ScrollByLine(1) },
+	{ key = "UpArrow",   mods = "CTRL|SHIFT", action = act.ScrollByLine(-5) },
+	{ key = "DownArrow", mods = "CTRL|SHIFT", action = act.ScrollByLine(5) },
 }
 
-config.inactive_pane_hsb = {
-	saturation = 0.8,
-	brightness = 0.8,
+local pop_key_table = { key = "Escape", action = "PopKeyTable" }
+config.key_tables = {
+	activate_pane = {
+		{ key = "LeftArrow",  action = act.ActivatePaneDirection "Left" },
+		{ key = "h",          action = act.ActivatePaneDirection "Left" },
+		{ key = "RightArrow", action = act.ActivatePaneDirection "Right" },
+		{ key = "l",          action = act.ActivatePaneDirection "Right" },
+		{ key = "UpArrow",    action = act.ActivatePaneDirection "Up" },
+		{ key = "k",          action = act.ActivatePaneDirection "Up" },
+		{ key = "DownArrow",  action = act.ActivatePaneDirection "Down" },
+		{ key = "j",          action = act.ActivatePaneDirection "Down" },
+		pop_key_table,
+	},
+	resize_pane = {
+		{ key = "LeftArrow",  action = act.AdjustPaneSize { "Left", 1 } },
+		{ key = "h",          action = act.AdjustPaneSize { "Left", 1 } },
+		{ key = "RightArrow", action = act.AdjustPaneSize { "Right", 1 } },
+		{ key = "l",          action = act.AdjustPaneSize { "Right", 1 } },
+		{ key = "UpArrow",    action = act.AdjustPaneSize { "Up", 1 } },
+		{ key = "k",          action = act.AdjustPaneSize { "Up", 1 } },
+		{ key = "DownArrow",  action = act.AdjustPaneSize { "Down", 1 } },
+		{ key = "j",          action = act.AdjustPaneSize { "Down", 1 } },
+		{ key = "LeftArrow",  action = act.AdjustPaneSize { "Left", 5 },  mods = "SHIFT" },
+		{ key = "h",          action = act.AdjustPaneSize { "Left", 5 },  mods = "SHIFT" },
+		{ key = "RightArrow", action = act.AdjustPaneSize { "Right", 5 }, mods = "SHIFT" },
+		{ key = "l",          action = act.AdjustPaneSize { "Right", 5 }, mods = "SHIFT" },
+		{ key = "UpArrow",    action = act.AdjustPaneSize { "Up", 5 },    mods = "SHIFT" },
+		{ key = "k",          action = act.AdjustPaneSize { "Up", 5 },    mods = "SHIFT" },
+		{ key = "DownArrow",  action = act.AdjustPaneSize { "Down", 5 },  mods = "SHIFT" },
+		{ key = "j",          action = act.AdjustPaneSize { "Down", 5 },  mods = "SHIFT" },
+		pop_key_table,
+	},
+	split_pane = {
+		{ key = "LeftArrow",  action = act.SplitPane { direction = "Left" } },
+		{ key = "h",          action = act.SplitPane { direction = "Left" } },
+		{ key = "RightArrow", action = act.SplitPane { direction = "Right" } },
+		{ key = "l",          action = act.SplitPane { direction = "Right" } },
+		{ key = "UpArrow",    action = act.SplitPane { direction = "Up" } },
+		{ key = "k",          action = act.SplitPane { direction = "Up" } },
+		{ key = "DownArrow",  action = act.SplitPane { direction = "Down" } },
+		{ key = "j",          action = act.SplitPane { direction = "Down" } },
+		{ key = "LeftArrow",  action = act.SplitPane { direction = "Left", size = { Percent = 15 } },  mods = "SHIFT" },
+		{ key = "h",          action = act.SplitPane { direction = "Left", size = { Percent = 15 } },  mods = "SHIFT" },
+		{ key = "RightArrow", action = act.SplitPane { direction = "Right", size = { Percent = 15 } }, mods = "SHIFT" },
+		{ key = "l",          action = act.SplitPane { direction = "Right", size = { Percent = 15 } }, mods = "SHIFT" },
+		{ key = "UpArrow",    action = act.SplitPane { direction = "Up", size = { Percent = 15 } },    mods = "SHIFT" },
+		{ key = "k",          action = act.SplitPane { direction = "Up", size = { Percent = 15 } },    mods = "SHIFT" },
+		{ key = "DownArrow",  action = act.SplitPane { direction = "Down", size = { Percent = 15 } },  mods = "SHIFT" },
+		{ key = "j",          action = act.SplitPane { direction = "Down", size = { Percent = 15 } },  mods = "SHIFT" },
+		pop_key_table,
+	}
 }
 
 if wezterm.target_triple:find("windows") ~= nil then
@@ -128,7 +180,7 @@ if wezterm.target_triple:find("windows") ~= nil then
 		table.insert(config.launch_menu, {
 			label = "Developer Command Prompt for VS " .. vs_version,
 			args = {
-				"cmd", "/k", vs_dev_path .. '\\VsDevCmd.bat',
+				"cmd", "/k", vs_dev_path .. "\\VsDevCmd.bat",
 				"-startdir=none", "-arch=x64", "-host_arch=x64"
 			}
 		})
