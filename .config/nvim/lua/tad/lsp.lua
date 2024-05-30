@@ -4,42 +4,27 @@ require('mason-lspconfig').setup({
 	automatic_installation = { exclude = { "ocamllsp" } },
 })
 
--- global mappings
-local map = vim.keymap.set
-local opts = { noremap = true, silent = true }
-
-map('n', '<Leader>do', vim.diagnostic.open_float, opts)
-map('n', '<Leader>dl', vim.diagnostic.setloclist, opts)
-map('n', '<Leader>dp', vim.diagnostic.goto_prev, opts)
-map('n', '<Leader>dn', vim.diagnostic.goto_next, opts)
-map('n', '<Leader>dP', function()
-	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
-end, opts)
-map('n', '<Leader>dN', function()
-	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
-end, opts)
-
 -- common language server configuration
 local function on_attach(_, bufnr)
 	-- enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
 	-- mappings when a language server has attached to buffer
-	local bufmap = vim.keymap.set
+	local map = vim.keymap.set
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	bufmap('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-	bufmap('n', 'K', vim.lsp.buf.hover, bufopts)
-	bufmap('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
-	bufmap('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
-	bufmap('n', '<Leader>gD', vim.lsp.buf.declaration, bufopts)
-	bufmap('n', '<Leader>gd', vim.lsp.buf.definition, bufopts)
-	bufmap('n', '<Leader>gr', vim.lsp.buf.references, bufopts)
-	bufmap('n', '<Leader>gi', vim.lsp.buf.implementation, bufopts)
-	bufmap('n', '<Leader>gt', vim.lsp.buf.type_definition, bufopts)
-	bufmap('n', '<Leader><Leader>f', vim.lsp.buf.format, bufopts)
-	bufmap('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-	bufmap('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-	bufmap('n', '<Leader>wl', function()
+	map('n', 'K', vim.lsp.buf.hover, bufopts)
+	map('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+	map('n', '<Leader>rn', vim.lsp.buf.rename, bufopts)
+	map('n', '<Leader>ca', vim.lsp.buf.code_action, bufopts)
+	map('n', '<Leader>gD', vim.lsp.buf.declaration, bufopts)
+	map('n', '<Leader>gd', vim.lsp.buf.definition, bufopts)
+	map('n', '<Leader>gr', vim.lsp.buf.references, bufopts)
+	map('n', '<Leader>gi', vim.lsp.buf.implementation, bufopts)
+	map('n', '<Leader>gt', vim.lsp.buf.type_definition, bufopts)
+	map('n', '<Leader><Leader>f', vim.lsp.buf.format, bufopts)
+	map('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+	map('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+	map('n', '<Leader>wl', function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
 end
@@ -132,6 +117,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(args)
 		local client_id = args.data.client_id
 		local client = vim.lsp.get_client_by_id(client_id)
+		if client == nil then
+			return
+		end
 
 		if not client.server_capabilities.documentFormattingProvider then
 			return

@@ -18,27 +18,24 @@ cmp.setup({
 		end
 	end,
 	mapping = {
-		['<C-y>'] = cmp.mapping.scroll_docs(-1),
-		['<C-u>'] = cmp.mapping.scroll_docs(-4),
-		['<C-e>'] = cmp.mapping.scroll_docs(1),
-		['<C-d>'] = cmp.mapping.scroll_docs(4),
+		['<C-b>'] = cmp.mapping.scroll_docs(-4),
+		['<C-f>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-c>'] = cmp.mapping.abort(),
 		['<Down>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }),
 		['<Up>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
 		['<C-n>'] = cmp.mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }),
 		['<C-p>'] = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }),
-		['<Tab>'] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.confirm({ select = true })
-			elseif luasnip.expand_or_jumpable() then
+		['<C-y>'] = cmp.mapping.confirm({ select = true }),
+		['<C-l>'] = cmp.mapping(function(fallback)
+			if luasnip.expand_or_locally_jumpable() then
 				luasnip.expand_or_jump()
 			else
 				fallback()
 			end
 		end, { 'i', 's' }),
-		['<S-Tab>'] = cmp.mapping(function(fallback)
-			if luasnip.jumpable(-1) then
+		['<C-h>'] = cmp.mapping(function(fallback)
+			if luasnip.locally_jumpable(-1) then
 				luasnip.jump(-1)
 			else
 				fallback()

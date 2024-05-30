@@ -4,12 +4,12 @@ return {
 		main = 'ibl',
 		config = function()
 			vim.cmd [[highlight IblIndent guifg=#29394f gui=nocombine]]
-			vim.cmd [[highlight IblScope guifg=#a6b8d1f gui=nocombine]]
 			require('ibl').setup({
 				indent = {
 					tab_char = "▎",
 				},
 				scope = {
+					enabled = false,
 					show_start = false,
 					show_end = false,
 				},

@@ -3,15 +3,20 @@ vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.scrolloff = 8
+vim.opt.showmode = false
 vim.opt.laststatus = 3
-vim.opt_global.foldcolumn = '1'
+vim.opt.foldcolumn = '1'
+vim.opt.splitright = true
+vim.opt.splitbelow = false
+vim.opt.inccommand = 'split'
+vim.opt.hlsearch = true
 
+vim.opt.list = true
 vim.opt.listchars = {
 	tab = '→ ',
 	space = '·',
 	nbsp = '+',
 }
-vim.opt.list = true
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -33,8 +38,6 @@ vim.opt.smartcase = true
 vim.opt.wildignorecase = true
 vim.opt.wildignore:append { '*/node_modules/*', '*/venv/*' }
 
-vim.opt.inccommand = 'split'
-
 vim.opt.completeopt = 'menu,menuone,noselect'
 
 vim.g.netrw_banner = 0
@@ -42,11 +45,17 @@ vim.g.netrw_banner = 0
 local map = vim.keymap.set
 
 map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-map('n', 'x', '"_x')                  -- without yank in normal mode by default
-map('n', '<Leader>x', '""x')          -- with yank in normal mode
-map('v', '<Leader>x', '"_x')          -- without yank in visual mode
-map({ 'n', 'v' }, '<Leader>d', '"_d') -- without yank
-map({ 'n', 'v' }, '<Leader>c', '"_c') -- without yank
+
+map('n', '<Esc>', '<Cmd>nohlsearch<CR>')
+
+map({ 'n', 'v' }, 'x', '"_x')         -- 'x' without yank by default
+map({ 'n', 'v' }, 'X', '"_X')         -- 'X' without yank by default
+map({ 'n', 'v' }, '<Leader>x', '""x') -- 'x' with yank
+map({ 'n', 'v' }, '<Leader>X', '""X') -- 'x' with yank
+map({ 'n', 'v' }, '<Leader>d', '"_d') -- 'd' without yank
+map({ 'n', 'v' }, '<Leader>D', '"_D') -- 'D' without yank
+map({ 'n', 'v' }, '<Leader>c', '"_c') -- 'c' without yank
+map({ 'n', 'v' }, '<Leader>C', '"_C') -- 'C' without yank
 map('v', '<Leader>p', '"_dP')         -- paste in visual mode without losing register
 map({ 'n', 'v' }, '<leader>y', '"+y') -- yank to clipboard
 map('n', '<leader>Y', '"+Y')          -- yank line to clipboard
@@ -55,58 +64,28 @@ map('n', '<leader>Y', '"+Y')          -- yank line to clipboard
 map('n', '<C-d>', '<C-d>zz')
 map('n', '<C-u>', '<C-u>zz')
 
--- increment/decrement
-map({ 'n', 'v' }, '+', '<C-a>')
-map({ 'n', 'v' }, '-', '<C-x>')
-map('v', 'g+', 'g<C-a>')
-map('v', 'g-', 'g<C-x>')
-
--- select all
-map('n', '<C-a>', 'gg<S-v>G')
-
 -- windows
-map('n', '<A-,>', '<C-w><')
-map('n', '<A-.>', '<C-w>>')
-map('n', '<A-<>', '<C-w>5<')
-map('n', '<A->>', '<C-w>5>')
-map('n', '<A-=>', '<C-w>=')
-map('n', '<A-t>', '<C-w>+')
-map('n', '<A-s>', '<C-w>-')
+map('n', '<A-,>', '<C-w><')  -- narrower
+map('n', '<A-.>', '<C-w>>')  -- wider
+map('n', '<A-<>', '<C-w>5<') -- much narrower
+map('n', '<A->>', '<C-w>5>') -- much wider
+map('n', '<A-t>', '<C-w>+')  -- taller
+map('n', '<A-s>', '<C-w>-')  -- shorter
+map('n', '<A-=>', '<C-w>=')  -- distribute evenly
+
+-- diagnostics
+local opts = { silent = true }
+map('n', '<Leader>]D', function()
+	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end, opts)
+map('n', '<Leader>[D', function()
+	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, opts)
+map('n', '<Leader>do', vim.diagnostic.open_float, opts)
+map('n', '<Leader>dl', vim.diagnostic.setloclist, opts)
 
 -- save and source
 map('n', '<Leader><Leader>s', '<Cmd>w | source %<CR>', { silent = true })
-
--- diff view
-map('n', '<Leader>dv', '<Cmd>DiffviewOpen<CR>')
-map('n', '<Leader>DV', ':DiffviewOpen ')
-
--- zen mode
-map('n', '<Leader>zm', '<Cmd>ZenMode<CR>')
-
--- telescope
-map('n', '<Leader>ff', '<Cmd>Telescope find_files<CR>')
-map('n', '<Leader>fg', '<Cmd>Telescope git_files<CR>')
-map('n', '<Leader>fb', '<Cmd>Telescope buffers<CR>')
-map('n', '<Leader>lg', '<Cmd>Telescope live_grep<CR>')
-map('n', '<Leader>gs', '<Cmd>Telescope grep_string<CR>')
-map('n', '<Leader>fh', '<Cmd>Telescope help_tags<CR>')
-map('n', '<Leader>fm', '<Cmd>Telescope keymaps<CR>')
-map('n', '<Leader>fd', '<Cmd>Telescope diagnostics<CR>')
-map('n', '<Leader>fr', '<Cmd>Telescope resume<CR>')
-map('n', '<Leader>FF', function()
-	require('telescope.builtin').find_files({
-		find_command = {
-			'rg', '--files', '--hidden',
-			'--glob', '!**/.git/*',
-		}
-	})
-end)
-map('n', '<Leader>LG', function()
-	require('telescope.builtin').live_grep({
-		additional_args = { '--hidden' },
-		glob_pattern = { '!**/.git/*' },
-	})
-end)
 
 -- reset terminal cursor when exiting vim
 vim.api.nvim_create_autocmd('VimLeave', {
@@ -121,12 +100,11 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 
 -- highlight on yank
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
 	callback = function()
 		vim.highlight.on_yank()
 	end,
-	group = highlight_group,
+	group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
 	pattern = '*',
 })
 
@@ -145,7 +123,4 @@ end
 if vim.fn.has('win32') == 1 then
 	require('tad.windows')
 end
-require('tad.cmp')
-require('tad.lsp')
-require('tad.treesitter')
 require('tad.fileformat')
