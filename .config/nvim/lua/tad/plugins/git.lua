@@ -5,12 +5,11 @@ return {
 			'nvim-lua/plenary.nvim',
 			{
 				'sindrets/diffview.nvim',
-				opts = {
-					use_icons = false,
-					enhanced_diff_hl = true,
-				},
 				config = function(opts)
-					require('diffview').setup(opts)
+					require('diffview').setup({
+						use_icons = false,
+						enhanced_diff_hl = true,
+					})
 					vim.keymap.set('n', '<Leader>dv', '<Cmd>DiffviewOpen<CR>')
 				end
 			},
