@@ -6,17 +6,41 @@ $env:XDG_CONFIG_HOME = "$env:USERPROFILE\.config"
 # nvim data
 $env:XDG_DATA_HOME = "$env:USERPROFILE\.local\share"
 
-# nvim path components
-$nvim_comps = @(
-	"$env:HOMEDRIVE\msys64\mingw64\bin" # for treesitter and GDB (debugging)
-	"$env:PROGRAMFILES\CMake\bin" # for telescope-fzf-native
-	"$env:PROGRAMFILES\7-Zip" # for mason package manager
-)
+# path
+& {
+	$nvim_comps = @(
+		"$env:HOMEDRIVE\msys64\mingw64\bin" # for treesitter and GDB (debugging)
+		"$env:PROGRAMFILES\CMake\bin" # for telescope-fzf-native
+		"$env:PROGRAMFILES\7-Zip" # for mason package manager
+	)
+
+	$comps = @(
+		"$env:USERPROFILE\bin"
+		"$env:PROGRAMFILES\Microsoft Visual Studio\2022\Community\Common7\IDE"
+		"${env:ProgramFiles(x86)}\GnuWin32\bin"
+		"$env:USERPROFILE\.dotnet\tools"
+		"$env:USERPROFILE\.dotnet\tools\docfx"
+	) + $nvim_comps
+
+	foreach ($comp in $comps) {
+		if (!$env:PATH.Contains(";$comp")) {
+			$env:PATH += ";$comp"
+		}
+	}
+}
 
 # history
 (Get-PSReadLineOption).MaximumHistoryCount = 50000
 
 # posh git
+function PromptWriteSuffix {
+	if (!$GitPromptValues.DollarQuestion) {
+		"$($PSStyle.Foreground.FromConsoleColor([ConsoleColor]::Red))> "
+	} else {
+		'> '
+	}
+}
+
 Import-Module posh-git
 $GitPromptSettings.EnableFileStatus = $false
 $GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
@@ -26,12 +50,12 @@ $GitPromptSettings.DefaultPromptPrefix.ForegroundColor = [ConsoleColor]::DarkGra
 $GitPromptSettings.BeforePath = "$env:USERNAME@$($env:COMPUTERNAME.ToLower()) "
 $GitPromptSettings.BeforePath.ForegroundColor = [ConsoleColor]::Cyan
 $GitPromptSettings.DefaultPromptPath.ForegroundColor = [ConsoleColor]::Blue
+$GitPromptSettings.DefaultPromptSuffix = '$(PromptWriteSuffix)'
 
 # color preferences
 $PSStyle.FileInfo.Directory = "`e[36;1m"
 $PSStyle.FileInfo.SymbolicLink = "`e[36;3m"
 
-# functions
 function which ($Command) {
 	Get-Command -Name $Command -ErrorAction SilentlyContinue |
 	Select-Object -ExpandProperty Path -ErrorAction SilentlyContinue
@@ -72,24 +96,13 @@ function ... { cd ..\.. }
 function repos { cd $env:USERPROFILE\source\repos }
 function browser { start https: }
 
-# alias
 Set-Alias ll ls
 Set-Alias open start
+if (!(which less) && which "$env:PROGRAMFILES\Git\usr\bin\less.exe") {
+	Set-Alias less "$env:PROGRAMFILES\Git\usr\bin\less.exe"
+}
 if (which bat) { Set-Alias cat bat }
-if (which nvim) { Set-Alias vim nvim }
-if (which "$env:PROGRAMFILES\Git\usr\bin\less.exe") { Set-Alias less "$env:PROGRAMFILES\Git\usr\bin\less.exe" }
-
-# path
-$comps = @(
-	"$env:USERPROFILE\bin"
-	"$env:PROGRAMFILES\Microsoft Visual Studio\2022\Community\Common7\IDE"
-	"${env:ProgramFiles(x86)}\GnuWin32\bin"
-	"$env:USERPROFILE\.dotnet\tools"
-	"$env:USERPROFILE\.dotnet\tools\docfx"
-) + $nvim_comps
-
-foreach ($comp in $comps) {
-	if (!$env:PATH.Contains(";$comp")) {
-		$env:PATH += ";$comp"
-	}
+if (which nvim) {
+	Set-Alias vim nvim
+	$env:EDITOR = "nvim"
 }
