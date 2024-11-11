@@ -59,38 +59,36 @@ config.font_size = 12
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
 
-config.leader = { key = "Space", mods = "CTRL|SHIFT" }
+config.leader = { key = "Space", mods = "CTRL|SHIFT", timeout_milliseconds = math.maxinteger }
+
+local function leader_map(key, action)
+	table.insert(config.keys, { key = key, action = action, mods = "LEADER" })
+	table.insert(config.keys, { key = key, action = action, mods = "LEADER|CTRL|SHIFT" })
+end
+
 config.keys = {
-	{ key = "Space", mods = "CTRL|SHIFT",        action = act.DisableDefaultAssignment },
-	{ key = "Space", mods = "LEADER|CTRL|SHIFT", action = act.QuickSelect },
-	{
-		key = "a",
-		mods = "LEADER",
-		action = act.ActivateKeyTable {
-			name = "activate_pane",
-		},
-	},
-	{
-		key = "r",
-		mods = "LEADER",
-		action = act.ActivateKeyTable {
-			name = "resize_pane",
-			one_shot = false,
-		},
-	},
-	{
-		key = "s",
-		mods = "LEADER",
-		action = act.ActivateKeyTable {
-			name = "split_pane",
-		},
-	},
-	{ key = "l",         mods = "LEADER",     action = act.ShowLauncher },
-	{ key = "UpArrow",   mods = "SHIFT",      action = act.ScrollByLine(-1) },
-	{ key = "DownArrow", mods = "SHIFT",      action = act.ScrollByLine(1) },
-	{ key = "UpArrow",   mods = "CTRL|SHIFT", action = act.ScrollByLine(-5) },
-	{ key = "DownArrow", mods = "CTRL|SHIFT", action = act.ScrollByLine(5) },
+	{ key = "Space",     mods = "CTRL|SHIFT",        action = act.DisableDefaultAssignment },
+	{ key = "Space",     mods = "LEADER|CTRL|SHIFT", action = act.QuickSelect },
+	{ key = "l",         mods = "CTRL|SHIFT|ALT",    action = act.ShowLauncher },
+	{ key = "UpArrow",   mods = "SHIFT",             action = act.ScrollByLine(-1) },
+	{ key = "DownArrow", mods = "SHIFT",             action = act.ScrollByLine(1) },
+	{ key = "UpArrow",   mods = "CTRL|SHIFT",        action = act.ScrollByLine(-5) },
+	{ key = "DownArrow", mods = "CTRL|SHIFT",        action = act.ScrollByLine(5) },
 }
+
+leader_map("a", act.ActivateKeyTable { name = "activate_pane" })
+leader_map("s", act.ActivateKeyTable { name = "split_pane" })
+leader_map("r", act.ActivateKeyTable { name = "resize_pane", one_shot = false })
+
+leader_map("LeftArrow", act.ActivatePaneDirection "Left")
+leader_map("h", act.ActivatePaneDirection "Left")
+leader_map("RightArrow", act.ActivatePaneDirection "Right")
+leader_map("l", act.ActivatePaneDirection "Right")
+leader_map("UpArrow", act.ActivatePaneDirection "Up")
+leader_map("k", act.ActivatePaneDirection "Up")
+leader_map("DownArrow", act.ActivatePaneDirection "Down")
+leader_map("j", act.ActivatePaneDirection "Down")
+leader_map("|", act.SplitPane { direction = "Right" })
 
 local pop_key_table = { key = "Escape", action = "PopKeyTable" }
 config.key_tables = {
