@@ -40,6 +40,9 @@ nmap <Leader>fb        :vsc Edit.GoToRecentFile<CR>
 nmap <Leader>ft        :vsc Edit.GoToType<CR>
 nmap <Leader>fg        :vsc Edit.GoToText<CR>
 nmap <Leader><Leader>b :vsc Build.BuildSelection<CR>
+nmap <Leader><Leader>B :vsc Build.BuildSolution<CR>
+nmap <Leader><Leader>c :vsc Build.CleanSelection<CR>
+nmap <Leader><Leader>C :vsc Build.CleanSolution<CR>
 
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
@@ -58,6 +61,5 @@ noremap  <Leader>y "+y
 nnoremap <Leader>Y "+Y
 
 nmap gcc :vsc Edit.ToggleLineComment<CR>
-xmap gc  :vsc Edit.ToggleLineComment<CR>
-xmap gsc :vsc Edit.CommentSelection<CR>
+xmap gc  :vsc Edit.CommentSelection<CR>
 xmap gsu :vsc Edit.UncommentSelection<CR>
