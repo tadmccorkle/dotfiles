@@ -63,3 +63,8 @@ nnoremap <Leader>Y "+Y
 nmap gcc :vsc Edit.ToggleLineComment<CR>
 xmap gc  :vsc Edit.CommentSelection<CR>
 xmap gsu :vsc Edit.UncommentSelection<CR>
+
+autocmd!
+
+" this mapping causes VS to freeze when used in XAML
+autocmd BufEnter *.xaml nmap <buffer> K <Nop>
