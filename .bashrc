@@ -93,6 +93,9 @@ PS1="$DARK_GRAY[\t] $CYAN\u@\h$DEFCOL:$BLUE\w$YELLOW\$(git_branch)$DEFCOL $ "
 if [ -f "$HOME/.cargo/env" ]; then
 	. "$HOME/.cargo/env"
 fi
+if [ -f "$HOME/.config/bash/_windows" ]; then
+	. "$HOME/.config/bash/_windows"
+fi
 . "$HOME/.config/sh/alias"
 
 alias reload=". $HOME/.bash_profile"

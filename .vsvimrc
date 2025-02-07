@@ -9,6 +9,7 @@ set visualbell
 set number relativenumber
 set scrolloff=8
 set scroll=25
+set textwidth=100
 
 let mapleader=","
 
@@ -26,7 +27,7 @@ nmap <Leader>gD        :vsc Edit.GoToDeclaration<CR>
 nmap <Leader>gr        :vsc Edit.FindAllReferences<CR>
 nmap <Leader>gi        :vsc Edit.GoToImplementation<CR>
 nmap <Leader>rn        :vsc Refactor.Rename<CR>
-nmap <Leader><Leader>f :vsc Edit.FormatDocument<CR>
+nmap <Leader>gq        :vsc Edit.FormatDocument<CR>
 nmap <Leader>ca        :vsc View.QuickActions<CR>
 nmap K                 :vsc Edit.QuickInfo<CR>
 nmap <Leader>k         :vsc Edit.ParameterInfo<CR>
@@ -39,6 +40,10 @@ nmap <Leader>ff        :vsc Edit.GoToFile<CR>
 nmap <Leader>fb        :vsc Edit.GoToRecentFile<CR>
 nmap <Leader>ft        :vsc Edit.GoToType<CR>
 nmap <Leader>fg        :vsc Edit.GoToText<CR>
+nmap <Leader>tl        :vsc View.TaskList<CR>
+nmap <Leader>tp        :vsc View.PreviousTask<CR>
+nmap <Leader>tn        :vsc View.NextTask<CR>
+nmap <Leader>term      :vsc View.Terminal<CR>
 nmap <Leader><Leader>b :vsc Build.BuildSelection<CR>
 nmap <Leader><Leader>B :vsc Build.BuildSolution<CR>
 nmap <Leader><Leader>c :vsc Build.CleanSelection<CR>

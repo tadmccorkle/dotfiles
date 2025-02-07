@@ -31,7 +31,7 @@ return {
 					'html',
 					'javascript',
 					'json',
-					'latex',
+					-- 'latex',
 					'lua',
 					'make',
 					'markdown',

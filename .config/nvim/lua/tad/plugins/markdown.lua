@@ -9,7 +9,7 @@ return {
 			map({ 'n', 'i' }, '<M-l><M-l>', '<Cmd>MDListItemAbove<CR>', opts)
 			map('n', '<M-c>', '<Cmd>MDTaskToggle<CR>', opts)
 			map('x', '<M-c>', ':MDTaskToggle<CR>', opts)
-			map('n', 'gX', '<Plug>(markdown_follow_link_default_app)', opts)
+			map('n', '<Leader>gx', '<Plug>(markdown_follow_link_default_app)', opts)
 
 			local function toggle(key)
 				return "<Esc>gv<Cmd>lua require'markdown.inline'"

@@ -40,6 +40,8 @@ vim.opt.wildignore:append { '*/node_modules/*', '*/venv/*' }
 
 vim.opt.completeopt = 'menu,menuone,noselect'
 
+vim.opt.formatoptions = 'jcrql'
+
 vim.g.netrw_banner = 0
 
 local map = vim.keymap.set
@@ -71,6 +73,8 @@ map('n', '<A-<>', '<C-w>5<') -- much narrower
 map('n', '<A->>', '<C-w>5>') -- much wider
 map('n', '<A-t>', '<C-w>+')  -- taller
 map('n', '<A-s>', '<C-w>-')  -- shorter
+map('n', '<A-T>', '<C-w>5+') -- much taller
+map('n', '<A-S>', '<C-w>5-') -- much shorter
 map('n', '<A-=>', '<C-w>=')  -- distribute evenly
 
 -- diagnostics
@@ -84,8 +88,14 @@ end, opts)
 map('n', '<Leader>do', vim.diagnostic.open_float, opts)
 map('n', '<Leader>dl', vim.diagnostic.setloclist, opts)
 
--- save and source
-map('n', '<Leader><Leader>s', '<Cmd>w | source %<CR>', { silent = true })
+-- source and execute
+map('n', '<Leader><Leader>s', '<Cmd>source %<CR>', { silent = true })
+map('n', '<Leader><Leader>x', '<Cmd>.lua<CR>', { silent = true })
+map('v', '<Leader><Leader>x', ':lua<CR>', { silent = true })
+
+-- set filetype
+map('n', '<Leader><Leader>ft', '<Cmd>set filetype=', { silent = true })
+map('n', '<Leader><Leader>ftgc', '<Cmd>set filetype=gitcommit<CR>', { silent = true })
 
 -- reset terminal cursor when exiting vim
 vim.api.nvim_create_autocmd('VimLeave', {

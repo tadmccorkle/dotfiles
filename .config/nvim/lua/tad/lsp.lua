@@ -21,7 +21,7 @@ local function on_attach(_, bufnr)
 	map('n', '<Leader>gr', vim.lsp.buf.references, bufopts)
 	map('n', '<Leader>gi', vim.lsp.buf.implementation, bufopts)
 	map('n', '<Leader>gt', vim.lsp.buf.type_definition, bufopts)
-	map('n', '<Leader><Leader>f', vim.lsp.buf.format, bufopts)
+	map('n', '<Leader>gq', vim.lsp.buf.format, bufopts)
 	map('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
 	map('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
 	map('n', '<Leader>wl', function()
@@ -42,6 +42,14 @@ local function config(cfg)
 end
 
 lspconfig.bashls.setup(config())
+lspconfig.clangd.setup(config())
+lspconfig.cssls.setup(config())
+lspconfig.cssmodules_ls.setup(config())
+lspconfig.eslint.setup(config())
+lspconfig.gopls.setup(config())
+lspconfig.html.setup(config())
+lspconfig.jsonls.setup(config())
+lspconfig.lemminx.setup(config())
 lspconfig.lua_ls.setup(config({
 	settings = {
 		Lua = {
@@ -59,6 +67,7 @@ lspconfig.lua_ls.setup(config({
 		},
 	},
 }))
+lspconfig.marksman.setup(config())
 lspconfig.pyright.setup(config())
 lspconfig.rust_analyzer.setup(config({
 	on_attach = function(client, bufnr)
@@ -66,19 +75,12 @@ lspconfig.rust_analyzer.setup(config({
 		require('inlayhints.rust').on_attach(client, bufnr)
 	end,
 }))
-lspconfig.tsserver.setup(config())
-lspconfig.eslint.setup(config())
 lspconfig.svelte.setup(config())
-lspconfig.html.setup(config())
-lspconfig.cssls.setup(config())
-lspconfig.cssmodules_ls.setup(config())
 lspconfig.tailwindcss.setup(config())
-lspconfig.jsonls.setup(config())
-lspconfig.clangd.setup(config())
-lspconfig.marksman.setup(config())
-lspconfig.lemminx.setup(config())
-lspconfig.gopls.setup(config())
+lspconfig.tsserver.setup(config())
+lspconfig.yamlls.setup(config())
 lspconfig.zls.setup(config())
+
 -- might configure C# LSP in future
 --lspconfig.omnisharp.setup(config())
 
