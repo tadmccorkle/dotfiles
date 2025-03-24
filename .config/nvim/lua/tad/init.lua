@@ -25,7 +25,7 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 
 vim.opt.wrap = true
-vim.opt.diffopt:append { 'followwrap' }
+vim.opt.diffopt:append({ 'followwrap' })
 vim.opt.breakindent = true
 vim.opt.showbreak = '↳  '
 
@@ -36,11 +36,11 @@ vim.opt.cdhome = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.wildignorecase = true
-vim.opt.wildignore:append { '*/node_modules/*', '*/venv/*' }
+vim.opt.wildignore:append({ '*/node_modules/*', '*/venv/*' })
 
 vim.opt.completeopt = 'menu,menuone,noselect'
 
-vim.opt.formatoptions = 'jcrql'
+vim.opt.formatoptions:append('l')
 
 vim.g.netrw_banner = 0
 
@@ -96,6 +96,12 @@ map('v', '<Leader><Leader>x', ':lua<CR>', { silent = true })
 -- set filetype
 map('n', '<Leader><Leader>ft', '<Cmd>set filetype=', { silent = true })
 map('n', '<Leader><Leader>ftgc', '<Cmd>set filetype=gitcommit<CR>', { silent = true })
+
+-- remove auto-comment format filetype option
+vim.api.nvim_create_autocmd('VimEnter', {
+	pattern = '*',
+	command = 'setlocal formatoptions-=o'
+})
 
 -- reset terminal cursor when exiting vim
 vim.api.nvim_create_autocmd('VimLeave', {

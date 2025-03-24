@@ -1,7 +1,13 @@
 -- set up mason before lspconfig to handle language server installation
 require('mason').setup()
 require('mason-lspconfig').setup({
-	automatic_installation = { exclude = { "ocamllsp" } },
+	ensure_installed = {},
+	automatic_installation = {
+		exclude = {
+			"ocamllsp",
+			"zls",
+		},
+	},
 })
 
 -- common language server configuration
@@ -79,7 +85,15 @@ lspconfig.svelte.setup(config())
 lspconfig.tailwindcss.setup(config())
 lspconfig.tsserver.setup(config())
 lspconfig.yamlls.setup(config())
-lspconfig.zls.setup(config())
+
+vim.g.zig_fmt_autosave = 0
+lspconfig.zls.setup(config({
+	settings = {
+		zls = {
+			semantic_tokens = "partial",
+		},
+	},
+}))
 
 -- might configure C# LSP in future
 --lspconfig.omnisharp.setup(config())

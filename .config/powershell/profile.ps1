@@ -1,9 +1,7 @@
 function dotfiles { git --git-dir=$env:USERPROFILE/.dotfiles/ --work-tree=$env:USERPROFILE $args }
 
-# nvim config
+# nvim
 $env:XDG_CONFIG_HOME = "$env:USERPROFILE\.config"
-
-# nvim data
 $env:XDG_DATA_HOME = "$env:USERPROFILE\.local\share"
 
 # path
@@ -29,9 +27,6 @@ $env:XDG_DATA_HOME = "$env:USERPROFILE\.local\share"
 	}
 }
 
-# history
-(Get-PSReadLineOption).MaximumHistoryCount = 50000
-
 # posh git
 function PromptWriteSuffix {
 	if (!$GitPromptValues.DollarQuestion) {
@@ -53,6 +48,11 @@ $GitPromptSettings.DefaultPromptSuffix = '$(PromptWriteSuffix)'
 # color preferences
 $PSStyle.FileInfo.Directory = "`e[36;1m"
 $PSStyle.FileInfo.SymbolicLink = "`e[36;3m"
+
+
+# other configuration, functions, aliases, etc.
+
+(Get-PSReadLineOption).MaximumHistoryCount = 50000
 
 function which ($Command) {
 	Get-Command -Name $Command -ErrorAction SilentlyContinue |
