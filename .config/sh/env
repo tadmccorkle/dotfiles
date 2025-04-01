@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [ -z "$XDG_CONFIG_HOME" ]; then
+  export XDG_CONFIG_HOME="$HOME/.config"
+fi
+if [ -z "$XDG_DATA_HOME" ]; then
+	export XDG_DATA_HOME=$HOME/.local/share
+fi
+
+if [ -z "$PNPM_HOME" ]; then
+	export PNPM_HOME="$HOME/Library/pnpm"
+fi
+case ":${PATH}:" in
+  *:"$PNPM_HOME":*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+if [ -f "$HOME/.cargo/env" ]; then
+	. "$HOME/.cargo/env"
+fi
+
+case ":${PATH}:" in
+  *:"$HOME/bin":*) ;;
+  *) export PATH="$HOME/bin:$PATH" ;;
+esac

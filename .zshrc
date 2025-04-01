@@ -2,7 +2,7 @@ __rc_git() {
 	GIT_OPTIONAL_LOCKS=0 command git "$@"
 }
 
-prompt_info() {
+__prompt_info() {
 	local root
 	if root=$(__rc_git rev-parse --show-toplevel 2> /dev/null); then
 		local pre="/$(__rc_git rev-parse --show-prefix)"
@@ -17,7 +17,7 @@ prompt_info() {
 }
 
 setopt prompt_subst
-PROMPT='%F{cyan}%n@%m%B%F{blue}::%b%F{blue}$(prompt_info) %B%(0?.%F{blue}.%F{red})»%f%b '
+PROMPT='%F{cyan}%n@%m%B%F{blue}::%b%F{blue}$(__prompt_info) %B%(0?.%F{blue}.%F{red})»%f%b '
 RPROMPT='%F{245}[%*]%f'
 
 autoload -U +X compinit && compinit
@@ -32,13 +32,7 @@ else
 	export EDITOR=vim
 fi
 
-export PNPM_HOME="/Users/tad/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
 
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
