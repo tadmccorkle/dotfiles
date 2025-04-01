@@ -83,7 +83,7 @@ lspconfig.rust_analyzer.setup(config({
 }))
 lspconfig.svelte.setup(config())
 lspconfig.tailwindcss.setup(config())
-lspconfig.tsserver.setup(config())
+lspconfig.ts_ls.setup(config())
 lspconfig.yamlls.setup(config())
 
 vim.g.zig_fmt_autosave = 0
