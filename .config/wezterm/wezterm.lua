@@ -67,15 +67,15 @@ local function leader_map(key, action)
 end
 
 config.keys = {
-	{ key = "Space",     mods = "CTRL|SHIFT",        action = act.DisableDefaultAssignment },
-	{ key = "Space",     mods = "LEADER|CTRL|SHIFT", action = act.QuickSelect },
-	{ key = "l",         mods = "CTRL|SHIFT|ALT",    action = act.ShowLauncher },
-	{ key = "UpArrow",   mods = "SHIFT",             action = act.ScrollByLine(-1) },
-	{ key = "DownArrow", mods = "SHIFT",             action = act.ScrollByLine(1) },
-	{ key = "UpArrow",   mods = "CTRL|SHIFT",        action = act.ScrollByLine(-5) },
-	{ key = "DownArrow", mods = "CTRL|SHIFT",        action = act.ScrollByLine(5) },
+	{ key = "Space",     mods = "CTRL|SHIFT", action = act.DisableDefaultAssignment },
+	{ key = "UpArrow",   mods = "SHIFT",      action = act.ScrollByLine(-1) },
+	{ key = "DownArrow", mods = "SHIFT",      action = act.ScrollByLine(1) },
+	{ key = "UpArrow",   mods = "CTRL|SHIFT", action = act.ScrollByLine(-5) },
+	{ key = "DownArrow", mods = "CTRL|SHIFT", action = act.ScrollByLine(5) },
 }
 
+leader_map("q", act.QuickSelect)
+leader_map("\\", act.ShowLauncher)
 leader_map("a", act.ActivateKeyTable { name = "activate_pane" })
 leader_map("s", act.ActivateKeyTable { name = "split_pane" })
 leader_map("r", act.ActivateKeyTable { name = "resize_pane", one_shot = false })
