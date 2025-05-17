@@ -1,18 +1,16 @@
 # dotfiles by tad
 
-Dotfiles live on the [cfg](https://github.com/tadmccorkle/dotfiles/tree/cfg) branch.
-
-Dotfiles for my Windows and Ubuntu (WSL2) configurations. Requires PowerShell 7 or a Bash shell. PowerShell is assumed to be on Windows.
+Dotfiles that support my Windows (PowerShell 7 or Git Bash) and macOS (Zsh) configurations -- they live on the [cfg](https://github.com/tadmccorkle/dotfiles/tree/cfg) branch.
 
 ## requirements
 
-My current PowerShell configuration requires [posh-git](https://github.com/dahlbyk/posh-git). It also requires the following line be added to one of the PowerShell profiles:
+My PowerShell configuration requires [posh-git](https://github.com/dahlbyk/posh-git). It also requires the following line be added to one of the PowerShell profiles:
 
 ```pwsh
 . $env:USERPROFILE\.config\powershell\profile.ps1
 ```
 
-I also use Neovim, and my current configuration uses plugins that have other dependencies like CMake, clang/gcc, and 7z/gzip. The Neovim command `:checkhealth` can be used to get an idea of the dependencies that are needed; otherwise, take a look at plugin docs.
+The Neovim command `:checkhealth` can be used to get an idea of other required dependencies (CMake, clang/gcc, 7z/gzip, etc.); otherwise, take a look at plugin docs.
 
 ## to use
 
@@ -28,7 +26,7 @@ function dotfiles { git --git-dir=$env:USERPROFILE/.dotfiles/ --work-tree=$env:U
 ```
 
 ```sh
-# bash
+# bash/zsh
 alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 ```
 
@@ -40,7 +38,7 @@ git clone -b cfg --bare <repo-url> $env:USERPROFILE/.dotfiles
 ```
 
 ```sh
-# bash
+# bash/zsh
 git clone -b cfg --bare <repo-url> $HOME/.dotfiles
 ```
 
@@ -61,7 +59,7 @@ dotfiles checkout
 > }
 > ```
 > ```sh
-> # bash
+> # bash/zsh
 > dotfiles checkout 2>&1 | grep -E "\s+[._]" | awk {'print $1'} | \
 >   xargs -I{} sh -c 'mkdir -p .dotfiles.bak/$(dirname {}) && mv {} .dotfiles.bak/{}'
 > ```
@@ -79,18 +77,19 @@ dotfiles push -u origin cfg
 dotfiles config --local status.showUntrackedFiles no
 ```
 
-Now manage the local git repo in your `USERPROFILE`/`$HOME` directory using `dotfiles` instead of `git` (i.e. `dotfiles status`, `dotfiles add .bashrc`, `dotfiles add -u`, `dotfiles commit`, etc.).
+Now manage the local git repo in your `USERPROFILE`/`$HOME` directory using `dotfiles` instead of `git` (e.g., `dotfiles status`, `dotfiles add .bashrc`, `dotfiles add -u`, `dotfiles commit`, etc.).
 
 ## to apply with one command
 
 You can automate the process by making a gist with all the commands shown above. My dotfiles configuration can be applied with my [dotfiles-pwsh gist](https://gist.github.com/tadmccorkle/f57b24cdaf47ad4c999ab65c92db0244) or [dotfiles-bash gist](https://gist.github.com/tadmccorkle/93fc70287b30dd4e3985f8e8e41862a8) by calling:
 
 ```pwsh
+# pwsh
 curl -Ls https://gist.githubusercontent.com/tadmccorkle/f57b24cdaf47ad4c999ab65c92db0244/raw | pwsh -NoProfile
 ```
 
 ```sh
-# bash
+# bash/zsh
 curl -Ls https://gist.githubusercontent.com/tadmccorkle/93fc70287b30dd4e3985f8e8e41862a8/raw | /bin/bash
 ```
 
