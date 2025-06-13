@@ -23,7 +23,9 @@ else
 	export EDITOR=vim
 fi
 
-eval "$(fzf --bash)"
+if [[ -x "$(command -v fzf)" ]]; then
+	eval "$(fzf --bash)"
+fi
 
 path() { sed 's/:/\n/g' <<< $PATH; }
 
@@ -38,7 +40,6 @@ is_win="$(command -v cmd)"
 if [ -n "$is_win" ]; then
 	alias ps="ps --windows"
 
-	# functions
 	open() {
 		[[ -z $1 ]] && { start "" . ; return; }
 		[[ ! -e "./$1" && ! -e "$1" && ! $1 =~ (\/[cC]:|[cC]:) ]] && \
@@ -46,7 +47,6 @@ if [ -n "$is_win" ]; then
 		start "" "${1//'/'/'\\'}"
 	}
 
-	# path
 	declare -a comps=(
 		"/mingw64/bin"
 		"/cmd"

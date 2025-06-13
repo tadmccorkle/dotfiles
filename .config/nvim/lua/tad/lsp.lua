@@ -10,6 +10,39 @@ require('mason-lspconfig').setup({
 	},
 })
 
+-- formatting
+local conform = require('conform')
+conform.setup({
+	formatters_by_ft = {
+		sql = { 'sleek' },
+	},
+	default_format_opts = {
+		lsp_format = "fallback",
+	},
+})
+
+vim.keymap.set('n', '<Leader>gq', conform.format, { noremap = true, silent = true })
+
+local auto_format_enabled = true
+vim.api.nvim_create_user_command('ToggleAutoFormat', function()
+	auto_format_enabled = not auto_format_enabled
+	print('Auto-formatting set to: ' .. tostring(auto_format_enabled))
+end, {})
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+	group = vim.api.nvim_create_augroup('', { clear = true }),
+	callback = function(args)
+		if not auto_format_enabled then
+			return
+		end
+
+		conform.format({
+			bufnr = args.buf,
+			timeout_ms = 500,
+		})
+	end,
+})
+
 -- common language server configuration
 local function on_attach(_, bufnr)
 	-- enable completion triggered by <c-x><c-o>
@@ -27,7 +60,6 @@ local function on_attach(_, bufnr)
 	map('n', '<Leader>gr', vim.lsp.buf.references, bufopts)
 	map('n', '<Leader>gi', vim.lsp.buf.implementation, bufopts)
 	map('n', '<Leader>gt', vim.lsp.buf.type_definition, bufopts)
-	map('n', '<Leader>gq', vim.lsp.buf.format, bufopts)
 	map('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
 	map('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
 	map('n', '<Leader>wl', function()
@@ -110,24 +142,6 @@ end
 -- 	endif
 -- ]])
 
--- auto-formatting
-local auto_format_enabled = true
-vim.api.nvim_create_user_command('ToggleAutoFormat', function()
-	auto_format_enabled = not auto_format_enabled
-	print('Auto-formatting set to: ' .. tostring(auto_format_enabled))
-end, {})
-
-local augroups = {}
-local get_augroup = function(client)
-	if not augroups[client.id] then
-		local group_name = 'lsp-format-' .. client.name
-		local id = vim.api.nvim_create_augroup(group_name, { clear = true })
-		augroups[client.id] = id
-	end
-
-	return augroups[client.id]
-end
-
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('lsp-attach-format', { clear = true }),
 	callback = function(args)
@@ -146,21 +160,5 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end
 
 		local bufnr = args.buf
-		vim.api.nvim_create_autocmd('BufWritePre', {
-			group = get_augroup(client),
-			buffer = bufnr,
-			callback = function()
-				if not auto_format_enabled then
-					return
-				end
-
-				vim.lsp.buf.format({
-					async = false,
-					filter = function(c)
-						return c.id == client.id
-					end,
-				})
-			end,
-		})
 	end,
 })

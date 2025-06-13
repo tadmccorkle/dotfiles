@@ -18,11 +18,8 @@ vim.opt.listchars = {
 	nbsp = '+',
 }
 
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 0
-vim.opt.autoindent = true
-vim.opt.smartindent = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 
 vim.opt.wrap = true
 vim.opt.diffopt:append({ 'followwrap' })

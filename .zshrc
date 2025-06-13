@@ -32,7 +32,9 @@ else
 	export EDITOR=vim
 fi
 
-source <(fzf --zsh)
+if [[ -x "$(command -v fzf)" ]]; then
+	source <(fzf --zsh)
+fi
 
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
