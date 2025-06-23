@@ -5,7 +5,7 @@ return {
 			'nvim-lua/plenary.nvim',
 			{
 				'sindrets/diffview.nvim',
-				config = function(opts)
+				config = function()
 					require('diffview').setup({
 						use_icons = false,
 						enhanced_diff_hl = true,

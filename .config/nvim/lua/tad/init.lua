@@ -77,10 +77,10 @@ map('n', '<A-=>', '<C-w>=')  -- distribute evenly
 -- diagnostics
 local opts = { silent = true }
 map('n', '<Leader>]D', function()
-	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, count = 1 })
 end, opts)
 map('n', '<Leader>[D', function()
-	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, count = -1 })
 end, opts)
 map('n', '<Leader>do', vim.diagnostic.open_float, opts)
 map('n', '<Leader>dl', vim.diagnostic.setloclist, opts)

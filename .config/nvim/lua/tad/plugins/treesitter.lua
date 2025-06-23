@@ -10,9 +10,9 @@ return {
 			require('nvim-treesitter.install').update({ with_sync = true })()
 		end,
 		config = function()
-			if vim.fn.has('win32') == 1 and vim.fn.executable("clang") == 1 then
+			if vim.fn.has('win32') == 1 and vim.fn.executable('clang') == 1 then
 				-- fix issues with windows recognizing some compiled parsers
-				require('nvim-treesitter.install').compilers = { "clang" }
+				require('nvim-treesitter.install').compilers = { 'clang' }
 			end
 
 			require('nvim-treesitter.configs').setup({

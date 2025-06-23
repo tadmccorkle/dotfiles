@@ -6,7 +6,7 @@ return {
 			vim.cmd [[highlight IblIndent guifg=#29394f gui=nocombine]]
 			require('ibl').setup({
 				indent = {
-					tab_char = "▎",
+					tab_char = '▎',
 				},
 				scope = {
 					enabled = false,

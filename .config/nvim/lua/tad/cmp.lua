@@ -14,7 +14,7 @@ cmp.setup({
 			return true
 		else
 			return not context.in_treesitter_capture('comment')
-					and not context.in_syntax_group('Comment')
+				and not context.in_syntax_group('Comment')
 		end
 	end,
 	mapping = {
@@ -55,6 +55,8 @@ cmp.setup({
 		end,
 	},
 	sources = cmp.config.sources({
+		{ name = 'lazydev', group_index = 0 }
+	}, {
 		{ name = 'nvim_lsp' }
 	}, {
 		{ name = 'buffer', keyword_length = 5 }
