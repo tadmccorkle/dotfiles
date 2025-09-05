@@ -23,7 +23,7 @@ else
 	export EDITOR=vim
 fi
 
-if [[ -x "$(command -v fzf)" ]]; then
+if [ -x "$(command -v fzf)" ]; then
 	eval "$(fzf --bash)"
 fi
 
