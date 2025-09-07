@@ -95,7 +95,7 @@ map('n', '<Leader><Leader>ft', '<Cmd>set filetype=', { silent = true })
 map('n', '<Leader><Leader>ftgc', '<Cmd>set filetype=gitcommit<CR>', { silent = true })
 
 -- remove auto-comment format filetype option
-vim.api.nvim_create_autocmd('VimEnter', {
+vim.api.nvim_create_autocmd('FileType', {
 	pattern = '*',
 	command = 'setlocal formatoptions-=o'
 })

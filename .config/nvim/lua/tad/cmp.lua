@@ -3,6 +3,10 @@ local types = require('cmp.types')
 local context = require('cmp.config.context')
 local luasnip = require('luasnip')
 
+for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('lua/tad/snippets/*.lua', true)) do
+	loadfile(ft_path)()
+end
+
 cmp.setup({
 	completion = {
 		completeopt = 'menu,menuone,noinsert',

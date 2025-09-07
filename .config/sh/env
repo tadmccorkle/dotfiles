@@ -14,26 +14,13 @@ pb_path() {
 	esac
 }
 
-if [ -z "$XDG_CONFIG_HOME" ]; then
-  export XDG_CONFIG_HOME="$HOME/.config"
-fi
-if [ -z "$XDG_DATA_HOME" ]; then
-	export XDG_DATA_HOME=$HOME/.local/share
-fi
-
-if [ -z "$PNPM_HOME" ]; then
-	export PNPM_HOME="$HOME/Library/pnpm"
-fi
+if [ -z "$XDG_CONFIG_HOME" ]; then export XDG_CONFIG_HOME="$HOME/.config"; fi
+if [ -z "$XDG_DATA_HOME" ]; then export XDG_DATA_HOME="$HOME/.local/share"; fi
+if [ -d "/opt/homebrew" ]; then pf_path "/opt/homebrew/opt/postgresql@17/bin"; fi
+if [ -z "$PNPM_HOME" ]; then export PNPM_HOME="$HOME/Library/pnpm"; fi
 pf_path $PNPM_HOME
-
-if [ -f "$HOME/.cargo/env" ]; then
-	. "$HOME/.cargo/env"
-fi
-
-if [ -z "$DOTNET_ROOT" ]; then
-	export DOTNET_ROOT="$HOME/.dotnet"
-fi
+if [ -f "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
+if [ -z "$DOTNET_ROOT" ]; then export DOTNET_ROOT="$HOME/.dotnet"; fi
 pf_path "$HOME/.dotnet/tools"
-
 pf_path "$HOME/go/bin"
 pf_path "$HOME/bin"
