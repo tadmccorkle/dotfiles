@@ -74,21 +74,21 @@ config.keys = {
 	{ key = "DownArrow", mods = "CTRL|SHIFT", action = act.ScrollByLine(5) },
 }
 
-leader_map("q", act.QuickSelect)
+leader_map("q",  act.QuickSelect)
 leader_map("\\", act.ShowLauncher)
-leader_map("a", act.ActivateKeyTable { name = "activate_pane" })
-leader_map("s", act.ActivateKeyTable { name = "split_pane" })
-leader_map("r", act.ActivateKeyTable { name = "resize_pane", one_shot = false })
+leader_map("a",  act.ActivateKeyTable { name = "activate_pane" })
+leader_map("s",  act.ActivateKeyTable { name = "split_pane" })
+leader_map("r",  act.ActivateKeyTable { name = "resize_pane", one_shot = false })
 
-leader_map("LeftArrow", act.ActivatePaneDirection "Left")
-leader_map("h", act.ActivatePaneDirection "Left")
+leader_map("LeftArrow",  act.ActivatePaneDirection "Left")
+leader_map("h",          act.ActivatePaneDirection "Left")
 leader_map("RightArrow", act.ActivatePaneDirection "Right")
-leader_map("l", act.ActivatePaneDirection "Right")
-leader_map("UpArrow", act.ActivatePaneDirection "Up")
-leader_map("k", act.ActivatePaneDirection "Up")
-leader_map("DownArrow", act.ActivatePaneDirection "Down")
-leader_map("j", act.ActivatePaneDirection "Down")
-leader_map("|", act.SplitPane { direction = "Right" })
+leader_map("l",          act.ActivatePaneDirection "Right")
+leader_map("UpArrow",    act.ActivatePaneDirection "Up")
+leader_map("k",          act.ActivatePaneDirection "Up")
+leader_map("DownArrow",  act.ActivatePaneDirection "Down")
+leader_map("j",          act.ActivatePaneDirection "Down")
+leader_map("|",          act.SplitPane { direction = "Right" })
 
 local pop_key_table = { key = "Escape", action = "PopKeyTable" }
 config.key_tables = {
@@ -131,16 +131,16 @@ config.key_tables = {
 		{ key = "k",          action = act.SplitPane { direction = "Up" } },
 		{ key = "DownArrow",  action = act.SplitPane { direction = "Down" } },
 		{ key = "j",          action = act.SplitPane { direction = "Down" } },
-		{ key = "LeftArrow",  action = act.SplitPane { direction = "Left", size = { Percent = 15 } },  mods = "SHIFT" },
-		{ key = "h",          action = act.SplitPane { direction = "Left", size = { Percent = 15 } },  mods = "SHIFT" },
+		{ key = "LeftArrow",  action = act.SplitPane { direction = "Left",  size = { Percent = 15 } }, mods = "SHIFT" },
+		{ key = "h",          action = act.SplitPane { direction = "Left",  size = { Percent = 15 } }, mods = "SHIFT" },
 		{ key = "RightArrow", action = act.SplitPane { direction = "Right", size = { Percent = 15 } }, mods = "SHIFT" },
 		{ key = "l",          action = act.SplitPane { direction = "Right", size = { Percent = 15 } }, mods = "SHIFT" },
-		{ key = "UpArrow",    action = act.SplitPane { direction = "Up", size = { Percent = 15 } },    mods = "SHIFT" },
-		{ key = "k",          action = act.SplitPane { direction = "Up", size = { Percent = 15 } },    mods = "SHIFT" },
-		{ key = "DownArrow",  action = act.SplitPane { direction = "Down", size = { Percent = 15 } },  mods = "SHIFT" },
-		{ key = "j",          action = act.SplitPane { direction = "Down", size = { Percent = 15 } },  mods = "SHIFT" },
+		{ key = "UpArrow",    action = act.SplitPane { direction = "Up",    size = { Percent = 15 } }, mods = "SHIFT" },
+		{ key = "k",          action = act.SplitPane { direction = "Up",    size = { Percent = 15 } }, mods = "SHIFT" },
+		{ key = "DownArrow",  action = act.SplitPane { direction = "Down",  size = { Percent = 15 } }, mods = "SHIFT" },
+		{ key = "j",          action = act.SplitPane { direction = "Down",  size = { Percent = 15 } }, mods = "SHIFT" },
 		pop_key_table,
-	}
+	},
 }
 
 if wezterm.target_triple:find("windows") ~= nil then
@@ -167,7 +167,7 @@ if wezterm.target_triple:find("windows") ~= nil then
 		vswhere,
 		"-latest",
 		"-property",
-		"installationpath"
+		"installationpath",
 	}
 	if success then
 		vs_install_path = vs_install_path:gsub("^%s*(.-)%s*$", "%1")
@@ -178,25 +178,37 @@ if wezterm.target_triple:find("windows") ~= nil then
 		table.insert(config.launch_menu, {
 			label = "Developer Command Prompt for VS " .. vs_version,
 			args = {
-				"cmd", "/k", vs_dev_path .. "\\VsDevCmd.bat",
-				"-startdir=none", "-arch=x64", "-host_arch=x64"
-			}
+				"cmd",
+				"/k",
+				vs_dev_path .. "\\VsDevCmd.bat",
+				"-startdir=none",
+				"-arch=x64",
+				"-host_arch=x64",
+			},
 		})
 
 		local pwsh_dev_cmd = '&{Import-Module "'
-				.. vs_dev_path
-				.. '\\Microsoft.VisualStudio.DevShell.dll";'
-				.. 'Enter-VsDevShell -VsInstallPath "'
-				.. vs_install_path
-				.. '" -SkipAutomaticLocation -DevCmdArguments "-arch=x64 -host_arch=x64"}'
+			.. vs_dev_path
+			.. '\\Microsoft.VisualStudio.DevShell.dll";'
+			.. 'Enter-VsDevShell -VsInstallPath "'
+			.. vs_install_path
+			.. '" -SkipAutomaticLocation -DevCmdArguments "-arch=x64 -host_arch=x64"}'
 		table.insert(config.launch_menu, {
 			label = "Developer PowerShell for VS " .. vs_version,
 			args = {
-				"pwsh", "-nol", "-NoExit",
-				"-Command", pwsh_dev_cmd
-			}
+				"pwsh",
+				"-nol",
+				"-NoExit",
+				"-Command",
+				pwsh_dev_cmd,
+			},
 		})
 	end
+end
+
+local success, machine_config = pcall(require, "machine")
+if success then
+	machine_config.apply_to(config)
 end
 
 return config
