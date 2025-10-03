@@ -97,19 +97,19 @@ map('n', '<Leader><Leader>ftgc', '<Cmd>set filetype=gitcommit<CR>', { silent = t
 -- remove auto-comment format filetype option
 vim.api.nvim_create_autocmd('FileType', {
 	pattern = '*',
-	command = 'setlocal formatoptions-=o'
+	command = 'setlocal formatoptions-=o',
 })
 
 -- reset terminal cursor when exiting vim
 vim.api.nvim_create_autocmd('VimLeave', {
 	pattern = '*',
-	command = 'set guicursor=a:ver25-blinkon250-blinkoff250'
+	command = 'set guicursor=a:ver25-blinkon250-blinkoff250',
 })
 
 -- hide line numbers in terminal windows
 vim.api.nvim_create_autocmd('TermOpen', {
 	pattern = '*',
-	command = 'setlocal nonumber norelativenumber'
+	command = 'setlocal nonumber norelativenumber',
 })
 
 -- highlight on yank
@@ -119,6 +119,16 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 	end,
 	group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
 	pattern = '*',
+})
+
+-- tree-sitter highlighting
+vim.api.nvim_create_autocmd('FileType', {
+	callback = function(args)
+		local language = vim.treesitter.language.get_lang(args.match)
+		if language and vim.treesitter.language.add(language) then
+			vim.treesitter.start(args.buf, language)
+		end
+	end,
 })
 
 -- human-readable printing

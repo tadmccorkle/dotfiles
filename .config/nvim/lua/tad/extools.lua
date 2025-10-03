@@ -2,6 +2,9 @@ require('mason').setup()
 
 local schemas = require('schemastore')
 
+local lua_ls_lib = vim.api.nvim_get_runtime_file('', true)
+table.insert(lua_ls_lib, '${3rd}/luv/library')
+
 local langservers = {
 	bashls = true,
 	clangd = true,
@@ -46,7 +49,7 @@ local langservers = {
 						globals = { 'vim' },
 					},
 					workspace = {
-						library = vim.api.nvim_get_runtime_file('', true),
+						library = lua_ls_lib,
 						checkThirdParty = false, -- disable luassert prompt
 					},
 					telemetry = { enable = false },
@@ -123,7 +126,6 @@ require('mason-tool-installer').setup({ ensure_installed = ensure_installed })
 -- --------------------- --
 -- language server setup --
 -- --------------------- --
-local lspconfig = require('lspconfig')
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
@@ -144,7 +146,8 @@ local function ls_setup(name, settings)
 		capabilities = capabilities,
 	}, settings.config or {})
 
-	lspconfig[name].setup(cfg)
+	vim.lsp.config(name, cfg)
+	vim.lsp.enable(name)
 end
 
 for name, settings in pairs(langservers) do
