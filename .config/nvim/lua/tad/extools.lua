@@ -157,8 +157,10 @@ end
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('tad-lspattach', { clear = true }),
 	callback = function(args)
-		local client =
-			assert(vim.lsp.get_client_by_id(args.data.client_id), 'LSP client ID not provided in LspAttach args!')
+		local client = assert(
+			vim.lsp.get_client_by_id(args.data.client_id),
+			'LSP client ID not provided in LspAttach args!'
+		)
 		local bufnr = args.buf
 
 		local settings = langservers[client.name]

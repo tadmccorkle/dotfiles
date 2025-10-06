@@ -1,7 +1,5 @@
 local cmp = require('cmp')
 local types = require('cmp.types')
-local context = require('cmp.config.context')
-local luasnip = require('luasnip')
 
 for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('lua/tad/snippets/*.lua', true)) do
 	loadfile(ft_path)()
@@ -12,11 +10,12 @@ cmp.setup({
 		completeopt = 'menu,menuone,noinsert',
 	},
 	enabled = function()
-		if vim.bo.filetype == 'prompt' or vim.bo.filetype == 'TelescopePrompt' then
+		if vim.bo.filetype == 'prompt' then
 			return false
 		elseif vim.api.nvim_get_mode().mode == 'c' then
 			return true
 		else
+			local context = require('cmp.config.context')
 			return not context.in_treesitter_capture('comment')
 				and not context.in_syntax_group('Comment')
 		end
@@ -39,6 +38,7 @@ cmp.setup({
 			end
 		end, { 'i', 's' }),
 		['<C-l>'] = cmp.mapping(function(fallback)
+			local luasnip = require('luasnip')
 			if luasnip.expand_or_locally_jumpable() then
 				luasnip.expand_or_jump()
 			else
@@ -46,6 +46,7 @@ cmp.setup({
 			end
 		end, { 'i', 's' }),
 		['<C-h>'] = cmp.mapping(function(fallback)
+			local luasnip = require('luasnip')
 			if luasnip.locally_jumpable(-1) then
 				luasnip.jump(-1)
 			else
@@ -55,7 +56,7 @@ cmp.setup({
 	},
 	snippet = {
 		expand = function(args)
-			luasnip.lsp_expand(args.body)
+			require('luasnip').lsp_expand(args.body)
 		end,
 	},
 	sources = cmp.config.sources({

@@ -12,6 +12,6 @@ return {
 		},
 		config = function()
 			require('tad.extools')
-		end
+		end,
 	},
 }

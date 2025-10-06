@@ -13,10 +13,9 @@ return {
 				},
 			},
 			'saadparwaiz1/cmp_luasnip',
-			-- 'Hoffs/omnisharp-extended-lsp.nvim',
 		},
 		config = function()
 			require('tad.cmp')
-		end
+		end,
 	},
 }
