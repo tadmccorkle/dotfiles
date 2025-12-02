@@ -16,3 +16,17 @@ vim.api.nvim_create_autocmd('FileType', {
 		end
 	end,
 })
+
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = 'qf',
+	callback = function(args)
+		vim.keymap.set('n', '<CR>', function()
+			local context = vim.fn.getloclist(0, { context = true }).context
+			vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, true, true), 'nx', false)
+			if context and context.markdown_nvim_toc then
+				vim.cmd('lclose')
+			end
+			vim.cmd('normal! zt')
+		end, { buffer = args.buf, silent = true })
+	end,
+})

@@ -18,6 +18,11 @@ return {
 				end
 				map('x', '<C-b>', toggle('b'), opts)
 				map('x', '<C-i>', toggle('i'), opts)
+				map('n', '<Leader>toc', function()
+					require('markdown.toc').set_loclist_toc()
+					---@diagnostic disable-next-line: undefined-global
+					FzfLua.loclist()
+				end, opts)
 			end,
 		},
 		dev = true,

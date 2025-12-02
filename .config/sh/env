@@ -22,5 +22,6 @@ pf_path $PNPM_HOME
 if [ -f "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
 if [ -z "$DOTNET_ROOT" ]; then export DOTNET_ROOT="$HOME/.dotnet"; fi
 pf_path "$HOME/.dotnet/tools"
+pf_path "$HOME/.dotnet"
 pf_path "$HOME/go/bin"
 pf_path "$HOME/bin"
