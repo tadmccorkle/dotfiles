@@ -2,6 +2,10 @@ after-login-command = []
 after-startup-command = []
 start-at-login = true
 
+[[on-window-detected]]
+if.app-id = "com.mitchellh.ghostty"
+run = ["layout floating"]
+
 # keys:
 # - Letters.        a, b, c, ..., z
 # - Numbers.        0, 1, 2, ..., 9
@@ -62,6 +66,7 @@ start-at-login = true
     alt-right = 'workspace --wrap-around next'
 
     alt-enter = 'exec-and-forget wezterm cli spawn --new-window'
+    alt-shift-enter = ['exec-and-forget open -na ghostty.app']
 
     alt-shift-semicolon = 'mode service'
     alt-shift-r = 'mode resize'
