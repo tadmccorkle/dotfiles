@@ -1,0 +1,56 @@
+set backspace=indent,eol,start
+
+set hlsearch
+set ignorecase
+set smartcase
+set incsearch
+
+set visualbell
+set number relativenumber
+set scrolloff=8
+set scroll=25
+set textwidth=100
+
+let mapleader=","
+
+noremap <Space> <Nop>
+
+noremap <C-q> <C-v>
+
+nmap <Leader><Leader>r :source ~/.ideavimrc<CR>
+
+nmap <C-]>             <Action>(GotoDeclaration)
+nmap <Leader>gd        <Action>(GotoDeclaration)
+nmap <Leader>gD        <Action>(GotoDeclaration)
+nmap <Leader>gi        <Action>(GotoImplementation)
+nmap <Leader>rn        <Action>(RenameElement)
+nmap <Leader>gq        <Action>(ReformatCode)
+nmap <Leader>ca        <Action>(ShowIntentionActions)
+nmap K                 <Action>(ShowHoverInfo)
+nmap <Leader>k         <Action>(ParameterInfo)
+nmap [d                <Action>(GotoPreviousError)
+nmap ]d                <Action>(GotoNextError)
+nmap <Leader>ff        <Action>(GotoFile)
+nmap <Leader>fg        <Action>(FindInPath)
+nmap <Leader><Leader>b <Action>(BuildCurrentProject)
+nmap <Leader><Leader>B <Action>(BuildWholeSolutionAction)
+nmap <Leader><Leader>c <Action>(CleanCurrentProject)
+nmap <Leader><Leader>C <Action>(CleanSolutionAction)
+nmap gcc               <Action>(CommentByLineComment)
+xmap gc                <Action>(CommentByLineComment)
+
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+nnoremap         x "_x
+nnoremap         X "_X
+nnoremap <Leader>x ""x
+nnoremap <Leader>X ""X
+xnoremap <Leader>x "_x
+noremap  <Leader>d "_d
+noremap  <Leader>D "_D
+noremap  <Leader>c "_c
+noremap  <Leader>C "_C
+xnoremap <Leader>p "_dP
+noremap  <Leader>y "+y
+nnoremap <Leader>Y "+Y
