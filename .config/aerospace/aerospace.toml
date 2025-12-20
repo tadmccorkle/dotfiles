@@ -1,10 +1,34 @@
 after-login-command = []
-after-startup-command = []
+after-startup-command = ['exec-and-forget open -ga ghostty.app']
 start-at-login = true
 
+automatically-unhide-macos-hidden-apps = true
+
 [[on-window-detected]]
-if.app-id = "com.mitchellh.ghostty"
-run = ["layout floating"]
+# HACK: avoid issues with ghostty's native tabs
+if.app-id = 'com.mitchellh.ghostty'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+if.during-aerospace-startup = true
+run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.rider'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = ['move-node-to-workspace 7']
+
+[[on-window-detected]]
+if.app-id = 'com.obsproject.obs-studio'
+run = ['move-node-to-workspace 5']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = ['move-node-to-workspace 8']
 
 # keys:
 # - Letters.        a, b, c, ..., z
@@ -24,13 +48,14 @@ run = ["layout floating"]
 
 [mode.main.binding]
     alt-shift-backslash = 'enable off'
+    cmd-h = [] # disable "hide application"
+    cmd-alt-h = [] # disable "hide others"
 
     alt-slash = 'layout tiles horizontal vertical'
     alt-shift-slash = 'layout accordion horizontal vertical'
     alt-backslash = 'layout tiling floating'
 
     alt-shift-f = 'fullscreen'
-    ctrl-alt-shift-f = 'macos-native-fullscreen'
 
     alt-h = 'focus left'
     alt-j = 'focus down'
@@ -65,8 +90,8 @@ run = ["layout floating"]
     alt-left = 'workspace --wrap-around prev'
     alt-right = 'workspace --wrap-around next'
 
-    alt-enter = 'exec-and-forget wezterm cli spawn --new-window'
-    alt-shift-enter = ['exec-and-forget open -na ghostty.app']
+    alt-enter = ['exec-and-forget open -na ghostty.app']
+    alt-shift-enter = 'exec-and-forget wezterm cli spawn --new-window'
 
     alt-shift-semicolon = 'mode service'
     alt-shift-r = 'mode resize'
@@ -74,9 +99,13 @@ run = ["layout floating"]
 [mode.service.binding]
     esc = ['reload-config', 'mode main']
     r = ['flatten-workspace-tree', 'mode main'] # reset layout
-    f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+    f = ['layout floating tiling', 'mode main'] # toggle between floating and tiling layout
     backspace = ['close-all-windows-but-current', 'mode main']
 
+    alt-h = ['join-with left', 'mode main']
+    alt-j = ['join-with down', 'mode main']
+    alt-k = ['join-with up', 'mode main']
+    alt-l = ['join-with right', 'mode main']
     alt-shift-h = ['join-with left', 'mode main']
     alt-shift-j = ['join-with down', 'mode main']
     alt-shift-k = ['join-with up', 'mode main']
