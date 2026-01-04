@@ -1,0 +1,13 @@
+#compdef dotfiles
+
+_dotfiles() {
+	local -x GIT_DIR="$HOME/.dotfiles"
+	local -x GIT_WORK_TREE="$HOME"
+	if (( CURRENT > 2 )); then
+		_files
+	else
+		service=git _git
+	fi
+}
+
+_dotfiles "$@"

@@ -1,3 +1,5 @@
+dotfiles() { git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME "$@" }
+
 __rc_git() {
 	GIT_OPTIONAL_LOCKS=0 command git "$@"
 }
@@ -20,9 +22,13 @@ setopt prompt_subst
 PROMPT='%F{cyan}%n@%m%B%F{blue}::%b%F{blue}$(__prompt_info) %B%(0?.%F{blue}.%F{red})»%f%b '
 RPROMPT='%F{245}[%*]%f'
 
+fpath=("$HOME/.config/zsh/completions" $fpath)
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*:descriptions' format '%B%U%d%u%b'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ''
 
 if [[ -x "$(command -v nvim)" ]]; then
 	export GIT_EDITOR=nvim

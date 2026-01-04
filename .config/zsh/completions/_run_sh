@@ -1,0 +1,75 @@
+#compdef -P */run.sh */run
+
+# checks if script has top-level "$@"
+_has_toplevel_args() {
+	local script_file="$1"
+
+	[[ -f "$script_file" ]] || return 1
+
+	local -a lines
+	local in_function=0
+	local brace_depth=0
+
+	lines=("${(@f)$(<$script_file)}")
+
+	for line in $lines; do
+		if [[ $line =~ '^[[:space:]]*(function[[:space:]]+)?[a-zA-Z_][a-zA-Z0-9_]*[[:space:]]*\(\)' ]]; then
+			in_function=1
+			(( brace_depth += ${(M)#line#\{} ))
+			(( brace_depth -= ${(M)#line#\}} ))
+			continue
+		fi
+
+		if (( in_function )); then
+			(( brace_depth += ${(M)#line#\{} ))
+			(( brace_depth -= ${(M)#line#\}} ))
+			
+			if (( brace_depth <= 0 )); then
+				in_function=0
+				brace_depth=0
+			fi
+
+			continue
+		fi
+		
+		if [[ $line == *'"$@"'* ]]; then
+			return 0
+		fi
+	done
+	
+	return 1
+}
+
+# extracts function names (`function name` and `name()`) from script
+_extract_functions() {
+	local script_file="$1"
+	local -a functions
+
+	functions=(${(f)"$(grep -E '^[[:space:]]*(function[[:space:]]+)?[a-zA-Z_][a-zA-Z0-9_]*[[:space:]]*\(\)' "$script_file" | \
+		sed -E 's/^[[:space:]]*(function[[:space:]]+)?([a-zA-Z_][a-zA-Z0-9_]*)[[:space:]]*\(\).*/\2/')"})
+
+	print -l $functions
+}
+
+_run_sh() {
+	local script_path="$words[1]"
+
+	_has_toplevel_args "$script_path" || return 1
+
+	if (( CURRENT == 2 )); then
+		local -a functions
+		functions=($(_extract_functions "$script_path"))
+
+		if (( ${#functions[@]} > 0 )); then
+			_alternative \
+				'functions:run command:compadd -a functions' \
+				'files:file:_files'
+		else
+			_files
+		fi
+	else
+		_files
+	fi
+}
+
+_run_sh "$@"
