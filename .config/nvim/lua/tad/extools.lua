@@ -1,9 +1,12 @@
 require('mason').setup()
+local mason_pkg_reg = vim.fn.expand('$MASON/packages')
 
 local schemas = require('schemastore')
 
 local lua_ls_lib = vim.api.nvim_get_runtime_file('', true)
 table.insert(lua_ls_lib, '${3rd}/luv/library')
+
+local default_cfg_ts_ls = vim.lsp.config['ts_ls']
 
 local langservers = {
 	bashls = true,
@@ -74,7 +77,22 @@ local langservers = {
 	svelte = true,
 	tailwindcss = true,
 	templ = true,
-	ts_ls = true,
+	ts_ls = {
+		config = {
+			filetypes = vim.list_extend(default_cfg_ts_ls.filetypes, { 'vue' }),
+			init_options = vim.tbl_deep_extend('force', default_cfg_ts_ls.init_options, {
+				plugins = {
+					{
+						name = '@vue/typescript-plugin',
+						location = mason_pkg_reg .. '/vue-language-server/node_modules/@vue/language-server',
+						languages = { 'vue' },
+						configNamespace = 'typescript',
+					},
+				}
+			}),
+		},
+	},
+	vue_ls = true,
 	yamlls = {
 		config = {
 			settings = {
@@ -254,6 +272,7 @@ conform.setup({
 		javascriptreact = web_formatters,
 		typescript = web_formatters,
 		typescriptreact = web_formatters,
+		vue = web_formatters,
 	},
 	default_format_opts = {
 		lsp_format = 'fallback',

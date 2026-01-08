@@ -1,5 +1,17 @@
+#
+# functions
+#
 dotfiles() { git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME "$@" }
+path() { sed 's/:/\n/g' <<< $PATH; }
 
+#
+# aliases
+#
+. "$HOME/.config/sh/alias"
+
+#
+# prompt
+#
 __rc_git() {
 	GIT_OPTIONAL_LOCKS=0 command git "$@"
 }
@@ -22,6 +34,9 @@ setopt prompt_subst
 PROMPT='%F{cyan}%n@%m%B%F{blue}::%b%F{blue}$(__prompt_info) %B%(0?.%F{blue}.%F{red})»%f%b '
 RPROMPT='%F{245}[%*]%f'
 
+#
+# completion
+#
 fpath=("$HOME/.config/zsh/completions" $fpath)
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
@@ -30,18 +45,9 @@ zstyle ':completion:*:descriptions' format '%B%U%d%u%b'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-colors ''
 
-if [[ -x "$(command -v nvim)" ]]; then
-	export GIT_EDITOR=nvim
-	export EDITOR=nvim
-else
-	export GIT_EDITOR=vim
-	export EDITOR=vim
-fi
-
-if [[ -x "$(command -v fzf)" ]]; then
-	source <(fzf --zsh)
-fi
-
+#
+# history
+#
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=50000
 SAVEHIST=50000
@@ -56,9 +62,20 @@ setopt HIST_SAVE_NO_DUPS
 setopt SHARE_HISTORY
 unsetopt HIST_VERIFY
 
-path() { sed 's/:/\n/g' <<< $PATH; }
+#
+# key bindings
+#
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+bindkey ' ' magic-space
 
-. "$HOME/.config/sh/alias"
+#
+# other setup
+#
+if [[ -x "$(command -v fzf)" ]]; then
+	source <(fzf --zsh)
+fi
 
 # BEGIN opam configuration
 # This is useful if you're using opam as it adds:

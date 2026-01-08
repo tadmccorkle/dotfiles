@@ -14,6 +14,14 @@ pb_path() {
 	esac
 }
 
+if [ -x "$(command -v nvim)" ]; then
+	export GIT_EDITOR=nvim
+	export EDITOR=nvim
+else
+	export GIT_EDITOR=vim
+	export EDITOR=vim
+fi
+
 if [ -z "$XDG_CONFIG_HOME" ]; then export XDG_CONFIG_HOME="$HOME/.config"; fi
 if [ -z "$XDG_DATA_HOME" ]; then export XDG_DATA_HOME="$HOME/.local/share"; fi
 if [ -d "/opt/homebrew" ]; then pf_path "/opt/homebrew/opt/postgresql@17/bin"; fi
