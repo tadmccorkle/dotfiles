@@ -91,6 +91,9 @@ local langservers = {
 				}
 			}),
 		},
+		on_attach = function(client, _)
+			client.server_capabilities.semanticTokensProvider.full = vim.bo.filetype ~= 'vue'
+		end
 	},
 	vue_ls = true,
 	yamlls = {
