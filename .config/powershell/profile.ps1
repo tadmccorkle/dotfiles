@@ -7,14 +7,14 @@ $env:XDG_DATA_HOME = "$env:USERPROFILE\.local\share"
 # path
 & {
 	$nvim_comps = @(
-		"$env:HOMEDRIVE\msys64\mingw64\bin" # for treesitter and GDB (debugging)
+		"$env:HOMEDRIVE\msys64\mingw64\bin" # for GDB (debugging)
 		"$env:PROGRAMFILES\CMake\bin" # for telescope-fzf-native
 		"$env:PROGRAMFILES\7-Zip" # for mason package manager
 	)
 
 	$comps = @(
+		"$env:USERPROFILE\.local\bin"
 		"$env:USERPROFILE\bin"
-		"$env:PROGRAMFILES\Microsoft Visual Studio\2022\Community\Common7\IDE"
 		"${env:ProgramFiles(x86)}\GnuWin32\bin"
 		"$env:USERPROFILE\.dotnet\tools"
 		"$env:USERPROFILE\.dotnet\tools\docfx"

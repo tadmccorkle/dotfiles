@@ -6,8 +6,6 @@ local schemas = require('schemastore')
 local lua_ls_lib = vim.api.nvim_get_runtime_file('', true)
 table.insert(lua_ls_lib, '${3rd}/luv/library')
 
-local default_cfg_ts_ls = vim.lsp.config['ts_ls']
-
 local langservers = {
 	bashls = true,
 	clangd = true,
@@ -79,8 +77,8 @@ local langservers = {
 	templ = true,
 	ts_ls = {
 		config = {
-			filetypes = vim.list_extend(default_cfg_ts_ls.filetypes, { 'vue' }),
-			init_options = vim.tbl_deep_extend('force', default_cfg_ts_ls.init_options, {
+			filetypes = vim.list_extend(vim.lsp.config['ts_ls'].filetypes, { 'vue' }),
+			init_options = vim.tbl_deep_extend('force', vim.lsp.config['ts_ls'].init_options, {
 				plugins = {
 					{
 						name = '@vue/typescript-plugin',
