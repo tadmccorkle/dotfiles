@@ -28,7 +28,19 @@ ls.add_snippets('c', {
 			typedef enum
 			{
 				<>_<>,
-				<>_COUNT
+			} <>;
+			]],
+			{ rep(1), i(2), i(1) }
+		)
+	),
+	s(
+		'$tdec',
+		fmta(
+			[[
+			typedef enum
+			{
+				<>_<>,
+				<>_COUNT,
 			} <>;
 			]],
 			{ rep(1), i(2), rep(1), i(1) }

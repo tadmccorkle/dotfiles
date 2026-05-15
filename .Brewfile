@@ -23,7 +23,7 @@ brew "postgresql@17", restart_service: :changed
 brew "tree-sitter-cli"
 brew "jesseduffield/lazydocker/lazydocker"
 brew "oven-sh/bun/bun"
-cask "aerospace"
+cask "nikitabobko/tap/aerospace"
 cask "docker-desktop"
 cask "ghostty"
 cask "wezterm"

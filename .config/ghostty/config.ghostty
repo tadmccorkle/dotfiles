@@ -2,6 +2,8 @@ theme=Ayu
 font-size=13
 window-padding-x=6,2
 
+macos-icon=chalkboard
+
 keybind=shift+up=scroll_page_lines:-1
 keybind=shift+down=scroll_page_lines:1
 keybind=ctrl+shift+up=scroll_page_lines:-5

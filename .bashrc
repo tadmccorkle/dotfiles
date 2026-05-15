@@ -15,6 +15,14 @@ __prompt_info() {
 
 PS1="$CYAN\u@\h$DEFCOL:$BLUE\w$YELLOW\$(__prompt_info)$DEFCOL $ "
 
+if [ -x "$(command -v nvim)" ]; then
+	export GIT_EDITOR=nvim
+	export EDITOR=nvim
+else
+	export GIT_EDITOR=vim
+	export EDITOR=vim
+fi
+
 if [ -x "$(command -v fzf)" ]; then
 	eval "$(fzf --bash)"
 fi

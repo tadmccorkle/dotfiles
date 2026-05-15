@@ -73,6 +73,14 @@ bindkey ' ' magic-space
 #
 # other setup
 #
+if [ -x "$(command -v nvim)" ]; then
+	export GIT_EDITOR=nvim
+	export EDITOR=nvim
+else
+	export GIT_EDITOR=vim
+	export EDITOR=vim
+fi
+
 if [[ -x "$(command -v fzf)" ]]; then
 	source <(fzf --zsh)
 fi
@@ -84,3 +92,6 @@ fi
 # This section can be safely removed at any time if needed.
 [[ ! -r "$HOME/.opam/opam-init/init.zsh" ]] || source "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null
 # END opam configuration
+
+# bun completions
+[ -s "/Users/tad/.bun/_bun" ] && source "/Users/tad/.bun/_bun"
