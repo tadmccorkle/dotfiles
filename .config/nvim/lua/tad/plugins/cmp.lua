@@ -1,21 +1,21 @@
 return {
 	{
-		'hrsh7th/nvim-cmp',
-		event = 'InsertEnter',
+		"hrsh7th/nvim-cmp",
+		event = "InsertEnter",
 		dependencies = {
-			'hrsh7th/cmp-nvim-lsp',
-			'hrsh7th/cmp-buffer',
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
 			{
-				'L3MON4D3/LuaSnip',
+				"L3MON4D3/LuaSnip",
 				opts = {
-					update_events = 'TextChanged,TextChangedI',
-					region_check_events = 'CursorMoved,InsertEnter',
+					update_events = "TextChanged,TextChangedI",
+					region_check_events = "CursorMoved,InsertEnter",
 				},
 			},
-			'saadparwaiz1/cmp_luasnip',
+			"saadparwaiz1/cmp_luasnip",
 		},
 		config = function()
-			require('tad.cmp')
+			require("tad.cmp")
 		end,
 	},
 }

@@ -1,6 +1,6 @@
 return {
 	{
-		'nvim-lualine/lualine.nvim',
+		"nvim-lualine/lualine.nvim",
 		opts = {
 			options = {
 				icons_enabled = false,
@@ -10,7 +10,7 @@ return {
 			sections = {
 				lualine_c = {
 					{
-						'filename',
+						"filename",
 						path = 1,
 					},
 				},

@@ -1,14 +1,14 @@
-require('luasnip.session.snippet_collection').clear_snippets('c')
+require("luasnip.session.snippet_collection").clear_snippets("c")
 
-local ls = require('luasnip')
+local ls = require("luasnip")
 local s = ls.snippet
 local i = ls.insert_node
-local rep = require('luasnip.extras').rep
-local fmta = require('luasnip.extras.fmt').fmta
+local rep = require("luasnip.extras").rep
+local fmta = require("luasnip.extras.fmt").fmta
 
-ls.add_snippets('c', {
+ls.add_snippets("c", {
 	s(
-		'$ig',
+		"$ig",
 		fmta(
 			[[
 			#ifndef <>_H
@@ -22,7 +22,7 @@ ls.add_snippets('c', {
 		)
 	),
 	s(
-		'$tde',
+		"$tde",
 		fmta(
 			[[
 			typedef enum
@@ -34,7 +34,7 @@ ls.add_snippets('c', {
 		)
 	),
 	s(
-		'$tdec',
+		"$tdec",
 		fmta(
 			[[
 			typedef enum
@@ -47,7 +47,7 @@ ls.add_snippets('c', {
 		)
 	),
 	s(
-		'$tds',
+		"$tds",
 		fmta(
 			[[
 			typedef struct <> <>;
@@ -57,7 +57,7 @@ ls.add_snippets('c', {
 			};
 			]],
 			{ rep(1), rep(1), i(1), i(2) },
-			{ indent_string = '  ' }
+			{ indent_string = "  " }
 		)
 	),
 })

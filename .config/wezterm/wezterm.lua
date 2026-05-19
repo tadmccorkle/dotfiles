@@ -1,8 +1,8 @@
-local wezterm = require "wezterm"
+local wezterm = require("wezterm")
 local act = wezterm.action
 
 wezterm.on("gui-startup", function(_)
-	local _, _, window = wezterm.mux.spawn_window {}
+	local _, _, window = wezterm.mux.spawn_window({})
 	window:gui_window():maximize()
 end)
 
@@ -53,7 +53,7 @@ config.inactive_pane_hsb = {
 	brightness = 0.8,
 }
 
-config.font = wezterm.font "Cascadia Code"
+config.font = wezterm.font("Cascadia Code")
 config.font_size = 12
 
 config.use_fancy_tab_bar = false
@@ -67,78 +67,78 @@ local function leader_map(key, action)
 end
 
 config.keys = {
-	{ key = "Space",     mods = "CTRL|SHIFT", action = act.DisableDefaultAssignment },
-	{ key = "UpArrow",   mods = "SHIFT",      action = act.ScrollByLine(-1) },
-	{ key = "DownArrow", mods = "SHIFT",      action = act.ScrollByLine(1) },
-	{ key = "UpArrow",   mods = "CTRL|SHIFT", action = act.ScrollByLine(-5) },
+	{ key = "Space", mods = "CTRL|SHIFT", action = act.DisableDefaultAssignment },
+	{ key = "UpArrow", mods = "SHIFT", action = act.ScrollByLine(-1) },
+	{ key = "DownArrow", mods = "SHIFT", action = act.ScrollByLine(1) },
+	{ key = "UpArrow", mods = "CTRL|SHIFT", action = act.ScrollByLine(-5) },
 	{ key = "DownArrow", mods = "CTRL|SHIFT", action = act.ScrollByLine(5) },
 }
 
-leader_map("q",  act.QuickSelect)
+leader_map("q", act.QuickSelect)
 leader_map("\\", act.ShowLauncher)
-leader_map("a",  act.ActivateKeyTable { name = "activate_pane" })
-leader_map("s",  act.ActivateKeyTable { name = "split_pane" })
-leader_map("r",  act.ActivateKeyTable { name = "resize_pane", one_shot = false })
+leader_map("a", act.ActivateKeyTable({ name = "activate_pane" }))
+leader_map("s", act.ActivateKeyTable({ name = "split_pane" }))
+leader_map("r", act.ActivateKeyTable({ name = "resize_pane", one_shot = false }))
 
-leader_map("LeftArrow",  act.ActivatePaneDirection "Left")
-leader_map("h",          act.ActivatePaneDirection "Left")
-leader_map("RightArrow", act.ActivatePaneDirection "Right")
-leader_map("l",          act.ActivatePaneDirection "Right")
-leader_map("UpArrow",    act.ActivatePaneDirection "Up")
-leader_map("k",          act.ActivatePaneDirection "Up")
-leader_map("DownArrow",  act.ActivatePaneDirection "Down")
-leader_map("j",          act.ActivatePaneDirection "Down")
-leader_map("|",          act.SplitPane { direction = "Right" })
+leader_map("LeftArrow", act.ActivatePaneDirection("Left"))
+leader_map("h", act.ActivatePaneDirection("Left"))
+leader_map("RightArrow", act.ActivatePaneDirection("Right"))
+leader_map("l", act.ActivatePaneDirection("Right"))
+leader_map("UpArrow", act.ActivatePaneDirection("Up"))
+leader_map("k", act.ActivatePaneDirection("Up"))
+leader_map("DownArrow", act.ActivatePaneDirection("Down"))
+leader_map("j", act.ActivatePaneDirection("Down"))
+leader_map("|", act.SplitPane({ direction = "Right" }))
 
 local pop_key_table = { key = "Escape", action = "PopKeyTable" }
 config.key_tables = {
 	activate_pane = {
-		{ key = "LeftArrow",  action = act.ActivatePaneDirection "Left" },
-		{ key = "h",          action = act.ActivatePaneDirection "Left" },
-		{ key = "RightArrow", action = act.ActivatePaneDirection "Right" },
-		{ key = "l",          action = act.ActivatePaneDirection "Right" },
-		{ key = "UpArrow",    action = act.ActivatePaneDirection "Up" },
-		{ key = "k",          action = act.ActivatePaneDirection "Up" },
-		{ key = "DownArrow",  action = act.ActivatePaneDirection "Down" },
-		{ key = "j",          action = act.ActivatePaneDirection "Down" },
+		{ key = "LeftArrow", action = act.ActivatePaneDirection("Left") },
+		{ key = "h", action = act.ActivatePaneDirection("Left") },
+		{ key = "RightArrow", action = act.ActivatePaneDirection("Right") },
+		{ key = "l", action = act.ActivatePaneDirection("Right") },
+		{ key = "UpArrow", action = act.ActivatePaneDirection("Up") },
+		{ key = "k", action = act.ActivatePaneDirection("Up") },
+		{ key = "DownArrow", action = act.ActivatePaneDirection("Down") },
+		{ key = "j", action = act.ActivatePaneDirection("Down") },
 		pop_key_table,
 	},
 	resize_pane = {
-		{ key = "LeftArrow",  action = act.AdjustPaneSize { "Left", 1 } },
-		{ key = "h",          action = act.AdjustPaneSize { "Left", 1 } },
-		{ key = "RightArrow", action = act.AdjustPaneSize { "Right", 1 } },
-		{ key = "l",          action = act.AdjustPaneSize { "Right", 1 } },
-		{ key = "UpArrow",    action = act.AdjustPaneSize { "Up", 1 } },
-		{ key = "k",          action = act.AdjustPaneSize { "Up", 1 } },
-		{ key = "DownArrow",  action = act.AdjustPaneSize { "Down", 1 } },
-		{ key = "j",          action = act.AdjustPaneSize { "Down", 1 } },
-		{ key = "LeftArrow",  action = act.AdjustPaneSize { "Left", 5 },  mods = "SHIFT" },
-		{ key = "h",          action = act.AdjustPaneSize { "Left", 5 },  mods = "SHIFT" },
-		{ key = "RightArrow", action = act.AdjustPaneSize { "Right", 5 }, mods = "SHIFT" },
-		{ key = "l",          action = act.AdjustPaneSize { "Right", 5 }, mods = "SHIFT" },
-		{ key = "UpArrow",    action = act.AdjustPaneSize { "Up", 5 },    mods = "SHIFT" },
-		{ key = "k",          action = act.AdjustPaneSize { "Up", 5 },    mods = "SHIFT" },
-		{ key = "DownArrow",  action = act.AdjustPaneSize { "Down", 5 },  mods = "SHIFT" },
-		{ key = "j",          action = act.AdjustPaneSize { "Down", 5 },  mods = "SHIFT" },
+		{ key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 1 }) },
+		{ key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
+		{ key = "RightArrow", action = act.AdjustPaneSize({ "Right", 1 }) },
+		{ key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
+		{ key = "UpArrow", action = act.AdjustPaneSize({ "Up", 1 }) },
+		{ key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
+		{ key = "DownArrow", action = act.AdjustPaneSize({ "Down", 1 }) },
+		{ key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
+		{ key = "LeftArrow", action = act.AdjustPaneSize({ "Left", 5 }), mods = "SHIFT" },
+		{ key = "h", action = act.AdjustPaneSize({ "Left", 5 }), mods = "SHIFT" },
+		{ key = "RightArrow", action = act.AdjustPaneSize({ "Right", 5 }), mods = "SHIFT" },
+		{ key = "l", action = act.AdjustPaneSize({ "Right", 5 }), mods = "SHIFT" },
+		{ key = "UpArrow", action = act.AdjustPaneSize({ "Up", 5 }), mods = "SHIFT" },
+		{ key = "k", action = act.AdjustPaneSize({ "Up", 5 }), mods = "SHIFT" },
+		{ key = "DownArrow", action = act.AdjustPaneSize({ "Down", 5 }), mods = "SHIFT" },
+		{ key = "j", action = act.AdjustPaneSize({ "Down", 5 }), mods = "SHIFT" },
 		pop_key_table,
 	},
 	split_pane = {
-		{ key = "LeftArrow",  action = act.SplitPane { direction = "Left" } },
-		{ key = "h",          action = act.SplitPane { direction = "Left" } },
-		{ key = "RightArrow", action = act.SplitPane { direction = "Right" } },
-		{ key = "l",          action = act.SplitPane { direction = "Right" } },
-		{ key = "UpArrow",    action = act.SplitPane { direction = "Up" } },
-		{ key = "k",          action = act.SplitPane { direction = "Up" } },
-		{ key = "DownArrow",  action = act.SplitPane { direction = "Down" } },
-		{ key = "j",          action = act.SplitPane { direction = "Down" } },
-		{ key = "LeftArrow",  action = act.SplitPane { direction = "Left",  size = { Percent = 15 } }, mods = "SHIFT" },
-		{ key = "h",          action = act.SplitPane { direction = "Left",  size = { Percent = 15 } }, mods = "SHIFT" },
-		{ key = "RightArrow", action = act.SplitPane { direction = "Right", size = { Percent = 15 } }, mods = "SHIFT" },
-		{ key = "l",          action = act.SplitPane { direction = "Right", size = { Percent = 15 } }, mods = "SHIFT" },
-		{ key = "UpArrow",    action = act.SplitPane { direction = "Up",    size = { Percent = 15 } }, mods = "SHIFT" },
-		{ key = "k",          action = act.SplitPane { direction = "Up",    size = { Percent = 15 } }, mods = "SHIFT" },
-		{ key = "DownArrow",  action = act.SplitPane { direction = "Down",  size = { Percent = 15 } }, mods = "SHIFT" },
-		{ key = "j",          action = act.SplitPane { direction = "Down",  size = { Percent = 15 } }, mods = "SHIFT" },
+		{ key = "LeftArrow", action = act.SplitPane({ direction = "Left" }) },
+		{ key = "h", action = act.SplitPane({ direction = "Left" }) },
+		{ key = "RightArrow", action = act.SplitPane({ direction = "Right" }) },
+		{ key = "l", action = act.SplitPane({ direction = "Right" }) },
+		{ key = "UpArrow", action = act.SplitPane({ direction = "Up" }) },
+		{ key = "k", action = act.SplitPane({ direction = "Up" }) },
+		{ key = "DownArrow", action = act.SplitPane({ direction = "Down" }) },
+		{ key = "j", action = act.SplitPane({ direction = "Down" }) },
+		{ key = "LeftArrow", action = act.SplitPane({ direction = "Left", size = { Percent = 15 } }), mods = "SHIFT" },
+		{ key = "h", action = act.SplitPane({ direction = "Left", size = { Percent = 15 } }), mods = "SHIFT" },
+		{ key = "RightArrow", action = act.SplitPane({ direction = "Right", size = { Percent = 15 } }), mods = "SHIFT" },
+		{ key = "l", action = act.SplitPane({ direction = "Right", size = { Percent = 15 } }), mods = "SHIFT" },
+		{ key = "UpArrow", action = act.SplitPane({ direction = "Up", size = { Percent = 15 } }), mods = "SHIFT" },
+		{ key = "k", action = act.SplitPane({ direction = "Up", size = { Percent = 15 } }), mods = "SHIFT" },
+		{ key = "DownArrow", action = act.SplitPane({ direction = "Down", size = { Percent = 15 } }), mods = "SHIFT" },
+		{ key = "j", action = act.SplitPane({ direction = "Down", size = { Percent = 15 } }), mods = "SHIFT" },
 		pop_key_table,
 	},
 }
@@ -163,12 +163,12 @@ if wezterm.target_triple:find("windows") ~= nil then
 	}
 
 	local vswhere = "C:/Program Files (x86)/Microsoft Visual Studio/Installer/vswhere.exe"
-	local success, vs_install_path = wezterm.run_child_process {
+	local success, vs_install_path = wezterm.run_child_process({
 		vswhere,
 		"-latest",
 		"-property",
 		"installationpath",
-	}
+	})
 	if success then
 		vs_install_path = vs_install_path:gsub("^%s*(.-)%s*$", "%1")
 

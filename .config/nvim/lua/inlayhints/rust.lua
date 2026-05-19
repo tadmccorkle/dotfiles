@@ -5,17 +5,17 @@ local M = {}
 local opts = {
 	parameter_hints = {
 		show = false,
-		prefix = ' : ',
-		separator = ', ',
+		prefix = " : ",
+		separator = ", ",
 	},
 	type_hints = {
 		show = true,
-		prefix = ' » ',
-		separator = ', ',
+		prefix = " » ",
+		separator = ", ",
 	},
 	only_current_line = false,
-	labels_separator = '',
-	highlight = 'Comment',
+	labels_separator = "",
+	highlight = "Comment",
 }
 
 local store = {
@@ -28,43 +28,40 @@ local store = {
 	}),
 }
 
-local ns = vim.api.nvim_create_namespace('textDocument/inlayHints')
-local AUGROUP = 'rust_inlayhints'
+local ns = vim.api.nvim_create_namespace("textDocument/inlayHints")
+local AUGROUP = "rust_inlayhints"
 
 local function get_type_vt(labels)
 	if not (opts.type_hints.show and next(labels)) then
-		return ''
+		return ""
 	end
 
-	local pattern = opts.type_hints.separator .. '%s?$'
+	local pattern = opts.type_hints.separator .. "%s?$"
 	local t = {}
 	for i, label in ipairs(labels) do
 		-- remove any surrounding colons
-		label = label:match '^:?%s?(.*)$' or label
-		label = label:match '(.*):$' or label
-		t[i] = label:gsub(pattern, '')
+		label = label:match("^:?%s?(.*)$") or label
+		label = label:match("(.*):$") or label
+		t[i] = label:gsub(pattern, "")
 	end
 
-	return (opts.type_hints.prefix or '') .. table.concat(t, opts.type_hints.separator)
+	return (opts.type_hints.prefix or "") .. table.concat(t, opts.type_hints.separator)
 end
 
 local function get_param_vt(labels)
 	if not (opts.parameter_hints.show and next(labels)) then
-		return ''
+		return ""
 	end
 
 	local t = {}
 	for i, label in ipairs(labels) do
 		-- remove any surrounding colons
-		label = label:match '^:?%s?(.*)$' or label
-		label = label:match '(.*):%s?$' or label
+		label = label:match("^:?%s?(.*)$") or label
+		label = label:match("(.*):%s?$") or label
 		t[i] = label
 	end
 
-	return (opts.parameter_hints.prefix or '')
-			.. '('
-			.. table.concat(t, opts.parameter_hints.separator)
-			.. ') '
+	return (opts.parameter_hints.prefix or "") .. "(" .. table.concat(t, opts.parameter_hints.separator) .. ") "
 end
 
 local function get_labels(line_hints)
@@ -76,7 +73,7 @@ local function get_labels(line_hints)
 
 		-- label may be a string or InlayHintLabelPart[]
 		-- https://microsoft.github.io/language-server-protocol/specifications/lsp/4.17/specification/#inlayHintLabelPart
-		if type(hint.label) == 'table' then
+		if type(hint.label) == "table" then
 			for _, label_part in ipairs(hint.label) do
 				table.insert(tbl, label_part.value)
 			end
@@ -96,8 +93,8 @@ local function render_hints(bufnr, parsed, namespace)
 		local type_vt = get_type_vt(type_labels)
 
 		local virt_text
-		if type_vt ~= '' then
-			if param_vt ~= '' then
+		if type_vt ~= "" then
+			if param_vt ~= "" then
 				virt_text = type_vt .. opts.labels_separator .. param_vt
 			else
 				virt_text = type_vt
@@ -106,17 +103,17 @@ local function render_hints(bufnr, parsed, namespace)
 			virt_text = param_vt
 		end
 
-		if virt_text ~= '' then
+		if virt_text ~= "" then
 			vim.api.nvim_buf_set_extmark(bufnr, namespace, line, 0, {
 				virt_text = { { virt_text, opts.highlight } },
-				hl_mode = 'combine',
+				hl_mode = "combine",
 			})
 		end
 	end
 end
 
 local function get_visible_lines()
-	return { first = vim.fn.line 'w0', last = vim.fn.line 'w$' }
+	return { first = vim.fn.line("w0"), last = vim.fn.line("w$") }
 end
 
 local function col_of_row(row, offset_encoding)
@@ -138,7 +135,7 @@ local function get_hint_ranges(offset_encoding)
 		local col = col_of_row(line_count, offset_encoding)
 		return {
 			start = { 1, 0 },
-			['end'] = { line_count, col },
+			["end"] = { line_count, col },
 		}
 	end
 
@@ -151,7 +148,7 @@ local function get_hint_ranges(offset_encoding)
 
 	return {
 		start = { start_line, 0 },
-		['end'] = { end_line, end_col },
+		["end"] = { end_line, end_col },
 	}
 end
 
@@ -161,13 +158,13 @@ local function get_params(range, bufnr)
 		range = {
 			-- convert to 1-based index
 			start = { line = range.start[1] - 1, character = range.start[2] },
-			['end'] = { line = range['end'][1] - 1, character = range['end'][2] },
+			["end"] = { line = range["end"][1] - 1, character = range["end"][2] },
 		},
 	}
 end
 
 local function parse_hints(result)
-	if type(result) ~= 'table' then
+	if type(result) ~= "table" then
 		return {}
 	end
 
@@ -209,7 +206,7 @@ local function handler(range)
 		end
 
 		-- range given is 2-based index, but clear is 0-based index (end is exclusive)
-		clear(bufnr, range.start[1] - 1, range['end'][1])
+		clear(bufnr, range.start[1] - 1, range["end"][1])
 
 		local parsed = parse_hints(result)
 
@@ -243,7 +240,7 @@ local function show(bufnr)
 		return
 	end
 
-	client.request('textDocument/inlayHint', params, handler(range), bufnr)
+	client.request("textDocument/inlayHint", params, handler(range), bufnr)
 end
 
 function M.on_attach(client, bufnr)
@@ -268,11 +265,11 @@ function M.on_attach(client, bufnr)
 
 	-- WinScrolled covers |scroll-cursor|
 	local events = {
-		'BufEnter',
-		'BufWritePost',
-		'CursorHold',
-		'InsertLeave',
-		'WinScrolled'
+		"BufEnter",
+		"BufWritePost",
+		"CursorHold",
+		"InsertLeave",
+		"WinScrolled",
 	}
 
 	local aucmd = vim.api.nvim_create_autocmd(events, {
@@ -284,8 +281,8 @@ function M.on_attach(client, bufnr)
 	})
 	store.b[bufnr].aucmd = aucmd
 
-	vim.api.nvim_create_autocmd('LspDetach', {
-		group = vim.api.nvim_create_augroup(AUGROUP .. 'Detach', { clear = false }),
+	vim.api.nvim_create_autocmd("LspDetach", {
+		group = vim.api.nvim_create_augroup(AUGROUP .. "Detach", { clear = false }),
 		buffer = bufnr,
 		once = true,
 		callback = function(args)

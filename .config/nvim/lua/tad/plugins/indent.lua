@@ -1,12 +1,12 @@
 return {
 	{
-		'lukas-reineke/indent-blankline.nvim',
-		main = 'ibl',
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
 		config = function()
-			vim.cmd [[highlight IblIndent guifg=#29394f gui=nocombine]]
-			require('ibl').setup({
+			vim.cmd([[highlight IblIndent guifg=#29394f gui=nocombine]])
+			require("ibl").setup({
 				indent = {
-					tab_char = '▎',
+					tab_char = "▎",
 				},
 				scope = {
 					enabled = false,
