@@ -147,3 +147,4 @@ if vim.fn.has('win32') == 1 then
 	require('tad.windows')
 end
 require('tad.fileformat')
+require('tad.dev')
