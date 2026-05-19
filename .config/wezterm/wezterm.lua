@@ -1,8 +1,8 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 
-wezterm.on("gui-startup", function(_)
-	local _, _, window = wezterm.mux.spawn_window({})
+wezterm.on("gui-startup", function(cmd)
+	local _, _, window = wezterm.mux.spawn_window(cmd or {})
 	window:gui_window():maximize()
 end)
 
