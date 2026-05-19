@@ -1,0 +1,8 @@
+# [user]
+# 	set in ~/.gitconfig.machine
+# 	name = 
+# 	email = 
+[alias]
+	git = !git
+[include]
+	path = ~/.gitconfig.machine
