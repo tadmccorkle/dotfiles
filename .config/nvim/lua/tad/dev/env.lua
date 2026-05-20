@@ -71,7 +71,7 @@ local function output_buf_create()
 	vim.api.nvim_set_option_value("buftype", "nofile", opts)
 	vim.api.nvim_set_option_value("bufhidden", "hide", opts)
 	vim.api.nvim_set_option_value("swapfile", false, opts)
-	vim.api.nvim_set_option_value("filetype", "dev.c.output", opts)
+	vim.api.nvim_set_option_value("filetype", "dev.output", opts)
 
 	return buf
 end
@@ -157,7 +157,7 @@ local function jump_to_output_ref()
 end
 
 local function populate_quickfix(lines)
-	if not (state.output_buf and vim.api.nvim_buf_is_valid(state.output_buf)) then
+	if not lines and not (state.output_buf and vim.api.nvim_buf_is_valid(state.output_buf)) then
 		return
 	end
 
@@ -168,7 +168,7 @@ local function populate_quickfix(lines)
 
 	local qf_items = {}
 	for _, item in ipairs(qflist) do
-		if item.bufnr == 0 and item.filname then
+		if item.bufnr == 0 and item.filename then
 			local abs = cwd .. "/" .. item.filename
 			if vim.loop.fs_stat(abs) then
 				item.filename = abs
@@ -315,11 +315,9 @@ function M.setup()
 		vim.cmd("edit " .. vim.fn.fnameescape(path))
 	end, { desc = "dev: create/open .nvim-dev.lua project config" })
 
-	vim.api.nvim_create_user_command(
-		USER_CMDS.qf,
-		populate_quickfix,
-		{ desc = "dev: populate quickfix from output buffer" }
-	)
+	vim.api.nvim_create_user_command(USER_CMDS.qf, function()
+		populate_quickfix()
+	end, { desc = "dev: populate quickfix from output buffer" })
 
 	vim.api.nvim_create_user_command(USER_CMDS.close, M.teardown, { desc = "dev: close dev environment" })
 
