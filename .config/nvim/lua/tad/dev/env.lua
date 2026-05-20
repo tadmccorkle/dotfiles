@@ -1,17 +1,17 @@
--- C Development Environment
+-- Dev Setup
 --
--- Per-project configuration lives in .nvim-c.lua at the project root.
+-- Per-project configuration lives in .nvim-dev.lua at project root.
 
 local M = {}
 
----@class CDevState
+---@class DevState
 ---@field main_win? integer main editing window id
 ---@field output_win? integer command output window id
 ---@field output_buf? integer command output buffer id (persistent)
 ---@field proc? vim.SystemObj currently running command process
 local state
 
----@return CDevState
+---@return DevState
 local function default_state()
 	return {
 		main_win = nil,
@@ -24,24 +24,23 @@ end
 state = default_state()
 
 local USER_CMDS = {
-	run = "CDevRun",
-	cmd = "CDevCmd",
-	config = "CDevConfig",
-	qf = "CDevQf",
-	reload = "CDevReload",
-	close = "CDevClose",
+	run = "DRun",
+	cmd = "DCmd",
+	config = "DevConfig",
+	qf = "DevQf",
+	reload = "DevReload",
+	close = "DevClose",
 }
 
 local DEFAULT_COMMANDS = {
 	build = "./run.sh build",
-	run = "./run.sh",
 	lint = "./run.sh lint",
 	clean = "./run.sh clean",
 	test = "./run.sh test",
 }
 
-local CONFIG_TEMPLATE = [[-- .nvim-c.lua
--- :CDevRun <key> completions
+local CONFIG_TEMPLATE = [[-- .nvim-dev.lua
+-- :DRun <key> completions
 
 return {
   build = "./run.sh build",
@@ -52,7 +51,7 @@ return {
 ]]
 
 local function load_project_commands()
-	local config_path = vim.fn.getcwd() .. "/.nvim-c.lua"
+	local config_path = vim.fn.getcwd() .. "/.nvim-dev.lua"
 	local ok, cmds = pcall(dofile, config_path)
 	if ok and type(cmds) == "table" then
 		return cmds
@@ -66,7 +65,7 @@ local function output_buf_create()
 	end
 
 	local buf = vim.api.nvim_create_buf(false, true)
-	vim.api.nvim_buf_set_name(buf, "c-dev output")
+	vim.api.nvim_buf_set_name(buf, "dev output")
 
 	local opts = { buf = buf }
 	vim.api.nvim_set_option_value("buftype", "nofile", opts)
@@ -124,7 +123,7 @@ local function jump_to_output_ref()
 	local ref = parse_ref_under_cursor()
 
 	if not ref then
-		vim.notify("[c-dev] no file:line reference found on this line", vim.log.levels.WARN)
+		vim.notify("[dev] no file:line reference found on this line", vim.log.levels.WARN)
 		return
 	end
 
@@ -133,7 +132,7 @@ local function jump_to_output_ref()
 		if vim.loop.fs_stat(cwd_path) then
 			ref.file = cwd_path
 		else
-			vim.notify("[c-dev] cannot find file: " .. ref.file, vim.log.levels.ERROR)
+			vim.notify("[dev] cannot find file: " .. ref.file, vim.log.levels.ERROR)
 			return
 		end
 	end
@@ -157,72 +156,32 @@ local function jump_to_output_ref()
 	vim.cmd("normal! zz")
 end
 
-local function populate_quickfix()
+local function populate_quickfix(lines)
 	if not (state.output_buf and vim.api.nvim_buf_is_valid(state.output_buf)) then
 		return
 	end
 
-	local lines = vim.api.nvim_buf_get_lines(state.output_buf, 0, -1, false)
-	local qf_items = {}
+	lines = lines or vim.api.nvim_buf_get_lines(state.output_buf, 0, -1, false)
+
+	local qflist = vim.fn.getqflist({ lines = lines }).items
 	local cwd = vim.fn.getcwd()
 
-	local patterns = {
-		-- file:line:col: error/warning/note: message
-		{ pat = "^([^:]+):(%d+):(%d+):%s*(%w+):%s*(.*)", has_col = true, has_type = true },
-		-- file:line: error/warning/note: message
-		{ pat = "^([^:]+):(%d+):%s*(%w+):%s*(.*)", has_col = false, has_type = true },
-		-- file:line:col: message  (no type keyword)
-		{ pat = "^([^:]+):(%d+):(%d+):%s*(.*)", has_col = true, has_type = false },
-		-- file:line: message
-		{ pat = "^([^:]+):(%d+):%s*(.*)", has_col = false, has_type = false },
-	}
-
-	local type_map = { error = "E", warning = "W", note = "I", hint = "I" }
-
-	for _, line in ipairs(lines) do
-		for _, p in ipairs(patterns) do
-			local m = { line:match(p.pat) }
-			if #m > 0 then
-				local file, lnum, col, kind, text
-
-				if p.has_col and p.has_type then
-					file, lnum, col, kind, text = m[1], m[2], m[3], m[4], m[5]
-				elseif p.has_col and not p.has_type then
-					file, lnum, col, text = m[1], m[2], m[3], m[4]
-					kind = ""
-				elseif not p.has_col and p.has_type then
-					file, lnum, kind, text = m[1], m[2], m[3], m[4]
-					col = nil
-				else
-					file, lnum, text = m[1], m[2], m[3]
-					col = nil
-					kind = ""
-				end
-
-				-- only accept plausible filenames (contain a dot, no spaces)
-				if file:match("%.[%a%d]+$") and not file:match("%s") then
-					local abs = file
-					if not vim.loop.fs_stat(abs) then
-						abs = cwd .. "/" .. file
-					end
-					if vim.loop.fs_stat(abs) then
-						table.insert(qf_items, {
-							filename = abs,
-							lnum = tonumber(lnum),
-							col = col and tonumber(col) or nil,
-							type = type_map[kind] or (kind ~= "" and "I" or ""),
-							text = text or "",
-						})
-						break
-					end
-				end
-				break
+	local qf_items = {}
+	for _, item in ipairs(qflist) do
+		if item.bufnr == 0 and item.filname then
+			local abs = cwd .. "/" .. item.filename
+			if vim.loop.fs_stat(abs) then
+				item.filename = abs
+				item.bufnr = nil
 			end
+		end
+		if item.valid == 1 or (item.bufnr and item.bufnr > 0) then
+			table.insert(qf_items, item)
 		end
 	end
 
 	vim.fn.setqflist({}, "r", {
-		title = "c-dev",
+		title = "dev",
 		items = qf_items,
 	})
 end
@@ -239,25 +198,28 @@ function M.run(cmd)
 		"[" .. os.date("%Y-%m-%d %H:%M:%S") .. "] > " .. cmd,
 	}, false)
 
-	state.proc = vim.system(vim.split(cmd, " ", { trimempty = true }), {
+	state.proc = vim.system({ "sh", "-c", cmd }, {
 		text = true,
 	}, function(out)
 		state.proc = nil
 
 		vim.schedule(function()
 			output_append({ out.code == 0 and " ✓ exited 0" or (" ✗ exited " .. out.code), "" })
-			if out.stdout and out.stdout ~= "" then
-				output_append(vim.split(out.stdout, "\n", { trimempty = true }))
-				output_append({ "" })
-			end
-			output_append(vim.split(out.stderr, "\n", { trimempty = true }))
 
-			populate_quickfix()
+			local lines = {}
+			if out.stdout and out.stdout ~= "" then
+				vim.list_extend(lines, vim.split(out.stdout, "\n", { trimempty = true }))
+				table.insert(lines, "")
+			end
+			lines = vim.list_extend(lines, vim.split(out.stderr, "\n", { trimempty = true }))
+
+			output_append(lines)
+			populate_quickfix(lines)
 		end)
 	end)
 
 	if state.proc == 0 or state.proc == -1 then
-		vim.notify("[c-dev] failed to run: " .. cmd, vim.log.levels.ERROR)
+		vim.notify("[dev] failed to run: " .. cmd, vim.log.levels.ERROR)
 		state.proc = nil
 	end
 end
@@ -268,7 +230,7 @@ function M.run_project_command(name)
 	if cmd then
 		M.run(cmd)
 	else
-		vim.notify("[c-dev] unknown command: " .. tostring(name), vim.log.levels.ERROR)
+		vim.notify("[dev] unknown command: " .. tostring(name), vim.log.levels.ERROR)
 	end
 end
 
@@ -306,14 +268,14 @@ function M.setup()
 	}) do
 		vim.keymap.set("n", "<Leader><Leader>g" .. sc.key, function()
 			M.run_project_command(sc.name)
-		end, { noremap = true, silent = true, desc = "c-dev: run project " .. sc.name })
+		end, { noremap = true, silent = true, desc = "dev: run project " .. sc.name })
 	end
 
 	vim.keymap.set(
 		"n",
 		"<CR>",
 		jump_to_output_ref,
-		{ noremap = true, silent = true, buffer = state.output_buf, desc = "c-dev: jump to error" }
+		{ noremap = true, silent = true, buffer = state.output_buf, desc = "dev: jump to error" }
 	)
 
 	vim.api.nvim_create_user_command(USER_CMDS.run, function(a)
@@ -328,22 +290,22 @@ function M.setup()
 		complete = function()
 			return vim.tbl_keys(load_project_commands())
 		end,
-		desc = "c-dev: run project command",
+		desc = "dev: run project command",
 	})
 
 	vim.api.nvim_create_user_command(USER_CMDS.cmd, function(a)
 		M.run(a.args)
-	end, { nargs = "+", desc = "c-dev: run arbitrary command" })
+	end, { nargs = "+", desc = "dev: run arbitrary command" })
 
 	vim.api.nvim_create_user_command(USER_CMDS.config, function()
-		local path = vim.fn.getcwd() .. "/.nvim-c.lua"
+		local path = vim.fn.getcwd() .. "/.nvim-dev.lua"
 		if vim.fn.filereadable(path) == 0 then
 			local f = io.open(path, "w")
 			if f then
 				f:write(CONFIG_TEMPLATE)
 				f:close()
 			else
-				vim.notify("[c-dev] could not create " .. path, vim.log.levels.ERROR)
+				vim.notify("[dev] could not create " .. path, vim.log.levels.ERROR)
 				return
 			end
 		end
@@ -351,23 +313,23 @@ function M.setup()
 			vim.api.nvim_set_current_win(state.main_win)
 		end
 		vim.cmd("edit " .. vim.fn.fnameescape(path))
-	end, { desc = "c-dev: create/open .nvim-c.lua project config" })
+	end, { desc = "dev: create/open .nvim-dev.lua project config" })
 
 	vim.api.nvim_create_user_command(
 		USER_CMDS.qf,
 		populate_quickfix,
-		{ desc = "c-dev: populate quickfix from output buffer" }
+		{ desc = "dev: populate quickfix from output buffer" }
 	)
 
-	vim.api.nvim_create_user_command(USER_CMDS.close, M.teardown, { desc = "c-dev: close C dev layout" })
+	vim.api.nvim_create_user_command(USER_CMDS.close, M.teardown, { desc = "dev: close dev environment" })
 
 	local function load_config()
 		local names = vim.tbl_keys(load_project_commands())
 		table.sort(names)
-		vim.notify("[c-dev] loaded commands: " .. table.concat(names, ", "), vim.log.levels.INFO)
+		vim.notify("[dev] loaded commands: " .. table.concat(names, ", "), vim.log.levels.INFO)
 	end
 
-	vim.api.nvim_create_user_command(USER_CMDS.reload, load_config, { desc = "c-dev: reload project config" })
+	vim.api.nvim_create_user_command(USER_CMDS.reload, load_config, { desc = "dev: reload project config" })
 
 	load_config()
 end
@@ -392,7 +354,7 @@ function M.teardown()
 		pcall(vim.api.nvim_del_user_command, cmd)
 	end
 
-	vim.notify("[c-dev] closed", vim.log.levels.INFO)
+	vim.notify("[dev] environment closed", vim.log.levels.INFO)
 end
 
 return M
