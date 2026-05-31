@@ -106,8 +106,7 @@ end
 local function parse_ref_under_cursor()
 	local line = vim.api.nvim_get_current_line()
 	local patterns = {
-		"([%w%.%/%\\%-_]+%.%a+):(%d+):%d+:",
-		"([%w%.%/%\\%-_]+%.%a+):(%d+),",
+		"([%w%.%/%\\%-_]+%.%a+):(%d+):%d+",
 		"([%w%.%/%\\%-_]+%.%a+):(%d+)",
 	}
 	for _, p in ipairs(patterns) do
