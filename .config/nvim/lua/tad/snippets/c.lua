@@ -6,7 +6,7 @@ local i = ls.insert_node
 local rep = require("luasnip.extras").rep
 local fmta = require("luasnip.extras.fmt").fmta
 
-ls.add_snippets("c", {
+local snippets = {
 	s(
 		"$ig",
 		fmta(
@@ -60,4 +60,15 @@ ls.add_snippets("c", {
 			{ indent_string = "  " }
 		)
 	),
-})
+	s(
+		"$section",
+		fmta([[
+			// ]] .. ("="):rep(61) .. [[
+
+			// <>
+			]], { i(1) }, { indent_string = "  " })
+	),
+}
+
+ls.add_snippets("c", snippets)
+ls.add_snippets("cpp", snippets)
