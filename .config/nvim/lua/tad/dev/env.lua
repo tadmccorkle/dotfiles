@@ -197,25 +197,31 @@ function M.run(cmd)
 		"[" .. os.date("%Y-%m-%d %H:%M:%S") .. "] > " .. cmd,
 	}, false)
 
-	state.proc = vim.system({ "sh", "-c", cmd }, {
-		text = true,
-	}, function(out)
-		state.proc = nil
+	state.proc = vim.system(
+		vim.fn.has("win32") == 1 and { "pwsh", "-NoProfile", "-NonInteractive", "-Command", cmd } or { "sh", "-c", cmd },
+		{
+			text = true,
+			env = { NO_COLOR = "1" },
+		},
+		function(out)
+			state.proc = nil
 
-		vim.schedule(function()
-			output_append({ out.code == 0 and " ✓ exited 0" or (" ✗ exited " .. out.code), "" })
+			vim.schedule(function()
+				output_append({ out.code == 0 and " ✓ exited 0" or (" ✗ exited " .. out.code), "" })
 
-			local lines = {}
-			if out.stdout and out.stdout ~= "" then
-				vim.list_extend(lines, vim.split(out.stdout, "\n", { trimempty = true }))
-				table.insert(lines, "")
-			end
-			lines = vim.list_extend(lines, vim.split(out.stderr, "\n", { trimempty = true }))
+				local lines = {}
+				if out.stdout and out.stdout ~= "" then
+					vim.list_extend(lines, vim.split(out.stdout, "\n", { trimempty = true }))
+					table.insert(lines, "")
+				end
+				lines = vim.list_extend(lines, vim.split(out.stderr, "\n", { trimempty = true }))
 
-			output_append(lines)
-			populate_quickfix(lines)
-		end)
-	end)
+				output_append(lines)
+				populate_quickfix(lines)
+			end)
+		end
+	)
+
 
 	if state.proc == 0 or state.proc == -1 then
 		vim.notify("[dev] failed to run: " .. cmd, vim.log.levels.ERROR)

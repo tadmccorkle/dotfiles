@@ -53,7 +53,7 @@ $PSStyle.FileInfo.SymbolicLink = "`e[36;3m"
 # other configuration, functions, aliases, etc.
 
 (Get-PSReadLineOption).MaximumHistoryCount = 50000
-Set-PSReadLineOption -HistoryNoDuplicates:$true
+Set-PSReadLineOption -HistoryNoDuplicates
 
 function which ($Command) {
 	Get-Command -Name $Command -ErrorAction SilentlyContinue |

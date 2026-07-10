@@ -93,7 +93,59 @@ local langservers = {
 			client.server_capabilities.semanticTokensProvider.full = vim.bo.filetype ~= "vue"
 		end,
 	},
-	vue_ls = true,
+	-- ts_ls = {
+	-- 	config = {
+	-- 		filetypes = vim.list_extend(vim.lsp.config["ts_ls"].filetypes, { "vue" }),
+	-- 		init_options = vim.tbl_deep_extend("force", vim.lsp.config["ts_ls"].init_options, {
+	-- 			plugins = {
+	-- 				{
+	-- 					name = "@vue/typescript-plugin",
+	-- 					location = mason_pkg_reg .. "/vue-language-server/node_modules/@vue/language-server",
+	-- 					languages = { "vue" },
+	-- 					configNamespace = "typescript",
+	-- 				},
+	-- 			},
+	-- 		}),
+	-- 	},
+	-- 	on_attach = function(client, _)
+	-- 		client.server_capabilities.semanticTokensProvider.full = vim.bo.filetype ~= "vue"
+	-- 	end,
+	-- },
+	vtsls = {
+		config = {
+			filetypes = vim.list_extend(vim.lsp.config["vtsls"].filetypes, { "vue" }),
+			settings = vim.tbl_deep_extend("force", vim.lsp.config["vtsls"].settings or {}, {
+				vtsls = {
+					tsserver = {
+						globalPlugins = {
+							{
+								name = "@vue/typescript-plugin",
+								location = mason_pkg_reg .. "/vue-language-server/node_modules/@vue/language-server",
+								languages = { "vue" },
+								configNamespace = "typescript",
+							},
+						},
+					},
+				},
+			}),
+		},
+		on_attach = function(client, _)
+			client.server_capabilities.semanticTokensProvider.full = vim.bo.filetype ~= "vue"
+		end,
+	},
+	vue_ls = {
+		config = {
+			cmd = function(dispatchers, cfg)
+				local root = cfg.root_dir or vim.fn.getcwd()
+				local tsdk = root .. "/node_modules/typescript/lib"
+				local cmd = { "vue-language-server", "--stdio" }
+				if vim.uv.fs_stat(tsdk) ~= nil then
+					table.insert(cmd, "--tsdk=" .. tsdk)
+				end
+				return vim.lsp.rpc.start(cmd, dispatchers)
+			end,
+		},
+	},
 	yamlls = {
 		config = {
 			settings = {

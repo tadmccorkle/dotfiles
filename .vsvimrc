@@ -48,6 +48,11 @@ nmap <Leader><Leader>b :vsc Build.BuildSelection<CR>
 nmap <Leader><Leader>B :vsc Build.BuildSolution<CR>
 nmap <Leader><Leader>c :vsc Build.CleanSelection<CR>
 nmap <Leader><Leader>C :vsc Build.CleanSolution<CR>
+nmap <Leader>bt        :vsc Debug.ToggleBreakpoint<CR>
+nmap <Leader>bd        :vsc Debug.DisableBreakpoint<CR>
+nmap <Leader>be        :vsc Debug.EnableBreakpoint<CR>
+nmap <Leader>bad        :vsc Debug.DisableAllBreakpoints<CR>
+nmap <Leader>bae        :vsc Debug.EnableAllBreakpoints<CR>
 
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
