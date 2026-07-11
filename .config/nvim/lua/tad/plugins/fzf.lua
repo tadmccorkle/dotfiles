@@ -44,7 +44,7 @@ return {
 						height = 0.6,
 						width = 0.6,
 						row = 0.5,
-						preview = { hidden = "hidden" },
+						preview = { hidden = true },
 					},
 				})
 			end)
