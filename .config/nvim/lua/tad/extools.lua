@@ -75,28 +75,10 @@ local langservers = {
 	svelte = true,
 	tailwindcss = true,
 	templ = true,
-	ts_ls = {
-		config = {
-			filetypes = vim.list_extend(vim.lsp.config["ts_ls"].filetypes, { "vue" }),
-			init_options = vim.tbl_deep_extend("force", vim.lsp.config["ts_ls"].init_options, {
-				plugins = {
-					{
-						name = "@vue/typescript-plugin",
-						location = mason_pkg_reg .. "/vue-language-server/node_modules/@vue/language-server",
-						languages = { "vue" },
-						configNamespace = "typescript",
-					},
-				},
-			}),
-		},
-		on_attach = function(client, _)
-			client.server_capabilities.semanticTokensProvider.full = vim.bo.filetype ~= "vue"
-		end,
-	},
 	-- ts_ls = {
 	-- 	config = {
 	-- 		filetypes = vim.list_extend(vim.lsp.config["ts_ls"].filetypes, { "vue" }),
-	-- 		init_options = vim.tbl_deep_extend("force", vim.lsp.config["ts_ls"].init_options, {
+	-- 		init_options = vim.tbl_deep_extend("force", vim.lsp.config["ts_ls"].init_options or {}, {
 	-- 			plugins = {
 	-- 				{
 	-- 					name = "@vue/typescript-plugin",
