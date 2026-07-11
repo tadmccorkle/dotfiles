@@ -2,7 +2,6 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			{ "folke/lazydev.nvim", ft = "lua" },
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -13,5 +12,14 @@ return {
 		config = function()
 			require("tad.extools")
 		end,
+	},
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
 	},
 }

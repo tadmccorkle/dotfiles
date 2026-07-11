@@ -3,9 +3,6 @@ local mason_pkg_reg = vim.fn.expand("$MASON/packages")
 
 local schemas = require("schemastore")
 
-local lua_ls_lib = vim.api.nvim_get_runtime_file("", true)
-table.insert(lua_ls_lib, "${3rd}/luv/library")
-
 local langservers = {
 	bashls = true,
 	clangd = true,
@@ -50,8 +47,10 @@ local langservers = {
 						globals = { "vim" },
 					},
 					workspace = {
-						library = lua_ls_lib,
-						checkThirdParty = false, -- disable luassert prompt
+						checkThirdParty = false,
+						library = {
+							vim.env.VIMRUNTIME,
+						},
 					},
 					telemetry = { enable = false },
 				},
