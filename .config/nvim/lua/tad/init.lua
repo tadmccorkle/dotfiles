@@ -100,12 +100,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	command = "setlocal formatoptions-=o",
 })
 
--- reset terminal cursor when exiting vim
-vim.api.nvim_create_autocmd("VimLeave", {
-	pattern = "*",
-	command = "set guicursor=a:ver25-blinkon250-blinkoff250",
-})
-
 -- hide line numbers in terminal windows
 vim.api.nvim_create_autocmd("TermOpen", {
 	pattern = "*",
