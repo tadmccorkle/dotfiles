@@ -26,6 +26,7 @@ state = default_state()
 local USER_CMDS = {
 	run = "DRun",
 	cmd = "DCmd",
+	open = "DevOpen",
 	config = "DevConfig",
 	qf = "DevQf",
 	reload = "DevReload",
@@ -176,9 +177,9 @@ local function jump_to_output_ref()
 		return
 	end
 
-	if not vim.loop.fs_stat(ref.file) then
+	if not vim.uv.fs_stat(ref.file) then
 		local cwd_path = vim.fn.getcwd() .. "/" .. ref.file
-		if vim.loop.fs_stat(cwd_path) then
+		if vim.uv.fs_stat(cwd_path) then
 			ref.file = cwd_path
 		else
 			vim.notify("[dev] cannot find file: " .. ref.file, vim.log.levels.ERROR)
@@ -219,7 +220,7 @@ local function populate_quickfix(lines)
 	for _, item in ipairs(qflist) do
 		if item.bufnr == 0 and item.filename then
 			local abs = cwd .. "/" .. item.filename
-			if vim.loop.fs_stat(abs) then
+			if vim.uv.fs_stat(abs) then
 				item.filename = abs
 				item.bufnr = nil
 			end
@@ -306,13 +307,11 @@ end
 
 function M.setup()
 	if state.output_buf and vim.api.nvim_buf_is_valid(state.output_buf) then
-		output_ensure_win()
 		return
 	end
 
 	state.main_win = vim.api.nvim_get_current_win()
 	state.output_buf = output_buf_create()
-	output_ensure_win()
 
 	for _, sc in ipairs({
 		{ key = "b", name = "build" },
@@ -324,6 +323,13 @@ function M.setup()
 			M.run_project_command(sc.name)
 		end, { noremap = true, silent = true, desc = "dev: run project " .. sc.name })
 	end
+
+	vim.keymap.set(
+		"n",
+		"<Leader><Leader>go",
+		output_ensure_win,
+		{ noremap = true, silent = true, desc = "dev: open output window" }
+	)
 
 	vim.keymap.set(
 		"n",
@@ -350,6 +356,10 @@ function M.setup()
 	vim.api.nvim_create_user_command(USER_CMDS.cmd, function(a)
 		M.run(a.args)
 	end, { nargs = "+", desc = "dev: run arbitrary command" })
+
+	vim.api.nvim_create_user_command(USER_CMDS.open, function()
+		output_ensure_win()
+	end, { desc = "dev: open output window" })
 
 	vim.api.nvim_create_user_command(USER_CMDS.config, function()
 		local path = vim.fn.getcwd() .. "/.nvim-dev.lua"
