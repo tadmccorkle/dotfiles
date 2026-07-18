@@ -94,7 +94,7 @@ map("v", "<Leader><Leader>x", ":lua<CR>", { silent = true })
 map("n", "<Leader><Leader>ft", "<Cmd>set filetype=", { silent = true })
 map("n", "<Leader><Leader>ftgc", "<Cmd>set filetype=gitcommit<CR>", { silent = true })
 
--- Make sure diagnostic popups (errors/warnings) also match the style
+-- set diagnostic float options
 vim.diagnostic.config({ float = require("tad.layout").diagnostic_float_opts })
 
 -- remove auto-comment format filetype option
