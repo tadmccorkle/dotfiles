@@ -224,8 +224,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- mappings when a language server has attached to buffer
 		local map = vim.keymap.set
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
-		map("n", "K", vim.lsp.buf.hover, bufopts)
-		map("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+		map("n", "K", function()
+			vim.lsp.buf.hover(require("tad.layout").hover_float_opts --[[@as vim.lsp.buf.hover.Opts]])
+		end, bufopts)
+		map("n", "<C-k>", function()
+			vim.lsp.buf.signature_help(require("tad.layout").hover_float_opts --[[@as vim.lsp.buf.signature_help.Opts]])
+		end, bufopts)
 		map("n", "<Leader>rn", vim.lsp.buf.rename, bufopts)
 		map("n", "<Leader>ca", vim.lsp.buf.code_action, bufopts)
 		map("n", "<Leader>gD", vim.lsp.buf.declaration, bufopts)

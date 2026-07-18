@@ -86,17 +86,67 @@ local function output_append(lines)
 	end
 end
 
+local function output_get_current_split_info()
+	local has_vertical = false
+	local has_horizontal = false
+
+	local function walk(node)
+		if has_vertical and has_horizontal then
+			return
+		end
+
+		if node[1] == "row" then
+			has_vertical = true
+			for _, child in ipairs(node[2]) do
+				if has_vertical and has_horizontal then
+					break
+				end
+				walk(child)
+			end
+		elseif node[1] == "col" then
+			has_horizontal = true
+			for _, child in ipairs(node[2]) do
+				if has_vertical and has_horizontal then
+					break
+				end
+				walk(child)
+			end
+		end
+	end
+
+	walk(vim.fn.winlayout())
+
+	return {
+		has_split = has_vertical or has_horizontal,
+		has_vertical = has_vertical,
+		has_horizontal = has_horizontal,
+	}
+end
+
 local function output_ensure_win()
 	if state.output_win and vim.api.nvim_win_is_valid(state.output_win) then
 		vim.api.nvim_win_set_buf(state.output_win, state.output_buf)
 		return
 	end
 
-	local win = vim.api.nvim_open_win(state.output_buf, false, {
-		width = math.floor(vim.o.columns * 0.35),
-		split = "left",
-		style = "minimal",
-	})
+	---@type vim.api.keyset.win_config
+	local output_win_opts
+
+	if not output_get_current_split_info().has_vertical then
+		output_win_opts = {
+			width = math.floor(vim.o.columns * 0.35),
+			split = "left",
+			style = "minimal",
+		}
+	else
+		output_win_opts = {
+			height = math.floor(vim.o.lines * 0.25),
+			split = "below",
+			style = "minimal",
+		}
+	end
+
+	local win = vim.api.nvim_open_win(state.output_buf, false, output_win_opts)
 
 	vim.api.nvim_set_option_value("wrap", false, { win = win })
 
@@ -221,7 +271,6 @@ function M.run(cmd)
 			end)
 		end
 	)
-
 
 	if state.proc == 0 or state.proc == -1 then
 		vim.notify("[dev] failed to run: " .. cmd, vim.log.levels.ERROR)

@@ -67,4 +67,8 @@ cmp.setup({
 	}, {
 		{ name = "luasnip" },
 	}),
+	window = {
+		completion = cmp.config.window.bordered(require("tad.layout").hover_float_opts),
+		documentation = cmp.config.window.bordered(require("tad.layout").hover_float_opts),
+	},
 })

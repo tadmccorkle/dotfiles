@@ -94,6 +94,9 @@ map("v", "<Leader><Leader>x", ":lua<CR>", { silent = true })
 map("n", "<Leader><Leader>ft", "<Cmd>set filetype=", { silent = true })
 map("n", "<Leader><Leader>ftgc", "<Cmd>set filetype=gitcommit<CR>", { silent = true })
 
+-- Make sure diagnostic popups (errors/warnings) also match the style
+vim.diagnostic.config({ float = require("tad.layout").diagnostic_float_opts })
+
 -- remove auto-comment format filetype option
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
@@ -138,7 +141,7 @@ R = function(x)
 end
 
 if vim.fn.has("win32") == 1 then
-	require("tad.windows")
+	require("tad.win32")
 end
 require("tad.fileformat")
 require("tad.dev")
