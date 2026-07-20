@@ -63,7 +63,7 @@ local snippets = {
 	s(
 		"$section",
 		fmta([[
-			// ]] .. ("="):rep(61) .. [[
+			// ]] .. ("="):rep(77) .. [[
 
 			// <>
 			]], { i(1) }, { indent_string = "  " })
