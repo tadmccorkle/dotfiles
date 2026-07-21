@@ -169,6 +169,24 @@ local function parse_ref_under_cursor()
 	return nil
 end
 
+local function get_target_win()
+	if state.main_win and vim.api.nvim_win_is_valid(state.main_win) then
+		return state.main_win
+	end
+
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		if win ~= state.output_win then
+			return win
+		end
+	end
+
+	if state.output_win and vim.api.nvim_win_is_valid(state.output_win) then
+		return state.output_win
+	end
+
+	return nil
+end
+
 local function jump_to_output_ref()
 	local ref = parse_ref_under_cursor()
 
@@ -187,8 +205,9 @@ local function jump_to_output_ref()
 		end
 	end
 
-	if state.main_win and vim.api.nvim_win_is_valid(state.main_win) then
-		vim.api.nvim_set_current_win(state.main_win)
+	local target_win = get_target_win()
+	if target_win then
+		vim.api.nvim_set_current_win(target_win)
 	end
 
 	local abs = vim.fn.fnamemodify(ref.file, ":p")
@@ -237,6 +256,11 @@ local function populate_quickfix(lines)
 end
 
 function M.run(cmd)
+	local curr_win = vim.api.nvim_get_current_win()
+	if curr_win ~= state.output_win then
+		state.main_win = curr_win
+	end
+
 	if state.proc and not state.proc:is_closing() then
 		state.proc:kill("sigterm")
 		state.proc = nil
@@ -324,12 +348,10 @@ function M.setup()
 		end, { noremap = true, silent = true, desc = "dev: run project " .. sc.name })
 	end
 
-	vim.keymap.set(
-		"n",
-		"<Leader><Leader>go",
-		output_ensure_win,
-		{ noremap = true, silent = true, desc = "dev: open output window" }
-	)
+	vim.keymap.set("n", "<Leader><Leader>go", function()
+		output_ensure_win()
+		vim.api.nvim_set_current_win(state.output_win)
+	end, { noremap = true, silent = true, desc = "dev: open and focus output window" })
 
 	vim.keymap.set(
 		"n",
