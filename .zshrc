@@ -94,4 +94,4 @@ fi
 # END opam configuration
 
 # bun completions
-[ -s "/Users/tad/.bun/_bun" ] && source "/Users/tad/.bun/_bun"
+[[ ! -r "$HOME/.bun/_bun" ]] || source "$HOME/.bun/_bun"
