@@ -21,40 +21,49 @@ end)
 
 local config = {}
 
-local theme = wezterm.color.get_default_colors()
-theme.background = "#000000"
-theme.ansi = {
-	"#000000", -- black
-	"#CC0000", -- red
-	"#4E9A06", -- green
-	"#C19C00", -- yellow
-	"#3465A4", -- blue
-	"#75507B", -- purple
-	"#06989A", -- cyan
-	"#D3D7CF", -- white
-}
-theme.brights = {
-	"#555753", -- black
-	"#E74856", -- red
-	"#16C60C", -- green
-	"#FCE94F", -- yellow
-	"#729FCF", -- blue
-	"#AD7FA8", -- purple
-	"#61D6D6", -- cyan
-	"#EEEEEC", -- white
-}
-theme.compose_cursor = "orange"
+-- Custom Tango Dark based on Windows Terminal
+--
+-- local theme = wezterm.color.get_default_colors()
+-- theme.background = "#000000"
+-- theme.ansi = {
+-- 	"#000000", -- black
+-- 	"#CC0000", -- red
+-- 	"#4E9A06", -- green
+-- 	"#C19C00", -- yellow
+-- 	"#3465A4", -- blue
+-- 	"#75507B", -- purple
+-- 	"#06989A", -- cyan
+-- 	"#D3D7CF", -- white
+-- }
+-- theme.brights = {
+-- 	"#555753", -- black
+-- 	"#E74856", -- red
+-- 	"#16C60C", -- green
+-- 	"#FCE94F", -- yellow
+-- 	"#729FCF", -- blue
+-- 	"#AD7FA8", -- purple
+-- 	"#61D6D6", -- cyan
+-- 	"#EEEEEC", -- white
+-- }
+-- theme.compose_cursor = "orange"
+-- config.color_schemes = { ["tadgo dark"] = theme }
+-- config.color_scheme = "tadgo dark"
 
-config.color_schemes = { ["tad default"] = theme }
-config.color_scheme = "tad default"
+config.color_scheme = "ayu"
+config.colors = {
+	cursor_bg = "#E6B450",
+	cursor_fg = "#0B0E14",
+	cursor_border = "#E6B450",
+	compose_cursor = "#E74856"
+}
+
+config.font_size = 12
+config.default_cursor_style = "SteadyBar"
 
 config.inactive_pane_hsb = {
 	saturation = 0.8,
 	brightness = 0.8,
 }
-
-config.font = wezterm.font("Cascadia Code")
-config.font_size = 12
 
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true

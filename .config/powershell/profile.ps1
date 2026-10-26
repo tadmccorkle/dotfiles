@@ -49,6 +49,10 @@ $GitPromptSettings.DefaultPromptSuffix = '$(PromptWriteSuffix)'
 $PSStyle.FileInfo.Directory = "`e[36;1m"
 $PSStyle.FileInfo.SymbolicLink = "`e[36;3m"
 
+Set-PSReadLineOption -Colors @{
+	Operator = [ConsoleColor]::White
+	Parameter = [ConsoleColor]::White
+}
 
 # other configuration, functions, aliases, etc.
 

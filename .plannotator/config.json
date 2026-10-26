@@ -1,0 +1,18 @@
+{
+  "displayName": "tad",
+  "diffOptions": {
+    "overflow": "scroll",
+    "diffIndicators": "bars",
+    "lineDiffType": "word-alt",
+    "showLineNumbers": true,
+    "showDiffBackground": true,
+    "expandUnchanged": false,
+    "hideWhitespace": false,
+    "lineBgIntensity": "subtle"
+  },
+  "reviewAnalysis": {
+    "semanticDiff": true,
+    "callFlow": false
+  },
+  "share": "disabled"
+}
