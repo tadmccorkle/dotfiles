@@ -1,97 +1,136 @@
 # dotfiles by tad
 
-Dotfiles that support my Windows (PowerShell 7 or Git Bash) and macOS (Zsh) configurations -- they live on the [cfg](https://github.com/tadmccorkle/dotfiles/tree/cfg) branch.
+Dotfiles that support my Windows (PowerShell 7 or Git Bash) and macOS (zsh) configurations -- they live on the [cfg](https://github.com/tadmccorkle/dotfiles/tree/cfg) branch.
 
 ## requirements
 
-My PowerShell configuration requires [posh-git](https://github.com/dahlbyk/posh-git). It also requires the following line be added to one of the PowerShell profiles:
+### macOS
 
-```pwsh
+- [Homebrew](https://brew.sh/) — required to apply the `.Brewfile`, which installs the rest of the CLI tools (Neovim, Node.js, fzf, ripgrep, etc.).
+- [Rust](https://www.rust-lang.org/tools/install) — provides `cargo`, which the `.Brewfile` uses to install `ripgrep`.
+
+### Windows
+
+- [PowerShell 7](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows).
+- [Git for Windows](https://gitforwindows.org/) — provides Git and Git Bash.
+- [posh-git](https://github.com/dahlbyk/posh-git#installation) — required by the PowerShell profile: `Install-Module posh-git -Scope CurrentUser`
+- [Neovim](https://neovim.io/).
+- Neovim's external tools:
+  - [fzf](https://github.com/junegunn/fzf#installation) and [ripgrep](https://github.com/BurntSushi/ripgrep#installation) for `fzf-lua`.
+  - [LLVM](https://llvm.org/) and the [tree-sitter CLI](https://github.com/tree-sitter/tree-sitter/tree/master/crates/cli#installation) for Tree-sitter parsers.
+  - [Node.js](https://nodejs.org/) for Node-based Mason packages.
+  - [7-Zip](https://www.7-zip.org/) for Mason.
+  - [CMake](https://cmake.org/download/) for native plugin builds.
+  - [MSYS2](https://www.msys2.org/) for `gdb` when debugging C/C++ (optional).
+
+The PowerShell profile must contain:
+
+```powershell
 . $env:USERPROFILE\.config\powershell\profile.ps1
 ```
 
-The Neovim command `:checkhealth` can be used to get an idea of other required dependencies (CMake, clang/gcc, 7z/gzip, etc.); otherwise, take a look at plugin docs.
+## setup
 
-## to use
+Installation scripts are in [`scripts/`](scripts/). Both scripts default to SSH (`git@github.com:tadmccorkle/dotfiles.git`) and accept an optional remote URL as the first argument.
 
-Fork the repo. If any changes need to be made prior to applying the configuration, clone the repo, checkout the `cfg` branch, and make any necessary changes - probably a good idea to make sure aliases and path components will work on the target machine.
+- zsh/bash - [`dotfiles.sh`](scripts/dotfiles.sh)
 
-To apply the configuration:
+  ```sh
+  curl -fsSL https://raw.githubusercontent.com/tadmccorkle/dotfiles/master/scripts/dotfiles.sh | /bin/sh -s
+  ```
 
-1. Define the following function/alias for the current shell scope.
+  ```sh
+  # or substitute your custom $DOTFILES_REPO
+  curl -fsSL https://raw.githubusercontent.com/tadmccorkle/dotfiles/master/scripts/dotfiles.sh | /bin/sh -s -- $DOTFILES_REPO
+  ```
 
-```pwsh
-# pwsh
-function dotfiles { git --git-dir=$env:USERPROFILE/.dotfiles/ --work-tree=$env:USERPROFILE $args }
-```
+- PowerShell - [`dotfiles.ps1`](scripts/dotfiles.ps1)
 
-```sh
-# bash/zsh
-alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
-```
+  ```powershell
+  curl -fsSL https://raw.githubusercontent.com/tadmccorkle/dotfiles/master/scripts/dotfiles.ps1 | pwsh -NoProfile -Command -
+  ```
 
-2. Clone into a bare repository pointing to the `cfg` branch in a `.dotfiles` directory of `USERPROFILE`/`$HOME`.
+  ```powershell
+  # or substitute your custom $env:DOTFILES_REPO
+  curl -fsSL https://raw.githubusercontent.com/tadmccorkle/dotfiles/master/scripts/dotfiles.ps1 | pwsh -NoProfile -Command - $env:DOTFILES_REPO
+  ```
 
-```pwsh
-# pwsh
-git clone -b cfg --bare <repo-url> $env:USERPROFILE/.dotfiles
-```
+### manual setup
 
-```sh
-# bash/zsh
-git clone -b cfg --bare <repo-url> $HOME/.dotfiles
-```
+Run these commands from your home directory (`cd "$HOME"`/`Set-Location $env:USERPROFILE`) so relative paths resolve consistently.
 
-3. Checkout the repo to your `USERPROFILE`/`$HOME` directory.
+1. Define the following function for the current shell scope.
 
-```sh
-dotfiles checkout
-```
+   ```sh
+   # sh
+   dotfiles() { git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" "$@" }
+   ```
 
-> **Note**
->
-> This won't overwrite any existing dotfiles also present in the repo. Either back up the existing files...
-> ```pwsh
-> # pwsh
-> dotfiles checkout 2>&1 | Select-String -Pattern "\s+[._]" -Raw | %{ $_.Trim() } | %{
->   mkdir .dotfiles.bak/$(Split-Path -Path $_ -Parent) -ErrorAction SilentlyContinue
->   mv $_ .dotfiles.bak/$_ -ErrorAction SilentlyContinue
-> }
-> ```
-> ```sh
-> # bash/zsh
-> dotfiles checkout 2>&1 | grep -E "\s+[._]" | awk {'print $1'} | \
->   xargs -I{} sh -c 'mkdir -p .dotfiles.bak/$(dirname {}) && mv {} .dotfiles.bak/{}'
-> ```
-> ...and run `dotfiles checkout` again or overwrite them with `dotfiles checkout -f`.
+   ```powershell
+   # pwsh
+   function dotfiles { & git "--git-dir=$env:USERPROFILE/.dotfiles" "--work-tree=$env:USERPROFILE" @args }
+   ```
 
-4. Set the remote as upstream.
+2. Clone into a bare repository pointing to the `cfg` branch in a `.dotfiles` directory of `$HOME`/`$env:USERPROFILE`.
 
-```sh
-dotfiles push -u origin cfg
-```
+   Use the HTTPS URL (`https://github.com/tadmccorkle/dotfiles.git`) instead when SSH is unavailable.
 
-5. Hide untracked files.
+   ```sh
+   # sh
+   git clone -b cfg --bare git@github.com:tadmccorkle/dotfiles.git "$HOME/.dotfiles"
+   ```
 
-```sh
-dotfiles config --local status.showUntrackedFiles no
-```
+   ```powershell
+   # pwsh
+   git clone -b cfg --bare git@github.com:tadmccorkle/dotfiles.git "$env:USERPROFILE/.dotfiles"
+   ```
 
-Now manage the local git repo in your `USERPROFILE`/`$HOME` directory using `dotfiles` instead of `git` (e.g., `dotfiles status`, `dotfiles add .bashrc`, `dotfiles add -u`, `dotfiles commit`, etc.).
+3. Checkout the repo to your `$HOME`/`$env:USERPROFILE` directory.
 
-## to apply with one command
+   ```sh
+   dotfiles checkout
+   ```
 
-You can automate the process by making a gist with all the commands shown above. My dotfiles configuration can be applied with my [dotfiles-pwsh gist](https://gist.github.com/tadmccorkle/f57b24cdaf47ad4c999ab65c92db0244) or [dotfiles-bash gist](https://gist.github.com/tadmccorkle/93fc70287b30dd4e3985f8e8e41862a8) by calling:
+   > **Note**
+   >
+   > This won't overwrite any existing dotfiles also present in the repo. Either back up the existing files...
+   > ```sh
+   > # sh
+   > dotfiles checkout 2>&1 | grep -E '^[[:space:]]+[._]' | sed -E 's/^[[:space:]]+//' | \
+   >   while IFS= read -r file; do
+   >     [ -e "$HOME/$file" ] || [ -L "$HOME/$file" ] || continue
+   >     mkdir -p "$HOME/.dotfiles.bak/$(dirname -- "$file")"
+   >     mv -- "$HOME/$file" "$HOME/.dotfiles.bak/$file"
+   >   done
+   > ```
+   >
+   > ```powershell
+   > # pwsh
+   > dotfiles checkout 2>&1 | Select-String -Pattern '^\s+[._]' | %{ $_.Line.Trim() } | %{
+   >   $src = Join-Path $env:USERPROFILE $_
+   >   if (Test-Path -LiteralPath $src) {
+   >     $dest = Join-Path $env:USERPROFILE ".dotfiles.bak/$_"
+   >     New-Item -ItemType Directory -Force -Path (Split-Path -Parent $dest) | Out-Null
+   >     Move-Item -LiteralPath $src -Destination $dest
+   >   }
+   > }
+   > ```
+   > ...and run `dotfiles checkout` again or overwrite them with `dotfiles checkout -f`.
 
-```pwsh
-# pwsh
-curl -Ls https://gist.githubusercontent.com/tadmccorkle/f57b24cdaf47ad4c999ab65c92db0244/raw | pwsh -NoProfile
-```
+4. Hide untracked files.
 
-```sh
-# bash/zsh
-curl -Ls https://gist.githubusercontent.com/tadmccorkle/93fc70287b30dd4e3985f8e8e41862a8/raw | /bin/bash
-```
+   ```sh
+   dotfiles config --local status.showUntrackedFiles no
+   ```
+
+5. Set up upstream tracking.
+
+   ```sh
+   dotfiles config branch.cfg.remote origin
+   dotfiles config branch.cfg.merge refs/heads/cfg
+   ```
+
+Now manage the local git repo in your `$HOME`/`$env:USERPROFILE` directory using `dotfiles` instead of `git` (e.g., `dotfiles status`, `dotfiles add .bashrc`, `dotfiles add -u`, `dotfiles commit`, etc.).
 
 # acknowledgements
 
