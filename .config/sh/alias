@@ -1,9 +1,5 @@
 #!/bin/sh
 
-if [ -x "$(command -v dotfiles)" ]; then
-	alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
-fi
-
 if [ -x "$(command -v nvim)" ]; then
 	alias vim="nvim"
 fi

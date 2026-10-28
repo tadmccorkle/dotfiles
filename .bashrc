@@ -27,6 +27,7 @@ if [ -x "$(command -v fzf)" ]; then
 	eval "$(fzf --bash)"
 fi
 
+dotfiles() { git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" "$@" }
 path() { sed 's/:/\n/g' <<< $PATH; }
 
 if [ -f "$HOME/.config/bash/_windows" ]; then

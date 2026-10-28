@@ -1,7 +1,7 @@
 #
 # functions
 #
-dotfiles() { git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME "$@" }
+dotfiles() { git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" "$@" }
 path() { sed 's/:/\n/g' <<< $PATH; }
 
 #

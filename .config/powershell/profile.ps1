@@ -1,4 +1,4 @@
-function dotfiles { git --git-dir=$env:USERPROFILE/.dotfiles/ --work-tree=$env:USERPROFILE $args }
+function dotfiles { & git "--git-dir=$env:USERPROFILE/.dotfiles" "--work-tree=$env:USERPROFILE" @args }
 
 # nvim
 $env:XDG_CONFIG_HOME = "$env:USERPROFILE\.config"
