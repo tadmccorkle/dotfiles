@@ -14,5 +14,10 @@
     "semanticDiff": true,
     "callFlow": false
   },
-  "share": "disabled"
+  "share": "disabled",
+  "theme": {
+    "mode": "dark",
+    "light": "plannotator",
+    "dark": "ayu-dark"
+  }
 }
