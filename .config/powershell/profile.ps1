@@ -56,7 +56,7 @@ Set-PSReadLineOption -Colors @{
 
 # other configuration, functions, aliases, etc.
 
-(Get-PSReadLineOption).MaximumHistoryCount = 50000
+(Get-PSReadLineOption).MaximumHistoryCount = 5000
 Set-PSReadLineOption -HistoryNoDuplicates
 
 function which ($Command) {
