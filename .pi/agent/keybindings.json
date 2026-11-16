@@ -1,8 +1,8 @@
 {
   "$schema": "https://pi.dev/schemas/keybindings.schema.json",
-  "app.model.cycleForward": [],
+  "app.model.cycleForward": "alt+p",
   "app.model.cycleBackward": [],
-  "app.models.toggleProvider": "alt+p",
+  "app.models.toggleProvider": [],
   "app.session.togglePath": "alt+p",
   "tui.altScreen.halfPageUp": "ctrl+u",
   "tui.altScreen.halfPageDown": "ctrl+d",
