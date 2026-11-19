@@ -1,7 +1,7 @@
 return {
 	{
 		"tadmccorkle/markdown.nvim",
-		ft = "markdown",
+		lazy = false,
 		opts = {
 			on_attach = function(bufnr)
 				local map = vim.keymap.set

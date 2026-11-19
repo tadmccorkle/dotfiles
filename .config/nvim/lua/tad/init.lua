@@ -14,7 +14,9 @@ vim.opt.hlsearch = true
 vim.opt.list = true
 vim.opt.listchars = {
 	tab = "→ ",
-	space = "·",
+	multispace = "·",
+	leadmultispace = " ",
+	trail = "·",
 	nbsp = "+",
 }
 
